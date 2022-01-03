@@ -21,7 +21,7 @@ public class ProjectDto {
     private boolean done;
     private Set<Task> tasks = new HashSet<>(); // to pole mozna zrobic finalne
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

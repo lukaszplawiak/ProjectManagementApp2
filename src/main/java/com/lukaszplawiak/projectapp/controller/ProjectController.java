@@ -29,13 +29,8 @@ class ProjectController {
         return new ResponseEntity<>(projectService.getProjectById(id), HttpStatus.OK);
     }
 
-    @GetMapping(params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<ProjectDto>> readAllProjects() {
-        return new ResponseEntity<>(projectService.getAllProjects(), HttpStatus.OK);
-    }
-
     @GetMapping
-    ResponseEntity<List<ProjectDto>> readAllPageableProjects(Pageable pageable) {
+    ResponseEntity<List<ProjectDto>> readAllProjects(Pageable pageable) {
         return new ResponseEntity<>(projectService.getAllProjects(pageable), HttpStatus.OK);
     }
 

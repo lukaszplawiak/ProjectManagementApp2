@@ -1,9 +1,5 @@
 package com.lukaszplawiak.projectapp.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -20,7 +16,6 @@ public class Task {
     private boolean done;
     @Embedded
     private Audit audit = new Audit();
-    //@JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;

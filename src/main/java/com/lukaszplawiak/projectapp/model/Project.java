@@ -1,8 +1,5 @@
 package com.lukaszplawiak.projectapp.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -20,20 +17,19 @@ public class Project {
     private boolean done;
     @Embedded
     private Audit audit = new Audit();
-    //@JsonBackReference
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
 
 
     public Project() {
     }
 
-    public long getId() {
-        return id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {

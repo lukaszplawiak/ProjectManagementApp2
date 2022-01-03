@@ -1,7 +1,6 @@
 package com.lukaszplawiak.projectapp.service;
 
 import com.lukaszplawiak.projectapp.dto.ProjectDto;
-import com.lukaszplawiak.projectapp.model.Project;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

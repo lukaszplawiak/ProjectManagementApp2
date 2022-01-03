@@ -102,12 +102,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     private Project mapToProjectEntity(ProjectDto projectDto) {
         Project project = new Project();
-        project.setId(projectDto.getId());
         project.setTitle(projectDto.getTitle());
         project.setDescription(projectDto.getDescription());
         project.setDeadline(projectDto.getDeadline());
-        project.setDone(projectDto.isDone());
-        project.setTasks(projectDto.getTasks());
         return project;
     }
 }
