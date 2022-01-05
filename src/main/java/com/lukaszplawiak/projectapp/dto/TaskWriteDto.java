@@ -1,13 +1,10 @@
 package com.lukaszplawiak.projectapp.dto;
 
-import com.lukaszplawiak.projectapp.model.Project;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-public class TaskDto {
-    private Long id;
+public class TaskWriteDto {
     @NotEmpty
     @Size(min = 2, max = 50, message = "Title must be two or more characters")
     private String name;
@@ -16,16 +13,7 @@ public class TaskDto {
     private LocalDateTime deadline;
     private boolean done;
 
-    public TaskDto() {
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public TaskWriteDto() {
     }
 
     public String getName() {

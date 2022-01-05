@@ -31,12 +31,12 @@ class ProjectController {
     }
 
     @GetMapping
-    ResponseEntity<List<ProjectWriteDto>> readAllProjects(Pageable pageable) {
+    ResponseEntity<List<ProjectReadDto>> readAllProjects(Pageable pageable) {
         return new ResponseEntity<>(projectService.getAllProjects(pageable), HttpStatus.OK);
     }
 
     @GetMapping(path = "search/done")
-    ResponseEntity<List<ProjectWriteDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean state, Pageable pageable) {
+    ResponseEntity<List<ProjectReadDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean state, Pageable pageable) {
         return new ResponseEntity<>(projectService.getProjectsByDone(state, pageable), HttpStatus.OK);
     }
 

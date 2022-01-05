@@ -1,6 +1,7 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.dto.TaskDto;
+import com.lukaszplawiak.projectapp.dto.TaskReadDto;
+import com.lukaszplawiak.projectapp.dto.TaskWriteDto;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,27 +21,27 @@ class TaskController {
     }
 
     @PostMapping
-    ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto, @PathVariable Long projectId) {
-        return new ResponseEntity<>(taskService.createTask(projectId, taskDto), HttpStatus.CREATED);
+    ResponseEntity<TaskWriteDto> createTask(@RequestBody @Valid TaskWriteDto taskWriteDto, @PathVariable Long projectId) {
+        return new ResponseEntity<>(taskService.createTask(projectId, taskWriteDto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    ResponseEntity<List<TaskDto>> readTasksByProjectId(@PathVariable Long projectId, Pageable pageable) {
+    ResponseEntity<List<TaskReadDto>> readTasksByProjectId(@PathVariable Long projectId, Pageable pageable) {
         return new ResponseEntity<>(taskService.getTasksByProject_Id(projectId, pageable), HttpStatus.OK);
     }
     @GetMapping(path = "/{taskId}")
-    ResponseEntity<TaskDto> readTaskById( @PathVariable Long projectId, @PathVariable Long taskId) {
+    ResponseEntity<TaskReadDto> readTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
         return new ResponseEntity<>(taskService.getTaskById(projectId, taskId), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search/done")
-    ResponseEntity<List<TaskDto>> readTasksByDoneAndProjectId(@PathVariable Long projectId, boolean done, Pageable pageable) {
+    ResponseEntity<List<TaskReadDto>> readTasksByDoneAndProjectId(@PathVariable Long projectId, boolean done, Pageable pageable) {
         return new ResponseEntity<>(taskService.getTasksByDoneAndProject_Id(projectId, done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{taskId}")
-    ResponseEntity<TaskDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId, @RequestBody @Valid TaskDto taskDto) {
-        TaskDto updatedTask = taskService.updateTaskById(projectId, taskId, taskDto);
+    ResponseEntity<TaskWriteDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId, @RequestBody @Valid TaskWriteDto taskWriteDto) {
+        TaskWriteDto updatedTask = taskService.updateTaskById(projectId, taskId, taskWriteDto);
         return new ResponseEntity<>(updatedTask,HttpStatus.OK);
     }
 

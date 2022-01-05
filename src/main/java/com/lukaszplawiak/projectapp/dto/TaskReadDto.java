@@ -48,4 +48,5 @@ public class TaskReadDto {
     public void setDone(boolean done) {
         this.done = done;
     }
+
 }

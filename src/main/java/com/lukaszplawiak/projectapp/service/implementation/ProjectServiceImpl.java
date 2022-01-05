@@ -2,7 +2,9 @@ package com.lukaszplawiak.projectapp.service.implementation;
 
 import com.lukaszplawiak.projectapp.dto.ProjectReadDto;
 import com.lukaszplawiak.projectapp.dto.ProjectWriteDto;
+import com.lukaszplawiak.projectapp.dto.TaskReadDto;
 import com.lukaszplawiak.projectapp.model.Project;
+import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import org.slf4j.Logger;
@@ -98,11 +100,10 @@ public class ProjectServiceImpl implements ProjectService {
         projectReadDto.setDeadline(project.getDeadline());
         projectReadDto.setDone(project.isDone());
         projectReadDto.setTasks(project.getTasks().stream()
-                .map());
+                .map(task -> mapToTaskReadDto(task))
+                .collect(Collectors.toSet()));
         return projectReadDto;
     }
-
-
 
     private Project mapToProjectEntity(ProjectWriteDto projectWriteDto) { // do zapisu do DB
         Project project = new Project();
@@ -110,5 +111,15 @@ public class ProjectServiceImpl implements ProjectService {
         project.setDescription(projectWriteDto.getDescription());
         project.setDeadline(projectWriteDto.getDeadline());
         return project;
+    }
+
+    private TaskReadDto mapToTaskReadDto(Task task) {
+        TaskReadDto taskReadDto = new TaskReadDto();
+        taskReadDto.setId(task.getId());
+        taskReadDto.setName(task.getName());
+        taskReadDto.setComment(task.getComment());
+        taskReadDto.setDeadline(task.getDeadline());
+        taskReadDto.setDone(task.isDone());
+        return taskReadDto;
     }
 }

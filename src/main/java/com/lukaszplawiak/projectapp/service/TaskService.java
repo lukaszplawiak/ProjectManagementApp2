@@ -1,22 +1,23 @@
 package com.lukaszplawiak.projectapp.service;
 
-import com.lukaszplawiak.projectapp.dto.TaskDto;
+import com.lukaszplawiak.projectapp.dto.TaskReadDto;
+import com.lukaszplawiak.projectapp.dto.TaskWriteDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface TaskService {
-    TaskDto createTask(Long projectId, TaskDto taskDto);
+    TaskWriteDto createTask(Long projectId, TaskWriteDto taskWriteDto);
 
-    TaskDto getTaskById(Long projectId, Long taskId);
+    TaskReadDto getTaskById(Long projectId, Long taskId);
 
-    List<TaskDto> getTasksByProject_Id(Long projectId, Pageable pageable);
+    List<TaskReadDto> getTasksByProject_Id(Long projectId, Pageable pageable);
 
-    List<TaskDto> getTasksByDone(boolean done, Pageable pageable);
+    List<TaskReadDto> getTasksByDone(boolean done, Pageable pageable);
 
-    List<TaskDto> getTasksByDoneAndProject_Id(Long projectId, boolean done, Pageable pageable);
+    List<TaskReadDto> getTasksByDoneAndProject_Id(Long projectId, boolean done, Pageable pageable);
 
-    TaskDto updateTaskById(Long projectId, Long TaskId, TaskDto taskDto);
+    TaskWriteDto updateTaskById(Long projectId, Long TaskId, TaskWriteDto taskWriteDto);
 
     void deleteTaskById(Long projectId, Long TaskId);
 
