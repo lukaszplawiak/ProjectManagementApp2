@@ -45,9 +45,20 @@ class TaskController {
         return new ResponseEntity<>(updatedTask,HttpStatus.OK);
     }
 
+    @PatchMapping(path = "/{taskId}")
+    ResponseEntity<?> toggleTask(@PathVariable Long projectId, @PathVariable Long taskId) {
+        taskService.toggleTask(projectId, taskId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @DeleteMapping(path = "/{taskId}")
     ResponseEntity<String> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
         taskService.deleteTaskById(projectId, taskId);
         return new ResponseEntity<>("Task of id: " + taskId + " deleted", HttpStatus.ACCEPTED);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
+        return ResponseEntity.notFound().build();
     }
 }

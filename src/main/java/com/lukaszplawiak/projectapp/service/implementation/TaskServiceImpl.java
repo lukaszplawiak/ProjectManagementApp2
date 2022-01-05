@@ -31,8 +31,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskWriteDto createTask(Long projectId, TaskWriteDto taskWriteDto) {
-        Task task = mapToTaskEntity(taskWriteDto);
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found. Create task is an impossible"));
+        if (project.isDone()) {
+            logger.info("Project of id: " + projectId + " is done. Create task is impossible");
+            throw new IllegalArgumentException("Project of id: " + projectId + " is done. Create task is impossible"); // tutaj potrzebny wlasny wyjatek !!!
+        }
+        Task task = mapToTaskEntity(taskWriteDto);
         task.setProject(project);
         Task newTask = taskRepository.save(task);
         logger.info("Created task of id: " + newTask.getId());
@@ -104,6 +108,28 @@ public class TaskServiceImpl implements TaskService {
         logger.info("Deleted task of id: " + taskId);
         taskRepository.delete(task);
     }
+
+    public void toggleTask(Long projectId, Long taskId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
+        if (project.isDone()) {
+            logger.info("Project of id: " + projectId + " is done. Toggle task is impossible");
+            throw new IllegalArgumentException("Project of id: " + projectId + " is done. Toggle task is impossible"); // tutaj potrzebny wlasny wyjatek !!!
+        }
+        task.setDone(!task.isDone());
+        taskRepository.save(task);
+        toggleProject(projectId);
+        logger.info("Toggled task of id: " + taskId);
+    }
+
+    private void toggleProject(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        if (project.getTasks().stream().allMatch(b -> b.isDone())) {
+            project.setDone(!project.isDone());
+            projectRepository.save(project);
+        }
+    }
+
 
     private TaskWriteDto mapToTaskWriteDto(Task task) {
         TaskWriteDto taskWriteDto = new TaskWriteDto();
