@@ -1,6 +1,7 @@
 package com.lukaszplawiak.projectapp.service.implementation;
 
-import com.lukaszplawiak.projectapp.dto.ProjectDto;
+import com.lukaszplawiak.projectapp.dto.ProjectReadDto;
+import com.lukaszplawiak.projectapp.dto.ProjectWriteDto;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.service.ProjectService;
@@ -24,62 +25,62 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDto createProject(ProjectDto projectDto) {
-        Project project = mapToProjectEntity(projectDto);
+    public ProjectWriteDto createProject(ProjectWriteDto projectWriteDto) {
+        Project project = mapToProjectEntity(projectWriteDto);
         projectRepository.save(project);
-        ProjectDto projectResponse = mapToProjectDto(project);
-        logger.info("Created project of id: " + projectResponse.getId());
-        return projectResponse;
+        logger.info("Created project of id: " + project.getId());
+        return projectWriteDto;
     }
 
     @Override
-    public ProjectDto getProjectById(Long id) {
-        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
+    public ProjectReadDto getProjectById(Long id) {
+        Project project = projectRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("Project of id: " + id + " not found."));
         logger.info("Exposed project of id: " + id);
-        return mapToProjectDto(project);
+        return mapToProjectReadDto(project);
     }
 
     @Override
-    public List<ProjectDto> getAllProjects() {
+    public List<ProjectReadDto> getAllProjects() {
         List<Project> projectList = projectRepository.findAll();
-        List<ProjectDto> projectDtoList = projectList.stream()
-                .map(project -> mapToProjectDto(project))
+        List<ProjectReadDto> projectWriteDtoList = projectList.stream()
+                .map(project -> mapToProjectReadDto(project))
                 .collect(Collectors.toList());
         logger.warn("Exposed all the projects");
-        return projectDtoList;
+        return projectWriteDtoList;
     }
 
     @Override
-    public List<ProjectDto> getAllProjects(Pageable page) {
+    public List<ProjectReadDto> getAllProjects(Pageable page) {
         List<Project> projectList = projectRepository.findAll(page).getContent();
-        List<ProjectDto> projectDtoList = projectList.stream()
-                .map(project -> mapToProjectDto(project))
+        List<ProjectReadDto> projectWriteDtoList = projectList.stream()
+                .map(project -> mapToProjectReadDto(project))
                 .collect(Collectors.toList());
         logger.warn("Exposed all the pageable projects");
-        return projectDtoList;
+        return projectWriteDtoList;
     }
 
     @Override
-    public List<ProjectDto> getProjectsByDone(boolean done, Pageable page) {
+    public List<ProjectReadDto> getProjectsByDone(boolean done, Pageable page) {
         List<Project> projectList = projectRepository.findByDone(done);
-        List<ProjectDto> projectDtoList = projectList.stream()
-                .map(project -> mapToProjectDto(project))
+        List<ProjectReadDto> projectWriteDtoList = projectList.stream()
+                .map(project -> mapToProjectReadDto(project))
                 .collect(Collectors.toList());
         logger.info("Exposed all the projects by 'done' state");
-        return projectDtoList;
+        return projectWriteDtoList;
     }
 
     @Override
-    public ProjectDto updateProject(ProjectDto projectDto, Long id) {
+    public ProjectWriteDto updateProject(ProjectWriteDto projectWriteDto, Long id) {
         Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
         project.setId(id);
-        project.setTitle(projectDto.getTitle());
-        project.setDescription(projectDto.getDescription());
-        project.setDeadline(projectDto.getDeadline());
-        project.setDone(projectDto.isDone());
-        Project updateProject = projectRepository.save(project);
+        project.setTitle(projectWriteDto.getTitle());
+        project.setDescription(projectWriteDto.getDescription());
+        project.setDeadline(projectWriteDto.getDeadline());
+        //project.setDone(projectWriteDto.isDone()); bedzie dedykowana metoda 'toggle' zamiast setDone
+        projectRepository.save(project);
         logger.info("Updated project of id: " + id);
-        return mapToProjectDto(updateProject);
+        return projectWriteDto;
     }
 
     @Override
@@ -89,22 +90,25 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(project);
     }
 
-    private ProjectDto mapToProjectDto(Project project) {
-        ProjectDto projectDto = new ProjectDto();
-        projectDto.setId(project.getId());
-        projectDto.setTitle(project.getTitle());
-        projectDto.setDescription(project.getDescription());
-        projectDto.setDeadline(project.getDeadline());
-        projectDto.setDone(project.isDone());
-        projectDto.setTasks(project.getTasks());
-        return projectDto;
+    private ProjectReadDto mapToProjectReadDto(Project project) {   // do odczytu z DB
+        ProjectReadDto projectReadDto = new ProjectReadDto();
+        projectReadDto.setId(project.getId());
+        projectReadDto.setTitle(project.getTitle());
+        projectReadDto.setDescription(project.getDescription());
+        projectReadDto.setDeadline(project.getDeadline());
+        projectReadDto.setDone(project.isDone());
+        projectReadDto.setTasks(project.getTasks().stream()
+                .map());
+        return projectReadDto;
     }
 
-    private Project mapToProjectEntity(ProjectDto projectDto) {
+
+
+    private Project mapToProjectEntity(ProjectWriteDto projectWriteDto) { // do zapisu do DB
         Project project = new Project();
-        project.setTitle(projectDto.getTitle());
-        project.setDescription(projectDto.getDescription());
-        project.setDeadline(projectDto.getDeadline());
+        project.setTitle(projectWriteDto.getTitle());
+        project.setDescription(projectWriteDto.getDescription());
+        project.setDeadline(projectWriteDto.getDeadline());
         return project;
     }
 }

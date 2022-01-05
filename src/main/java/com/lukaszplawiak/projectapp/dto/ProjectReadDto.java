@@ -1,43 +1,31 @@
-package com.lukaszplawiak.projectapp.model;
+package com.lukaszplawiak.projectapp.dto;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "projects")
-public class Project {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProjectReadDto {
     private Long id;
     private String title;
     private String description;
     private LocalDateTime deadline;
     private boolean done;
-    @Embedded
-    private Audit audit = new Audit();
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
-    private Set<Task> tasks = new HashSet<>();
+    private Set<TaskReadDto> tasks = new HashSet<>();
 
-
-    public Project() {
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -64,12 +52,11 @@ public class Project {
         this.done = done;
     }
 
-    public Set<Task> getTasks() {
+    public Set<TaskReadDto> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(Set<TaskReadDto> tasks) {
         this.tasks = tasks;
     }
-
 }
