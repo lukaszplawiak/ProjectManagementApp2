@@ -13,7 +13,7 @@ public interface TaskService {
 
     List<TaskReadDto> getTasksByProject_Id(Long projectId, Pageable pageable);
 
-    List<TaskReadDto> getTasksByDone(boolean done, Pageable pageable);
+    //List<TaskReadDto> getTasksByDone(boolean done, Pageable pageable);
 
     List<TaskReadDto> getTasksByDoneAndProject_Id(Long projectId, boolean done, Pageable pageable);
 

@@ -43,22 +43,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectReadDto> getAllProjects() {
-        List<Project> projectList = projectRepository.findAll();
-        List<ProjectReadDto> projectWriteDtoList = projectList.stream()
-                .map(project -> mapToProjectReadDto(project))
-                .collect(Collectors.toList());
-        logger.warn("Exposed all the projects");
-        return projectWriteDtoList;
-    }
-
-    @Override
     public List<ProjectReadDto> getAllProjects(Pageable page) {
         List<Project> projectList = projectRepository.findAll(page).getContent();
         List<ProjectReadDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectReadDto(project))
                 .collect(Collectors.toList());
-        logger.warn("Exposed all the pageable projects");
+        logger.warn("Exposed all the projects");
         return projectWriteDtoList;
     }
 

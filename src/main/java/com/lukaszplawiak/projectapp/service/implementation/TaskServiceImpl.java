@@ -63,16 +63,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskReadDto> getTasksByDone(boolean done, Pageable pageable) {
-        List<Task> taskList = taskRepository.findByDone(done);
-        List<TaskReadDto> taskReadDtoList = taskList.stream()
-                .map(task -> mapToTaskReadDto(task))
-                .collect(Collectors.toList());
-        logger.info("Exposed all the tasks by 'done' state");
-        return taskReadDtoList;
-    }
-
-    @Override
     public List<TaskReadDto> getTasksByDoneAndProject_Id(Long projectId, boolean done, Pageable pageable) {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
         List<Task> collect = project.getTasks().stream().filter(task -> task.isDone()).collect(Collectors.toList());
