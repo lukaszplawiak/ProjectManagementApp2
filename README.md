@@ -4,7 +4,7 @@ Backend for project management application
 ## General info
 A simple application that is an extension of the popular ToDoApp-style application, 
 that allows you to create, edit and delete projects, then create tasks assigned 
-to a given project, edit, delete and complete previously created tasks. 
+to a given project, edit, delete and toggle previously created tasks. 
 After completing all tasks assigned to the project, the project automatically 
 changes its state to the finished one.
 
