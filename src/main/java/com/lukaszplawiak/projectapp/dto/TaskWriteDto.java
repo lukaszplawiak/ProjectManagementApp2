@@ -11,7 +11,6 @@ public class TaskWriteDto {
     @Size(max = 250)
     private String comment;
     private LocalDateTime deadline;
-    private boolean done;
 
     public TaskWriteDto() {
     }
@@ -38,14 +37,6 @@ public class TaskWriteDto {
 
     public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(boolean done) {
-        this.done = done;
     }
 
 }

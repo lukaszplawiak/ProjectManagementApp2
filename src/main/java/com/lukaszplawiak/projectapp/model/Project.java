@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "projects")
@@ -65,7 +66,7 @@ public class Project {
     }
 
     public Set<Task> getTasks() {
-        return tasks;
+        return tasks.stream().collect(Collectors.toUnmodifiableSet());
     }
 
     public void setTasks(Set<Task> tasks) {

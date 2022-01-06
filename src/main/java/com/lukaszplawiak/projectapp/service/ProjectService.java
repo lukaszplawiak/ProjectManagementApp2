@@ -11,8 +11,6 @@ public interface ProjectService {
 
     ProjectReadDto getProjectById(Long id);
 
-    //List<ProjectReadDto> getAllProjects();
-
     List<ProjectReadDto> getAllProjects(Pageable pageable);
 
     List<ProjectReadDto> getProjectsByDone(boolean done, Pageable pageable);

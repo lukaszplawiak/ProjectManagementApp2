@@ -2,9 +2,7 @@ package com.lukaszplawiak.projectapp.service.implementation;
 
 import com.lukaszplawiak.projectapp.dto.ProjectReadDto;
 import com.lukaszplawiak.projectapp.dto.ProjectWriteDto;
-import com.lukaszplawiak.projectapp.dto.TaskReadDto;
 import com.lukaszplawiak.projectapp.model.Project;
-import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import org.slf4j.Logger;
@@ -15,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectEntityMapper.mapToProjectEntity;
+import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectReadDtoMapper.mapToProjectReadDto;
 
 @Service
 @Transactional
@@ -36,8 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectReadDto getProjectById(Long id) {
-        Project project = projectRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Project of id: " + id + " not found."));
+        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
         logger.info("Exposed project of id: " + id);
         return mapToProjectReadDto(project);
     }
@@ -69,7 +69,6 @@ public class ProjectServiceImpl implements ProjectService {
         project.setTitle(projectWriteDto.getTitle());
         project.setDescription(projectWriteDto.getDescription());
         project.setDeadline(projectWriteDto.getDeadline());
-        //project.setDone(projectWriteDto.isDone()); bedzie dedykowana metoda 'toggle' zamiast setDone
         projectRepository.save(project);
         logger.info("Updated project of id: " + id);
         return projectWriteDto;
@@ -80,36 +79,5 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
         logger.warn("Deleted project of id: " + id);
         projectRepository.delete(project);
-    }
-
-    private ProjectReadDto mapToProjectReadDto(Project project) {   // do odczytu z DB
-        ProjectReadDto projectReadDto = new ProjectReadDto();
-        projectReadDto.setId(project.getId());
-        projectReadDto.setTitle(project.getTitle());
-        projectReadDto.setDescription(project.getDescription());
-        projectReadDto.setDeadline(project.getDeadline());
-        projectReadDto.setDone(project.isDone());
-        projectReadDto.setTasks(project.getTasks().stream()
-                .map(task -> mapToTaskReadDto(task))
-                .collect(Collectors.toSet()));
-        return projectReadDto;
-    }
-
-    private Project mapToProjectEntity(ProjectWriteDto projectWriteDto) { // do zapisu do DB
-        Project project = new Project();
-        project.setTitle(projectWriteDto.getTitle());
-        project.setDescription(projectWriteDto.getDescription());
-        project.setDeadline(projectWriteDto.getDeadline());
-        return project;
-    }
-
-    private TaskReadDto mapToTaskReadDto(Task task) {
-        TaskReadDto taskReadDto = new TaskReadDto();
-        taskReadDto.setId(task.getId());
-        taskReadDto.setName(task.getName());
-        taskReadDto.setComment(task.getComment());
-        taskReadDto.setDeadline(task.getDeadline());
-        taskReadDto.setDone(task.isDone());
-        return taskReadDto;
     }
 }

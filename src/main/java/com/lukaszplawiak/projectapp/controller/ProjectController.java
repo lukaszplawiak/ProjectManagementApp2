@@ -50,9 +50,4 @@ class ProjectController {
         projectService.deleteProjectById(id);
         return new ResponseEntity<>("Project entity deleted", HttpStatus.ACCEPTED);
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
-        return ResponseEntity.notFound().build();
-    }
 }

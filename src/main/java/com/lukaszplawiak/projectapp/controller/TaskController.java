@@ -34,9 +34,9 @@ class TaskController {
         return new ResponseEntity<>(taskService.getTaskById(projectId, taskId), HttpStatus.OK);
     }
 
-    @GetMapping(path = "/search/done")
-    ResponseEntity<List<TaskReadDto>> readTasksByDoneAndProjectId(@PathVariable Long projectId, boolean done, Pageable pageable) {
-        return new ResponseEntity<>(taskService.getTasksByDoneAndProject_Id(projectId, done, pageable), HttpStatus.OK);
+    @GetMapping(path = "/search/done/false")
+    ResponseEntity<List<TaskReadDto>> readTasksByDoneIsFalseAndProjectId(@PathVariable Long projectId, boolean done, Pageable pageable) {
+        return new ResponseEntity<>(taskService.getTasksByDoneIsFalseAndProject_Id(projectId, done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{taskId}")
@@ -55,10 +55,5 @@ class TaskController {
     ResponseEntity<String> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
         taskService.deleteTaskById(projectId, taskId);
         return new ResponseEntity<>("Task of id: " + taskId + " deleted", HttpStatus.ACCEPTED);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
-        return ResponseEntity.notFound().build();
     }
 }
