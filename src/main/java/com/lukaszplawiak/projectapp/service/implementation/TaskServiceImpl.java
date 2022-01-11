@@ -11,7 +11,6 @@ import com.lukaszplawiak.projectapp.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +27,7 @@ import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskWri
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
-    public static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 
     public TaskServiceImpl(final TaskRepository taskRepository, final ProjectRepository projectRepository) {
         this.taskRepository = taskRepository;
@@ -37,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskWriteDto createTask(Long projectId, TaskWriteDto taskWriteDto) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found. Create task is an impossible"));
+        Project project = projectRepository.getById(projectId);
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
             throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible");
@@ -51,7 +50,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskReadDto getTaskById(Long projectId, Long taskId) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        //Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        Project project = projectRepository.getById(projectId);
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
@@ -79,7 +79,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskWriteDto updateTaskById(Long projectId, Long taskId, TaskWriteDto taskWriteDto) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        Project project = projectRepository.getById(projectId);
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
@@ -95,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTaskById(Long projectId, Long taskId) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        Project project = projectRepository.getById(projectId);
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
@@ -105,7 +105,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     public void toggleTask(Long projectId, Long taskId) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        Project project = projectRepository.getById(projectId);
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Toggle task is impossible");
@@ -118,7 +118,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private void toggleProject(Long projectId) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
+        Project project = projectRepository.getById(projectId);
         if (project.getTasks().stream().allMatch(b -> b.isDone())) {
             project.setDone(!project.isDone());
             projectRepository.save(project);

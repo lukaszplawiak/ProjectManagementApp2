@@ -21,7 +21,7 @@ import static com.lukaszplawiak.projectapp.service.implementation.mapper.Project
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
-    public static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
     public ProjectServiceImpl(final ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
@@ -37,8 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectReadDto getProjectById(Long id) {
-        //getProjectById(id);
-        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
+        Project project = projectRepository.getById(id);
         logger.info("Exposed project of id: " + id);
         return mapToProjectReadDto(project);
     }
@@ -65,7 +64,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectWriteDto updateProject(ProjectWriteDto projectWriteDto, Long id) {
-        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
+        Project project = projectRepository.getById(id);
         project.setId(id);
         project.setTitle(projectWriteDto.getTitle());
         project.setDescription(projectWriteDto.getDescription());
@@ -77,7 +76,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void deleteProjectById(Long id) {
-        Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
+        Project project = projectRepository.getById(id);
+        //Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
         projectRepository.delete(project);
         logger.info("Deleted project of id: " + id);
     }
