@@ -54,6 +54,6 @@ class TaskController {
     @DeleteMapping(path = "/{taskId}")
     ResponseEntity<String> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
         taskService.deleteTaskById(projectId, taskId);
-        return new ResponseEntity<>("Task of id: " + taskId + " deleted", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Task of id: " + taskId + " deleted", HttpStatus.NO_CONTENT);
     }
 }

@@ -37,6 +37,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectReadDto getProjectById(Long id) {
+        //getProjectById(id);
         Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
         logger.info("Exposed project of id: " + id);
         return mapToProjectReadDto(project);
@@ -77,7 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProjectById(Long id) {
         Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
-        logger.warn("Deleted project of id: " + id);
         projectRepository.delete(project);
+        logger.info("Deleted project of id: " + id);
     }
 }

@@ -21,7 +21,6 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     private Set<Task> tasks = new HashSet<>();
 
-
     public Project() {
     }
 

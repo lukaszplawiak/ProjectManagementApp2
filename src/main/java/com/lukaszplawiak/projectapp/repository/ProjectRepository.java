@@ -15,4 +15,9 @@ public interface ProjectRepository {
     Page<Project> findAll(Pageable page);
     List<Project> findByDone(@Param("state") boolean done);
     void delete(Project entity);
+
+    default Project getById(Long id) {
+        return findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Project of id " + id + " not found"));
+    }
 }

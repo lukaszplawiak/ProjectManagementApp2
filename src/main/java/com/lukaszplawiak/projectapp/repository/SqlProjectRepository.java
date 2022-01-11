@@ -11,4 +11,9 @@ interface SqlProjectRepository extends ProjectRepository, JpaRepository<Project,
     @Query("select distinct p from Project p join fetch p.tasks")
     List<Project> findAll();
 
+    @Override
+    default Project getById(Long id) {
+        return ProjectRepository.super.getById(id);
+    }
+
 }

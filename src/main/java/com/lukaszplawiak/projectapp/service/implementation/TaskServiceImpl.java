@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
         Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found. Create task is an impossible"));
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
-            throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible", HttpStatus.BAD_REQUEST);
+            throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible");
         }
         Task task = mapToTaskEntity(taskWriteDto);
         task.setProject(project);
@@ -122,6 +122,7 @@ public class TaskServiceImpl implements TaskService {
         if (project.getTasks().stream().allMatch(b -> b.isDone())) {
             project.setDone(!project.isDone());
             projectRepository.save(project);
+            logger.info("Deleted project of id: " + projectId);
         }
     }
 }

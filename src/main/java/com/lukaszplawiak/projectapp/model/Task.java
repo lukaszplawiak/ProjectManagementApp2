@@ -20,7 +20,6 @@ public class Task {
     @JoinColumn(name = "project_id")
     private Project project;
 
-
     public Task() {
     }
 
