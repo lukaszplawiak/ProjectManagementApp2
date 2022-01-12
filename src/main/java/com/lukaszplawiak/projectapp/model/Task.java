@@ -96,11 +96,6 @@ public class Task {
             return new Builder();
         }
 
-        public Builder withId(Long id) {
-            task.setId(id);
-            return this;
-        }
-
         public Builder withName(String name) {
             task.setName(name);
             return this;

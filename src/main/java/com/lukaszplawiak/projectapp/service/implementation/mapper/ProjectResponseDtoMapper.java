@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
 
 public class ProjectResponseDtoMapper {
-    public static ProjectResponseDto mapToProjectReadDto(Project project) {   // do odczytu z DB
+    public static ProjectResponseDto mapToProjectReadDto(Project project) {
         return ProjectResponseDto.ProjectResponseDtoBuilder.aProjectResponseDto()
                 .withId(project.getId())
                 .withTitle(project.getTitle())
