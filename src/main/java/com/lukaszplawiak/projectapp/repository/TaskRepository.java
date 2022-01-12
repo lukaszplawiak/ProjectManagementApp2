@@ -1,5 +1,6 @@
 package com.lukaszplawiak.projectapp.repository;
 
+import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import org.springframework.data.repository.query.Param;
 
@@ -13,4 +14,8 @@ public interface TaskRepository {
     List<Task> findByDoneAndProjectId(@Param("done") boolean done, Long projectId);
     void delete(Task entity);
 
+    default Task getById(Long id) {
+        return findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Task of id " + id + " not found"));
+    }
 }

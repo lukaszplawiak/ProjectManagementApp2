@@ -53,7 +53,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskReadDto getTaskById(Long projectId, Long taskId) {
         Project project = projectRepository.getById(projectId);
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
+        Task task = taskRepository.getById(taskId);
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
@@ -80,7 +80,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskWriteDto updateTaskById(Long projectId, Long taskId, TaskWriteDto taskWriteDto) {
         Project project = projectRepository.getById(projectId);
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
+        Task task = taskRepository.getById(taskId);
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
@@ -95,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTaskById(Long projectId, Long taskId) {
         Project project = projectRepository.getById(projectId);
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
+        Task task = taskRepository.getById(taskId);
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
@@ -105,7 +105,7 @@ public class TaskServiceImpl implements TaskService {
 
     public void toggleTask(Long projectId, Long taskId) {
         Project project = projectRepository.getById(projectId);
-        Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
+        Task task = taskRepository.getById(taskId);
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Toggle task is impossible");
             throw new IllegalArgumentException("Project of id: " + projectId + " is done. Toggle task is impossible"); // tutaj potrzebny wlasny wyjatek !!!
