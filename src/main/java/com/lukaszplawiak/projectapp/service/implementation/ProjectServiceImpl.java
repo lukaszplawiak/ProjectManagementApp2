@@ -77,8 +77,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProjectById(Long id) {
         Project project = projectRepository.getById(id);
-        logger.info("Deleted project of id: " + id);
         projectRepository.delete(project);
+        logger.info("Deleted project of id: " + id);
     }
 
 
