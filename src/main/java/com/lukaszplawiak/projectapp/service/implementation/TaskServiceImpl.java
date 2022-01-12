@@ -7,7 +7,6 @@ import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.repository.TaskRepository;
-import com.lukaszplawiak.projectapp.service.ProjectService;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +52,6 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskReadDto getTaskById(Long projectId, Long taskId) {
-        //Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException("Task of id: " + taskId + " not found"));
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
@@ -73,9 +71,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskReadDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Project of id: " + projectId + " not found"));
-        List<Task> collect = project.getTasks().stream().filter(task -> !task.isDone()).collect(Collectors.toList());
-        List<TaskReadDto> taskReadDtoList = collect.stream().map(task -> mapToTaskReadDto(task)).collect(Collectors.toList());
+        List<Task> byDoneAndProjectId = taskRepository.findByDoneAndProjectId(done, projectId);
+        List<TaskReadDto> taskReadDtoList = byDoneAndProjectId.stream().map(task -> mapToTaskReadDto(task)).collect(Collectors.toList());
         logger.info("Exposed all the tasks by 'done' state of project id: " + projectId);
         return taskReadDtoList;
     }
@@ -91,9 +88,8 @@ public class TaskServiceImpl implements TaskService {
         task.setName(taskWriteDto.getName());
         task.setComment(taskWriteDto.getComment());
         task.setDeadline(taskWriteDto.getDeadline());
-        Task updatedTask = taskRepository.save(task);
         logger.info("Updated task of id: " + taskId);
-        return mapToTaskWriteDto(updatedTask);
+        return mapToTaskWriteDto(task);
     }
 
     @Override

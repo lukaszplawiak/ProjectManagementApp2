@@ -10,7 +10,7 @@ public interface TaskRepository {
     List<Task> findByProjectId(Long projectId);
     Optional<Task> findById(Long id);
     Task save(Task entity);
-    List<Task> findByDone(@Param("state") boolean done);
+    List<Task> findByDoneAndProjectId(@Param("done") boolean done, Long projectId);
     void delete(Task entity);
 
 }

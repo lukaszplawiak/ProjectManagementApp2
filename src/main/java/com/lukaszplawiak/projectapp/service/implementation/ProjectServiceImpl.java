@@ -69,7 +69,6 @@ public class ProjectServiceImpl implements ProjectService {
         project.setTitle(projectWriteDto.getTitle());
         project.setDescription(projectWriteDto.getDescription());
         project.setDeadline(projectWriteDto.getDeadline());
-        projectRepository.save(project);
         logger.info("Updated project of id: " + id);
         return projectWriteDto;
     }
