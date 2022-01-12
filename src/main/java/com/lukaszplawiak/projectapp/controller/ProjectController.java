@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.dto.ProjectReadDto;
-import com.lukaszplawiak.projectapp.dto.ProjectWriteDto;
+import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
+import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,28 +21,28 @@ class ProjectController {
     }
 
     @PostMapping
-    ResponseEntity<ProjectWriteDto> createProject(@RequestBody @Valid ProjectWriteDto projectWriteDto) {
-        return new ResponseEntity<>(projectService.createProject(projectWriteDto), HttpStatus.CREATED);
+    ResponseEntity<ProjectRequestDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto) {
+        return new ResponseEntity<>(projectService.createProject(projectRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
-    ResponseEntity<ProjectReadDto> readProjectById(@PathVariable Long id) {
+    ResponseEntity<ProjectResponseDto> readProjectById(@PathVariable Long id) {
         return new ResponseEntity<>(projectService.getProjectById(id), HttpStatus.OK);
     }
 
     @GetMapping
-    ResponseEntity<List<ProjectReadDto>> readAllProjects(Pageable pageable) {
+    ResponseEntity<List<ProjectResponseDto>> readAllProjects(Pageable pageable) {
         return new ResponseEntity<>(projectService.getAllProjects(pageable), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")
-    ResponseEntity<List<ProjectReadDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean done, Pageable pageable) {
+    ResponseEntity<List<ProjectResponseDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean done, Pageable pageable) {
         return new ResponseEntity<>(projectService.getProjectsByDone(done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")
-    ResponseEntity<ProjectWriteDto> updateProject(@RequestBody @Valid ProjectWriteDto projectWriteDto, @PathVariable Long id) {
-        return new ResponseEntity<>(projectService.updateProject(projectWriteDto, id), HttpStatus.OK);
+    ResponseEntity<ProjectRequestDto> updateProject(@RequestBody @Valid ProjectRequestDto projectRequestDto, @PathVariable Long id) {
+        return new ResponseEntity<>(projectService.updateProject(projectRequestDto, id), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")

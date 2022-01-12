@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.service.implementation;
 
-import com.lukaszplawiak.projectapp.dto.TaskReadDto;
-import com.lukaszplawiak.projectapp.dto.TaskWriteDto;
+import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
+import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.exception.IllegalCreateTaskException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
@@ -19,8 +19,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskEntityMapper.mapToTaskEntity;
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskReadDtoMapper.mapToTaskReadDto;
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskWriteDtoMapper.mapToTaskWriteDto;
+import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
+import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskRequestDtoMapper.mapToTaskWriteDto;
 
 @Service
 @Transactional
@@ -37,13 +37,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskWriteDto createTask(Long projectId, TaskWriteDto taskWriteDto) {
+    public TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto) {
         Project project = projectRepository.getById(projectId);
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
             throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible");
         }
-        Task task = mapToTaskEntity(taskWriteDto);
+        Task task = mapToTaskEntity(taskRequestDto);
         task.setProject(project);
         Task newTask = taskRepository.save(task);
         logger.info("Created task of id: " + newTask.getId());
@@ -51,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskReadDto getTaskById(Long projectId, Long taskId) {
+    public TaskResponseDto getTaskById(Long projectId, Long taskId) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
@@ -62,32 +62,36 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskReadDto> getTasksByProject_Id(Long projectId, Pageable pageable) {
+    public List<TaskResponseDto> getTasksByProject_Id(Long projectId, Pageable pageable) {
         List<Task> tasks = taskRepository.findByProjectId(projectId);
-        List<TaskReadDto> collect = tasks.stream().map(task -> mapToTaskReadDto(task)).collect(Collectors.toList());
+        List<TaskResponseDto> collect = tasks.stream()
+                .map(task -> mapToTaskReadDto(task))
+                .collect(Collectors.toList());
         logger.info("Exposed all tasks of project of id: " + projectId);
         return collect;
     }
 
     @Override
-    public List<TaskReadDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable) {
+    public List<TaskResponseDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable) {
         List<Task> byDoneAndProjectId = taskRepository.findByDoneAndProjectId(done, projectId);
-        List<TaskReadDto> taskReadDtoList = byDoneAndProjectId.stream().map(task -> mapToTaskReadDto(task)).collect(Collectors.toList());
+        List<TaskResponseDto> taskResponseDtoList = byDoneAndProjectId.stream()
+                .map(task -> mapToTaskReadDto(task))
+                .collect(Collectors.toList());
         logger.info("Exposed all the tasks by 'done' state of project id: " + projectId);
-        return taskReadDtoList;
+        return taskResponseDtoList;
     }
 
     @Override
-    public TaskWriteDto updateTaskById(Long projectId, Long taskId, TaskWriteDto taskWriteDto) {
+    public TaskRequestDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
         task.setId(taskId);
-        task.setName(taskWriteDto.getName());
-        task.setComment(taskWriteDto.getComment());
-        task.setDeadline(taskWriteDto.getDeadline());
+        task.setName(taskRequestDto.getName());
+        task.setComment(taskRequestDto.getComment());
+        task.setDeadline(taskRequestDto.getDeadline());
         logger.info("Updated task of id: " + taskId);
         return mapToTaskWriteDto(task);
     }

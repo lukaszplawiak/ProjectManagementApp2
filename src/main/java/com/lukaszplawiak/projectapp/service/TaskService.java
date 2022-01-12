@@ -1,21 +1,21 @@
 package com.lukaszplawiak.projectapp.service;
 
-import com.lukaszplawiak.projectapp.dto.TaskReadDto;
-import com.lukaszplawiak.projectapp.dto.TaskWriteDto;
+import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
+import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface TaskService {
-    TaskWriteDto createTask(Long projectId, TaskWriteDto taskWriteDto);
+    TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto);
 
-    TaskReadDto getTaskById(Long projectId, Long taskId);
+    TaskResponseDto getTaskById(Long projectId, Long taskId);
 
-    List<TaskReadDto> getTasksByProject_Id(Long projectId, Pageable pageable);
+    List<TaskResponseDto> getTasksByProject_Id(Long projectId, Pageable pageable);
 
-    List<TaskReadDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable);
+    List<TaskResponseDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable);
 
-    TaskWriteDto updateTaskById(Long projectId, Long TaskId, TaskWriteDto taskWriteDto);
+    TaskRequestDto updateTaskById(Long projectId, Long TaskId, TaskRequestDto taskRequestDto);
 
     void toggleTask(Long projectId, Long taskId);
 

@@ -72,4 +72,45 @@ public class Project {
         this.tasks = tasks;
     }
 
+
+    public static final class ProjectBuilder {
+        private Project project;
+
+        private ProjectBuilder() {
+            project = new Project();
+        }
+
+        public static ProjectBuilder aProject() {
+            return new ProjectBuilder();
+        }
+
+        public ProjectBuilder withTitle(String title) {
+            project.setTitle(title);
+            return this;
+        }
+
+        public ProjectBuilder withDescription(String description) {
+            project.setDescription(description);
+            return this;
+        }
+
+        public ProjectBuilder withDeadline(LocalDateTime deadline) {
+            project.setDeadline(deadline);
+            return this;
+        }
+
+        public ProjectBuilder withDone(boolean done) {
+            project.setDone(done);
+            return this;
+        }
+
+        public ProjectBuilder withTasks(Set<Task> tasks) {
+            project.setTasks(tasks);
+            return this;
+        }
+
+        public Project build() {
+            return project;
+        }
+    }
 }

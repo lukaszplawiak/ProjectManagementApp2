@@ -1,21 +1,21 @@
 package com.lukaszplawiak.projectapp.service;
 
-import com.lukaszplawiak.projectapp.dto.ProjectReadDto;
-import com.lukaszplawiak.projectapp.dto.ProjectWriteDto;
+import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
+import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ProjectService {
-    ProjectWriteDto createProject(ProjectWriteDto projectWriteDto);
+    ProjectRequestDto createProject(ProjectRequestDto projectRequestDto);
 
-    ProjectReadDto getProjectById(Long id);
+    ProjectResponseDto getProjectById(Long id);
 
-    List<ProjectReadDto> getAllProjects(Pageable pageable);
+    List<ProjectResponseDto> getAllProjects(Pageable pageable);
 
-    List<ProjectReadDto> getProjectsByDone(boolean done, Pageable pageable);
+    List<ProjectResponseDto> getProjectsByDone(boolean done, Pageable pageable);
 
-    ProjectWriteDto updateProject(ProjectWriteDto projectWriteDto, Long id);
+    ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id);
 
     void deleteProjectById(Long id);
 }

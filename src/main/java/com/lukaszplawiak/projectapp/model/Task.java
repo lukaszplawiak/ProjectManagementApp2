@@ -83,4 +83,51 @@ public class Task {
     public int hashCode() {
         return Objects.hash(id, name, comment, deadline, done, audit, project);
     }
+
+
+    public static final class Builder {
+        private Task task;
+
+        private Builder() {
+            task = new Task();
+        }
+
+        public static Builder aTask() {
+            return new Builder();
+        }
+
+        public Builder withId(Long id) {
+            task.setId(id);
+            return this;
+        }
+
+        public Builder withName(String name) {
+            task.setName(name);
+            return this;
+        }
+
+        public Builder withComment(String comment) {
+            task.setComment(comment);
+            return this;
+        }
+
+        public Builder withDeadline(LocalDateTime deadline) {
+            task.setDeadline(deadline);
+            return this;
+        }
+
+        public Builder withDone(boolean done) {
+            task.setDone(done);
+            return this;
+        }
+
+        public Builder withProject(Project project) {
+            task.setProject(project);
+            return this;
+        }
+
+        public Task build() {
+            return task;
+        }
+    }
 }

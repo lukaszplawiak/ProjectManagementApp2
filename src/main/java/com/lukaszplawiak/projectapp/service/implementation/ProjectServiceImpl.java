@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.service.implementation;
 
-import com.lukaszplawiak.projectapp.dto.ProjectReadDto;
-import com.lukaszplawiak.projectapp.dto.ProjectWriteDto;
+import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
+import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.service.ProjectService;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectEntityMapper.mapToProjectEntity;
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectReadDtoMapper.mapToProjectReadDto;
+import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectResponseDtoMapper.mapToProjectReadDto;
 
 @Service
 @Transactional
@@ -28,24 +28,24 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectWriteDto createProject(ProjectWriteDto projectWriteDto) {
-        Project project = mapToProjectEntity(projectWriteDto);
+    public ProjectRequestDto createProject(ProjectRequestDto projectRequestDto) {
+        Project project = mapToProjectEntity(projectRequestDto);
         projectRepository.save(project);
         logger.info("Created project of id: " + project.getId());
-        return projectWriteDto;
+        return projectRequestDto;
     }
 
     @Override
-    public ProjectReadDto getProjectById(Long id) {
+    public ProjectResponseDto getProjectById(Long id) {
         Project project = projectRepository.getById(id);
         logger.info("Exposed project of id: " + id);
         return mapToProjectReadDto(project);
     }
 
     @Override
-    public List<ProjectReadDto> getAllProjects(Pageable page) {
+    public List<ProjectResponseDto> getAllProjects(Pageable page) {
         List<Project> projectList = projectRepository.findAll(page).getContent();
-        List<ProjectReadDto> projectWriteDtoList = projectList.stream()
+        List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectReadDto(project))
                 .collect(Collectors.toList());
         logger.warn("Exposed all the projects");
@@ -53,9 +53,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectReadDto> getProjectsByDone(boolean done, Pageable page) {
+    public List<ProjectResponseDto> getProjectsByDone(boolean done, Pageable page) {
         List<Project> projectList = projectRepository.findByDone(done);
-        List<ProjectReadDto> projectWriteDtoList = projectList.stream()
+        List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectReadDto(project))
                 .collect(Collectors.toList());
         logger.info("Exposed all the projects by 'done' state");
@@ -63,14 +63,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectWriteDto updateProject(ProjectWriteDto projectWriteDto, Long id) {
+    public ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id) {
         Project project = projectRepository.getById(id);
         project.setId(id);
-        project.setTitle(projectWriteDto.getTitle());
-        project.setDescription(projectWriteDto.getDescription());
-        project.setDeadline(projectWriteDto.getDeadline());
+        project.setTitle(projectRequestDto.getTitle());
+        project.setDescription(projectRequestDto.getDescription());
+        project.setDeadline(projectRequestDto.getDeadline());
         logger.info("Updated project of id: " + id);
-        return projectWriteDto;
+        return projectRequestDto;
     }
 
     @Override

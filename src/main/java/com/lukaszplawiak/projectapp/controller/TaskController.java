@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.dto.TaskReadDto;
-import com.lukaszplawiak.projectapp.dto.TaskWriteDto;
+import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
+import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,27 +21,27 @@ class TaskController {
     }
 
     @PostMapping
-    ResponseEntity<TaskWriteDto> createTask(@RequestBody @Valid TaskWriteDto taskWriteDto, @PathVariable Long projectId) {
-        return new ResponseEntity<>(taskService.createTask(projectId, taskWriteDto), HttpStatus.CREATED);
+    ResponseEntity<TaskRequestDto> createTask(@RequestBody @Valid TaskRequestDto taskRequestDto, @PathVariable Long projectId) {
+        return new ResponseEntity<>(taskService.createTask(projectId, taskRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping
-    ResponseEntity<List<TaskReadDto>> readTasksByProjectId(@PathVariable Long projectId, Pageable pageable) {
+    ResponseEntity<List<TaskResponseDto>> readTasksByProjectId(@PathVariable Long projectId, Pageable pageable) {
         return new ResponseEntity<>(taskService.getTasksByProject_Id(projectId, pageable), HttpStatus.OK);
     }
     @GetMapping(path = "/{taskId}")
-    ResponseEntity<TaskReadDto> readTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
+    ResponseEntity<TaskResponseDto> readTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
         return new ResponseEntity<>(taskService.getTaskById(projectId, taskId), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")
-    ResponseEntity<List<TaskReadDto>> readTasksByDoneIsFalseAndProjectId(@PathVariable Long projectId,@RequestParam(defaultValue = "false") boolean done, Pageable pageable) {
+    ResponseEntity<List<TaskResponseDto>> readTasksByDoneIsFalseAndProjectId(@PathVariable Long projectId, @RequestParam(defaultValue = "false") boolean done, Pageable pageable) {
         return new ResponseEntity<>(taskService.getTasksByDoneIsFalseAndProject_Id(projectId, done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{taskId}")
-    ResponseEntity<TaskWriteDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId, @RequestBody @Valid TaskWriteDto taskWriteDto) {
-        TaskWriteDto updatedTask = taskService.updateTaskById(projectId, taskId, taskWriteDto);
+    ResponseEntity<TaskRequestDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId, @RequestBody @Valid TaskRequestDto taskRequestDto) {
+        TaskRequestDto updatedTask = taskService.updateTaskById(projectId, taskId, taskRequestDto);
         return new ResponseEntity<>(updatedTask,HttpStatus.OK);
     }
 
