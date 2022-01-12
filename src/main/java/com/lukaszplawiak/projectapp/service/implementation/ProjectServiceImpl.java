@@ -77,8 +77,17 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProjectById(Long id) {
         Project project = projectRepository.getById(id);
-        //Project project = projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found."));
-        projectRepository.delete(project);
         logger.info("Deleted project of id: " + id);
+        projectRepository.delete(project);
+    }
+
+
+    public void toggleProject(Long projectId) {
+        Project project = projectRepository.getById(projectId);
+        if (project.getTasks().stream().allMatch(b -> b.isDone())) {
+            project.setDone(!project.isDone());
+            projectRepository.save(project);
+            logger.info("Toggled project of id: " + projectId);
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.repository.TaskRepository;
+import com.lukaszplawiak.projectapp.service.ProjectService;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +28,13 @@ import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskWri
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
+    private final ProjectServiceImpl projectServiceImpl;
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceImpl.class);
 
-    public TaskServiceImpl(final TaskRepository taskRepository, final ProjectRepository projectRepository) {
+    public TaskServiceImpl(final TaskRepository taskRepository, final ProjectRepository projectRepository, ProjectServiceImpl projectServiceImpl) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
+        this.projectServiceImpl = projectServiceImpl;
     }
 
     @Override
@@ -100,8 +103,8 @@ public class TaskServiceImpl implements TaskService {
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
-        logger.info("Deleted task of id: " + taskId);
         taskRepository.delete(task);
+        logger.info("Deleted task of id: " + taskId);
     }
 
     public void toggleTask(Long projectId, Long taskId) {
@@ -112,17 +115,10 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Project of id: " + projectId + " is done. Toggle task is impossible"); // tutaj potrzebny wlasny wyjatek !!!
         }
         task.setDone(!task.isDone());
-        taskRepository.save(task);
-        toggleProject(projectId);
         logger.info("Toggled task of id: " + taskId);
+        taskRepository.save(task);
+        projectServiceImpl.toggleProject(projectId);
     }
 
-    private void toggleProject(Long projectId) {
-        Project project = projectRepository.getById(projectId);
-        if (project.getTasks().stream().allMatch(b -> b.isDone())) {
-            project.setDone(!project.isDone());
-            projectRepository.save(project);
-            logger.info("Deleted project of id: " + projectId);
-        }
-    }
+
 }

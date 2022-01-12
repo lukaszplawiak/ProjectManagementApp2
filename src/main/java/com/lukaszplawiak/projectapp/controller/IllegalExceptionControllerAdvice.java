@@ -14,6 +14,6 @@ public class IllegalExceptionControllerAdvice {
 
     @ExceptionHandler(IllegalCreateTaskException.class)
     ResponseEntity<?> handleIllegalCreateTask(IllegalCreateTaskException e) {
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.status(409).build();
     }
 }

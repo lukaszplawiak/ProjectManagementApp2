@@ -35,17 +35,17 @@ class ProjectController {
         return new ResponseEntity<>(projectService.getAllProjects(pageable), HttpStatus.OK);
     }
 
-    @GetMapping(path = "search/done")
+    @GetMapping(path = "/search")
     ResponseEntity<List<ProjectReadDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean state, Pageable pageable) {
         return new ResponseEntity<>(projectService.getProjectsByDone(state, pageable), HttpStatus.OK);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "/{id}")
     ResponseEntity<ProjectWriteDto> updateProject(@RequestBody @Valid ProjectWriteDto projectWriteDto, @PathVariable Long id) {
         return new ResponseEntity<>(projectService.updateProject(projectWriteDto, id), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "/{id}")
     ResponseEntity<String> deleteProject(@PathVariable Long id) {
         projectService.deleteProjectById(id);
         return new ResponseEntity<>("Project entity deleted", HttpStatus.NO_CONTENT);
