@@ -1,11 +1,11 @@
-package com.lukaszplawiak.projectapp.service.implementation.mapper;
+package com.lukaszplawiak.projectapp.service.impl.mapper;
 
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.model.Project;
 
 import java.util.stream.Collectors;
 
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
 
 public class ProjectResponseDtoMapper {
     public static ProjectResponseDto mapToProjectReadDto(Project project) {

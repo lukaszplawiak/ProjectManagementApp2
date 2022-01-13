@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.service.implementation.mapper;
+package com.lukaszplawiak.projectapp.service.impl.mapper;
 
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.model.Task;

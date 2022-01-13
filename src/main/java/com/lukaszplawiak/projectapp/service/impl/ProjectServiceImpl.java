@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.service.implementation;
+package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectEntityMapper.mapToProjectEntity;
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.ProjectResponseDtoMapper.mapToProjectReadDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectEntityMapper.mapToProjectEntity;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectResponseDtoMapper.mapToProjectReadDto;
 
 @Service
 @Transactional

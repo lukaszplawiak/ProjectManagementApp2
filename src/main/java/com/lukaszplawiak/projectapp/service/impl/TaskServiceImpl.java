@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.service.implementation;
+package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskEntityMapper.mapToTaskEntity;
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
-import static com.lukaszplawiak.projectapp.service.implementation.mapper.TaskRequestDtoMapper.mapToTaskWriteDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskEntityMapper.mapToTaskEntity;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskRequestDtoMapper.mapToTaskWriteDto;
 
 @Service
 @Transactional
