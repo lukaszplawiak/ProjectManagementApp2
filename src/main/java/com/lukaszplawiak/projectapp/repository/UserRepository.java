@@ -5,11 +5,11 @@ import com.lukaszplawiak.projectapp.model.User;
 import java.util.List;
 
 public interface UserRepository {
-    User findByUsername(String username);
+    User findByEmail(String email);
 
     List<User> findAll();
 
     User save(User user);
 
-    void deleteUserByUsername(String username);
+    void deleteUserByEmail(String email);
 }

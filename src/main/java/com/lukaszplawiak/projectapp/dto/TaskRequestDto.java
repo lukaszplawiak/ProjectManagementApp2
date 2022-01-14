@@ -1,14 +1,15 @@
 package com.lukaszplawiak.projectapp.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class TaskRequestDto {
-    @NotEmpty
-    @Size(min = 2, max = 50, message = "Title must be two or more characters")
+    @NotBlank
+    @Size(min = 2, max = 50, message = "Title must be 2 or more characters")
     private String name;
-    @Size(max = 250)
+    @Size(max = 255)
     private String comment;
     private LocalDateTime deadline;
 

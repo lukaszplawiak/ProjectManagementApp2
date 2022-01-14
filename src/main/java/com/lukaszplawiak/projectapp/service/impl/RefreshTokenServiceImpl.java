@@ -46,7 +46,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
                 User user = userService.getUser(username);
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                 String access_token = JWT.create()
-                        .withSubject(user.getUsername()) // tutaj unikalne pole do rozpoznania usera (zrobic UUID)
+                        .withSubject(user.getEmail()) // tutaj unikalne pole do rozpoznania usera (zrobic UUID)
                         .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                         .withIssuer(request.getRequestURI())
                         .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))

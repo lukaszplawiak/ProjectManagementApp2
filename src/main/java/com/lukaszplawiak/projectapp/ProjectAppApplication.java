@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp;
 
+import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.model.Role;
-import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
 
 @SpringBootApplication
 public class ProjectAppApplication {
@@ -27,18 +25,20 @@ public class ProjectAppApplication {
           userService.saveRole(new Role(null, "ROLE_ADMIN"));
           userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
-          userService.saveUser(new User(null, "Luk", "luk", "1234", new ArrayList<>()));
-          userService.saveUser(new User(null, "Ada", "ada", "1234", new ArrayList<>()));
-          userService.saveUser(new User(null, "Ula", "ula", "1234", new ArrayList<>()));
-          userService.saveUser(new User(null, "Ala", "ala", "1234", new ArrayList<>()));
+          userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Luk").withLastName("PLa").withEmail("lukpla@gmail.com").withPassword("1234").build());
+          userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ada").withLastName("Mala").withEmail("adamala@gmail.com").withPassword("1234").build());
+          userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ula").withLastName("Lula").withEmail("ulalula@gmail.com").withPassword("1234").build());
+          userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ala").withLastName("Hala").withEmail("alahala@gmail.com").withPassword("1234").build());
 
-          userService.addRoleToUser("luk", "ROLE_USER");
-          userService.addRoleToUser("luk", "ROLE_MANAGER");
-          userService.addRoleToUser("ada", "ROLE_MANAGER");
-          userService.addRoleToUser("ula", "ROLE_ADMIN");
-          userService.addRoleToUser("ala", "ROLE_SUPER_ADMIN");
-          userService.addRoleToUser("ala", "ROLE_ADMIN");
-          userService.addRoleToUser("ala", "ROLE_USER");
+
+          userService.addRoleToUser("lukpla@gmail.com", "ROLE_USER");
+          userService.addRoleToUser("lukpla@gmail.com", "ROLE_MANAGER");
+          userService.addRoleToUser("lukpla@gmail.com", "ROLE_ADMIN");
+          userService.addRoleToUser("adamala@gmail.com", "ROLE_MANAGER");
+          userService.addRoleToUser("ulalula@gmail.com", "ROLE_ADMIN");
+          userService.addRoleToUser("alahala@gmail.com", "ROLE_SUPER_ADMIN");
+          userService.addRoleToUser("alahala@gmail.com", "ROLE_ADMIN");
+          userService.addRoleToUser("alahala@gmail.com", "ROLE_USER");
         };
     }
 

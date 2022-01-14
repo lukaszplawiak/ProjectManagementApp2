@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 interface SqlUserRepository extends UserRepository, JpaRepository<User, Long> {
     @Override
-    void deleteUserByUsername(String username);
+    void deleteUserByEmail(String email);
 }

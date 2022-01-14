@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 
 public class ProjectRequestDto {
     @NotEmpty
-    @Size(min = 1, max = 50, message = "Name must be one or more characters")
+    @Size(min = 1, max = 50, message = "Name must be 2 or more characters")
     private String title;
-    @Size(max = 200)
+    @Size(max = 255)
     private String description;
     @NotNull(message = "Deadline is mandatory")
     private LocalDateTime deadline;
