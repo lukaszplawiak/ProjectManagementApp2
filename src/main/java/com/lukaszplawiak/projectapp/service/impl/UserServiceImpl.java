@@ -53,6 +53,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
+
+    @Override
+    public User getUser(String email) {
+        logger.info("Fetch user " + email + " from database");
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<UserResponseDto> getUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserResponseDto> usersResponse = users.stream()
+                .map(user -> mapToUserResponseDto(user))
+                .collect(Collectors.toList());
+        logger.info("Exposed all users");
+        return usersResponse;
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        logger.info("Exposed all roles");
+        return roleRepository.findAll();
+    }
+
+
     @Override
     public User saveUser(UserRequestDto userRequestDto) {
         User user = mapToUserEntity(userRequestDto);
@@ -80,22 +104,4 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.deleteUserByEmail(email);
         logger.info("Deleted user: " + email);
     }
-
-    @Override
-    public User getUser(String email) {
-        logger.info("Fetch user " + email + " to database");
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public List<UserResponseDto> getUsers() {
-        List<User> users = userRepository.findAll();
-        List<UserResponseDto> usersResponse = users.stream()
-                .map(user -> mapToUserResponseDto(user)).collect(Collectors.toList());
-        logger.info("Fetch all users");
-        return usersResponse;
-    }
-
-
-
 }

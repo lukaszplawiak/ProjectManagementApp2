@@ -32,6 +32,11 @@ class UserController {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/roles")
+    ResponseEntity<List<Role>> getAllRoles() {
+        return new ResponseEntity<>(userService.getRoles(), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/users/save")
     ResponseEntity<User> saveUser(@RequestBody UserRequestDto user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
