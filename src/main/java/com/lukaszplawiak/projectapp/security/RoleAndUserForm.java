@@ -1,6 +1,6 @@
-package com.lukaszplawiak.projectapp.model;
+package com.lukaszplawiak.projectapp.security;
 
-public class RoleToUserForm {
+public class RoleAndUserForm {
     private String username;
     private String roleName;
 

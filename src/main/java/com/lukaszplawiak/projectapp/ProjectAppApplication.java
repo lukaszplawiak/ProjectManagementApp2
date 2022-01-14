@@ -41,6 +41,7 @@ public class ProjectAppApplication {
           userService.addRoleToUser("ala", "ROLE_USER");
         };
     }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

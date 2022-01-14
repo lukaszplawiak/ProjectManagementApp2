@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskResponseDto> collect = tasks.stream()
                 .map(task -> mapToTaskReadDto(task))
                 .collect(Collectors.toList());
-        logger.info("Exposed all tasks of project of id: " + projectId);
+        logger.info("Exposed all the tasks of project of id: " + projectId);
         return collect;
     }
 

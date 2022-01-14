@@ -1,8 +1,15 @@
 package com.lukaszplawiak.projectapp.repository;
 
 import com.lukaszplawiak.projectapp.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.List;
+
+public interface UserRepository {
     User findByUsername(String username);
+
+    List<User> findAll();
+
+    User save(User user);
+
+    void deleteUserByUsername(String username);
 }
