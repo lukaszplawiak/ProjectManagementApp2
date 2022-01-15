@@ -36,14 +36,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/v1/login", "/api/v1/token/refresh").permitAll(); // przed "/api/**" moge podac HttpMethod.Get itp
-        http.authorizeRequests().antMatchers("/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeRequests().antMatchers("/api/v1/users/**", "/api/v1/roles/**"  ).hasAnyAuthority("ROLE_ADMIN");
-        http.authorizeRequests().anyRequest().authenticated();
-        http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests().antMatchers("/api/v1/login", "/api/v1/token/refresh").permitAll() // przed "/api/**" moge podac HttpMethod.Get itp
+                .antMatchers(HttpMethod.GET, "/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_MANAGER")
+                .antMatchers("/api/v1/projects/{id}").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/v1/users/**", "/api/v1/roles/**"  ).hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPER_ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(customAuthenticationFilter)
+                .addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

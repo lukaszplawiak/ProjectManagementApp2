@@ -5,26 +5,20 @@ import com.lukaszplawiak.projectapp.dto.UserResponseDto;
 import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.security.RoleAndUserForm;
-import com.lukaszplawiak.projectapp.service.RefreshTokenService;
 import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1")
 class UserController {
     private final UserService userService;
-    private final RefreshTokenService refreshTokenService;
 
-    public UserController(UserService userService, RefreshTokenService refreshTokenService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.refreshTokenService = refreshTokenService;
     }
 
     @GetMapping(path = "/users")
@@ -57,11 +51,6 @@ class UserController {
     ResponseEntity<String> deleteUser(@RequestBody RoleAndUserForm form) {
         userService.deleteUser(form.getEmail());
         return new ResponseEntity<>("Deleted user: " + form.getEmail(), HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/token/refresh")
-    void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        refreshTokenService.refreshToken(request, response);
     }
 }
 

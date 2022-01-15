@@ -26,4 +26,40 @@ public class ProjectRequestDto {
         return deadline;
     }
 
+
+    public static final class ProjectRequestDtoBuilder {
+        private String title;
+        private String description;
+        private LocalDateTime deadline;
+
+        private ProjectRequestDtoBuilder() {
+        }
+
+        public static ProjectRequestDtoBuilder aProjectRequestDto() {
+            return new ProjectRequestDtoBuilder();
+        }
+
+        public ProjectRequestDtoBuilder withTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public ProjectRequestDtoBuilder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public ProjectRequestDtoBuilder withDeadline(LocalDateTime deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public ProjectRequestDto build() {
+            ProjectRequestDto projectRequestDto = new ProjectRequestDto();
+            projectRequestDto.title = this.title;
+            projectRequestDto.deadline = this.deadline;
+            projectRequestDto.description = this.description;
+            return projectRequestDto;
+        }
+    }
 }

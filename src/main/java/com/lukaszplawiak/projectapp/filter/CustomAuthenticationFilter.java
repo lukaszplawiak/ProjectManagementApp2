@@ -44,7 +44,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
-        // for prod ready, secret below should be long, secure, encrypted well and saved somewhere else
+        // for prod ready, secret below should be long, secure, encrypted well and saved somewhere else(not plain text in application.properties!)
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername()) // tutaj unikalne pole do rozpoznania usera (zrobic UUID)
@@ -53,7 +53,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refresh_token = JWT.create()
-                .withSubject(user.getUsername()) // tutaj unikalne pole do rozpoznania usera (zrobic UUID)
+                .withSubject(user.getUsername()) // tutaj
                 .withExpiresAt(new Date(System.currentTimeMillis() + 600 * 60 * 1000))
                 .withIssuer(request.getRequestURI().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))

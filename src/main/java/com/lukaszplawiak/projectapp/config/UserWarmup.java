@@ -8,10 +8,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Warmup implements ApplicationListener<ContextRefreshedEvent> {
+public class UserWarmup implements ApplicationListener<ContextRefreshedEvent> {
     private final UserService userService;
 
-    public Warmup(UserService userService) {
+    public UserWarmup(UserService userService) {
         this.userService = userService;
     }
 
@@ -30,7 +30,7 @@ public class Warmup implements ApplicationListener<ContextRefreshedEvent> {
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_USER");
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_MANAGER");
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_ADMIN");
-        userService.addRoleToUser("adamala@gmail.com", "ROLE_MANAGER");
+        userService.addRoleToUser("adamala@gmail.com", "ROLE_USER");
         userService.addRoleToUser("ulalula@gmail.com", "ROLE_ADMIN");
         userService.addRoleToUser("alahala@gmail.com", "ROLE_SUPER_ADMIN");
         userService.addRoleToUser("alahala@gmail.com", "ROLE_ADMIN");
