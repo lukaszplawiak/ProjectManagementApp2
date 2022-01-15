@@ -8,7 +8,7 @@ import com.lukaszplawiak.projectapp.model.User;
 import java.util.List;
 
 public interface UserService {
-    User saveUser(UserRequestDto user);
+    UserResponseDto saveUser(UserRequestDto user);
 
     Role saveRole(Role role);
 

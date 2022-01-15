@@ -19,8 +19,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskEntityMapper.mapToTaskEntity;
-import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskReadDto;
-import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskRequestDtoMapper.mapToTaskWriteDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskResponseDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskRequestDtoMapper.mapToTaskRequestDto;
 
 @Service
 @Transactional
@@ -47,7 +47,7 @@ public class TaskServiceImpl implements TaskService {
         task.setProject(project);
         Task newTask = taskRepository.save(task);
         logger.info("Created task of id: " + newTask.getId());
-        return mapToTaskWriteDto(newTask);
+        return mapToTaskRequestDto(newTask);
     }
 
     @Override
@@ -58,14 +58,14 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Task does not belong to project");
         }
         logger.info("Exposed task of id: " + taskId);
-        return mapToTaskReadDto(task);
+        return mapToTaskResponseDto(task);
     }
 
     @Override
     public List<TaskResponseDto> getTasksByProject_Id(Long projectId, Pageable pageable) {
         List<Task> tasks = taskRepository.findByProjectId(projectId);
         List<TaskResponseDto> collect = tasks.stream()
-                .map(task -> mapToTaskReadDto(task))
+                .map(task -> mapToTaskResponseDto(task))
                 .collect(Collectors.toList());
         logger.info("Exposed all the tasks of project of id: " + projectId);
         return collect;
@@ -75,7 +75,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskResponseDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable) {
         List<Task> byDoneAndProjectId = taskRepository.findByDoneAndProjectId(done, projectId);
         List<TaskResponseDto> taskResponseDtoList = byDoneAndProjectId.stream()
-                .map(task -> mapToTaskReadDto(task))
+                .map(task -> mapToTaskResponseDto(task))
                 .collect(Collectors.toList());
         logger.info("Exposed all the tasks by 'done' state of project id: " + projectId);
         return taskResponseDtoList;
@@ -93,7 +93,7 @@ public class TaskServiceImpl implements TaskService {
         task.setComment(taskRequestDto.getComment());
         task.setDeadline(taskRequestDto.getDeadline());
         logger.info("Updated task of id: " + taskId);
-        return mapToTaskWriteDto(task);
+        return mapToTaskRequestDto(task);
     }
 
     @Override

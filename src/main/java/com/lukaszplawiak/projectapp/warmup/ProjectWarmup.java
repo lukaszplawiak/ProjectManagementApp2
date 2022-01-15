@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.config;
+package com.lukaszplawiak.projectapp.warmup;
 
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;

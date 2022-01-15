@@ -78,11 +78,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public User saveUser(UserRequestDto userRequestDto) {
+    public UserResponseDto saveUser(UserRequestDto userRequestDto) {
         User user = mapToUserEntity(userRequestDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         logger.info("Save new user " + user.getFirstName() + " to database");
-        return userRepository.save(user);
+        userRepository.save(user);
+        return mapToUserResponseDto(user);
     }
 
     @Override

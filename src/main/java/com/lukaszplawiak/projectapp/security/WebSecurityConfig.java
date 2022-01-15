@@ -40,10 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests().antMatchers("/api/v1/login", "/api/v1/token/refresh").permitAll() // przed "/api/**" moge podac HttpMethod.Get itp
-                .antMatchers(HttpMethod.GET, "/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_USER")
-                .antMatchers("/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_MANAGER")
-                .antMatchers("/api/v1/projects/{id}").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(HttpMethod.GET,"/api/v1/users/**", "/api/v1/roles/**"  ).hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPER_ADMIN")
+                .antMatchers(HttpMethod.GET, "/api/v1/projects/{id}", "/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PATCH, "/api/v1/projects/{id}/tasks/{id}").hasAnyAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/api/v1/projects/{id}/tasks/{id}").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/api/v1/projects/{id}", "/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_MANAGER")
+                //.antMatchers("/api/v1/projects/{id}/tasks/**").hasAnyAuthority("ROLE_MANAGER") - generowanie raportow !!
+                .antMatchers(HttpMethod.GET,"/api/v1/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(HttpMethod.PUT,"/api/v1/projects/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/**"  ).hasAnyAuthority("ROLE_SUPER_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(customAuthenticationFilter)

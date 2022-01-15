@@ -4,7 +4,7 @@ import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.model.Task;
 
 public class TaskResponseDtoMapper {
-    public static TaskResponseDto mapToTaskReadDto(Task task) {
+    public static TaskResponseDto mapToTaskResponseDto(Task task) {
         return TaskResponseDto.TaskResponseDtoBuilder.aTaskResponseDto()
                 .withId(task.getId())
                 .withName(task.getName())

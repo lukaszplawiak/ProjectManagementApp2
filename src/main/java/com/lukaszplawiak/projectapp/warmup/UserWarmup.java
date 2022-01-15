@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.config;
+package com.lukaszplawiak.projectapp.warmup;
 
 import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.model.Role;

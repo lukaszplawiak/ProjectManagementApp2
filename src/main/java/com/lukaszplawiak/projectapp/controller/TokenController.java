@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-public class TokenController {
+class TokenController {
     private final RefreshTokenService refreshTokenService;
 
     public TokenController(RefreshTokenService refreshTokenService) {

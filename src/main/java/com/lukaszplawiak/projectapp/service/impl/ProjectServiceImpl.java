@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectEntityMapper.mapToProjectEntity;
-import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectResponseDtoMapper.mapToProjectReadDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectResponseDtoMapper.mapToProjectResponseDto;
 
 @Service
 @Transactional
@@ -39,14 +39,14 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectResponseDto getProjectById(Long id) {
         Project project = projectRepository.getById(id);
         logger.info("Exposed project of id: " + id);
-        return mapToProjectReadDto(project);
+        return mapToProjectResponseDto(project);
     }
 
     @Override
     public List<ProjectResponseDto> getAllProjects(Pageable page) {
         List<Project> projectList = projectRepository.findAll(page).getContent();
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
-                .map(project -> mapToProjectReadDto(project))
+                .map(project -> mapToProjectResponseDto(project))
                 .collect(Collectors.toList());
         logger.warn("Exposed all the projects");
         return projectWriteDtoList;
@@ -56,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
     public List<ProjectResponseDto> getProjectsByDone(boolean done, Pageable page) {
         List<Project> projectList = projectRepository.findByDone(done);
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
-                .map(project -> mapToProjectReadDto(project))
+                .map(project -> mapToProjectResponseDto(project))
                 .collect(Collectors.toList());
         logger.info("Exposed all the projects by 'done' state");
         return projectWriteDtoList;
