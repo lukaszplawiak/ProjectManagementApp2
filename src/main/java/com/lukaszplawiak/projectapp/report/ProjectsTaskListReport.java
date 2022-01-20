@@ -1,6 +1,7 @@
 package com.lukaszplawiak.projectapp.report;
 
 import com.itextpdf.kernel.events.PdfDocumentEvent;
+import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
@@ -34,6 +35,7 @@ public class ProjectsTaskListReport {
         FooterEventHandler footerEventHandler = new FooterEventHandler();
         pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, headerEventHandler);
         pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
+        pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
 
         Document document = new Document(pdfDocument);
         Paragraph paragraph = new Paragraph("Project details with tasks");
@@ -43,7 +45,7 @@ public class ProjectsTaskListReport {
         paragraph.setMargin(10);
         document.add(paragraph);
 
-        float[] projectColumnWidth = {1, 4, 5, 3, 3, 3, 1};
+        float[] projectColumnWidth = {1, 4, 5, 3, 3, 3, 1, 1};
         Table projectTable = new Table(UnitValue.createPercentArray(projectColumnWidth));
         projectTable.setWidth(UnitValue.createPercentValue(100));
         projectTable.setFontSize(9);
@@ -54,6 +56,7 @@ public class ProjectsTaskListReport {
         projectTable.addHeaderCell("Created");
         projectTable.addHeaderCell("Updated");
         projectTable.addHeaderCell("Done");
+        projectTable.addHeaderCell("EmpId");
 
         String none = "not updated";
         projectTable.addCell(project.getId().toString());
@@ -67,6 +70,7 @@ public class ProjectsTaskListReport {
             projectTable.addCell(project.getAudit().getUpdatedOn().withSecond(0).toString());
         }
         projectTable.addCell(String.valueOf(project.isDone()));
+        projectTable.addCell(project.getUser().toString());
         document.add(projectTable);
 
         Paragraph paragraph2 = new Paragraph("Tasks");
@@ -74,7 +78,7 @@ public class ProjectsTaskListReport {
         paragraph2.setTextAlignment(TextAlignment.CENTER);
         document.add(paragraph2);
 
-        float[] taskColumnWidth = {1, 4, 5, 3, 3, 3, 1};
+        float[] taskColumnWidth = {1, 4, 5, 3, 3, 3, 1, 1};
         Table taskTable = new Table(UnitValue.createPercentArray(taskColumnWidth));
         taskTable.setWidth(UnitValue.createPercentValue(100));
         taskTable.setFontSize(9);
@@ -85,6 +89,7 @@ public class ProjectsTaskListReport {
         taskTable.addHeaderCell("Created");
         taskTable.addHeaderCell("Updated");
         taskTable.addHeaderCell("Done");
+        taskTable.addHeaderCell("EmpID");
 
         for (Task task : tasks) {
             taskTable.addCell(task.getId().toString());
@@ -98,6 +103,7 @@ public class ProjectsTaskListReport {
                 taskTable.addCell(task.getAudit().getUpdatedOn().withSecond(0).toString());
             }
             taskTable.addCell(String.valueOf(task.isDone()));
+            taskTable.addCell(task.getUser().toString());
         }
         document.add(taskTable);
         document.close();

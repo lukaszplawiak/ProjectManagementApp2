@@ -1,6 +1,5 @@
 package com.lukaszplawiak.projectapp.repository;
 
-import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import org.springframework.data.repository.query.Param;
 

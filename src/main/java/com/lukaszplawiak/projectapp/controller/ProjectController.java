@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ class ProjectController {
     }
 
     @PostMapping
-    ResponseEntity<ProjectRequestDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto) {
+    ResponseEntity<ProjectRequestDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto, Principal principal) {
         return new ResponseEntity<>(projectService.createProject(projectRequestDto), HttpStatus.CREATED);
     }
 

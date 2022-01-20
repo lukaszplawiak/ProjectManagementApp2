@@ -15,5 +15,4 @@ interface SqlProjectRepository extends ProjectRepository, JpaRepository<Project,
     default Project getById(Long id) {
         return ProjectRepository.super.getById(id);
     }
-
 }

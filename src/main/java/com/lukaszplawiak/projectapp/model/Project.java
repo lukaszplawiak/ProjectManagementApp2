@@ -2,7 +2,6 @@ package com.lukaszplawiak.projectapp.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,6 +20,9 @@ public class Project {
     private Audit audit = new Audit();
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
     private Set<Task> tasks = new HashSet<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Project() {
     }
@@ -65,6 +67,10 @@ public class Project {
         this.done = done;
     }
 
+    public Audit getAudit() {
+        return audit;
+    }
+
     public Set<Task> getTasks() {
         return tasks.stream().collect(Collectors.toUnmodifiableSet());
     }
@@ -73,8 +79,8 @@ public class Project {
         this.tasks = tasks;
     }
 
-    public Audit getAudit() {
-        return audit;
+    public User getUser() {
+        return user;
     }
 
     public static final class ProjectBuilder {

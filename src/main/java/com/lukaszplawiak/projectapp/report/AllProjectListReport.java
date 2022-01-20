@@ -29,10 +29,9 @@ public class AllProjectListReport {
         FooterEventHandler footerEventHandler = new FooterEventHandler();
         pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, headerEventHandler);
         pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
-
         pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
-        Document document = new Document(pdfDocument);
 
+        Document document = new Document(pdfDocument);
         Paragraph paragraph = new Paragraph("All Project's List");
         paragraph.setFontSize(12);
         paragraph.setTextAlignment(TextAlignment.CENTER);
@@ -40,7 +39,7 @@ public class AllProjectListReport {
         paragraph.setMargin(10);
         document.add(paragraph);
 
-        float[] columnWidth = {1, 12, 3, 4, 4, 2};
+        float[] columnWidth = {1, 12, 3, 4, 4, 2, 1};
         Table table = new Table(UnitValue.createPercentArray(columnWidth));
         table.setWidth(UnitValue.createPercentValue(100));
         table.addHeaderCell("ID");
@@ -49,6 +48,7 @@ public class AllProjectListReport {
         table.addHeaderCell("Created");
         table.addHeaderCell("Updated");
         table.addHeaderCell("Done");
+        table.addHeaderCell("EmpID");
 
         String none = "not updated";
         for (Project project : projects) {
@@ -62,6 +62,7 @@ public class AllProjectListReport {
                 table.addCell(project.getAudit().getUpdatedOn().withSecond(0).toString());
             }
             table.addCell(String.valueOf(project.isDone()));
+            table.addCell(project.getUser().toString());
         }
         document.add(table);
         document.close();

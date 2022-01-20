@@ -2,7 +2,6 @@ package com.lukaszplawiak.projectapp.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +19,9 @@ public class Task {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
     private Project project;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Task() {
     }
@@ -64,6 +66,10 @@ public class Task {
         this.done = done;
     }
 
+    public Audit getAudit() {
+        return audit;
+    }
+
     public Project getProject() {
         return project;
     }
@@ -72,8 +78,8 @@ public class Task {
         this.project = project;
     }
 
-    public Audit getAudit() {
-        return audit;
+    public User getUser() {
+        return user;
     }
 
     @Override
