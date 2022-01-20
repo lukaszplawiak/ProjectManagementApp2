@@ -27,7 +27,7 @@ class TaskController {
 
     @GetMapping
     ResponseEntity<List<TaskResponseDto>> readTasksByProjectId(@PathVariable Long projectId, Pageable pageable) {
-        return new ResponseEntity<>(taskService.getTasksByProject_Id(projectId, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(taskService.getTasksDtoByProjectId(projectId, pageable), HttpStatus.OK);
     }
     @GetMapping(path = "/{taskId}")
     ResponseEntity<TaskResponseDto> readTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
@@ -36,7 +36,7 @@ class TaskController {
 
     @GetMapping(path = "/search")
     ResponseEntity<List<TaskResponseDto>> readTasksByDoneIsFalseAndProjectId(@PathVariable Long projectId, @RequestParam(defaultValue = "false") boolean done, Pageable pageable) {
-        return new ResponseEntity<>(taskService.getTasksByDoneIsFalseAndProject_Id(projectId, done, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(taskService.getTasksByDoneIsFalseAndProjectId(projectId, done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{taskId}")

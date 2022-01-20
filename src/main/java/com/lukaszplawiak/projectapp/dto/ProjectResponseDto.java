@@ -1,5 +1,6 @@
 package com.lukaszplawiak.projectapp.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -8,7 +9,7 @@ public class ProjectResponseDto {
     private Long id;
     private String title;
     private String description;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
     private boolean done;
     private Set<TaskResponseDto> tasks = new HashSet<>();
 
@@ -24,7 +25,7 @@ public class ProjectResponseDto {
         return description;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
@@ -41,7 +42,7 @@ public class ProjectResponseDto {
         private Long id;
         private String title;
         private String description;
-        private LocalDateTime deadline;
+        private LocalDate deadline;
         private boolean done;
         private Set<TaskResponseDto> tasks = new HashSet<>();
 
@@ -67,7 +68,7 @@ public class ProjectResponseDto {
             return this;
         }
 
-        public ProjectResponseDtoBuilder withDeadline(LocalDateTime deadline) {
+        public ProjectResponseDtoBuilder withDeadline(LocalDate deadline) {
             this.deadline = deadline;
             return this;
         }

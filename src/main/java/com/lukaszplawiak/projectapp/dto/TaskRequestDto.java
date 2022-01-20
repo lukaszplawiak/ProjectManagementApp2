@@ -3,6 +3,7 @@ package com.lukaszplawiak.projectapp.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TaskRequestDto {
@@ -11,7 +12,7 @@ public class TaskRequestDto {
     private String name;
     @Size(max = 255)
     private String comment;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
 
     public String getName() {
         return name;
@@ -21,14 +22,14 @@ public class TaskRequestDto {
         return comment;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
     public static final class TaskRequestDtoBuilder {
         private String name;
         private String comment;
-        private LocalDateTime deadline;
+        private LocalDate deadline;
 
         private TaskRequestDtoBuilder() {
         }
@@ -47,7 +48,7 @@ public class TaskRequestDto {
             return this;
         }
 
-        public TaskRequestDtoBuilder withDeadline(LocalDateTime deadline) {
+        public TaskRequestDtoBuilder withDeadline(LocalDate deadline) {
             this.deadline = deadline;
             return this;
         }

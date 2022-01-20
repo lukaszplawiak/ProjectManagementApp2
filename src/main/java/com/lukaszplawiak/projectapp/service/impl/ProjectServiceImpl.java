@@ -36,7 +36,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectResponseDto getProjectById(Long id) {
+    public Project getProjectById(Long id) {
+        return projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found"));
+    }
+
+    @Override
+    public ProjectResponseDto getProjectDtoById(Long id) {
         Project project = projectRepository.getById(id);
         logger.info("Fetch project of id: " + id);
         return mapToProjectResponseDto(project);

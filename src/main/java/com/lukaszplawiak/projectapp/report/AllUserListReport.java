@@ -8,14 +8,13 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
-import com.lukaszplawiak.projectapp.dto.UserResponseDto;
 import com.lukaszplawiak.projectapp.model.User;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class UserListReport {
+public class AllUserListReport {
     private List<User> users;
 
     public void setUsers(List<User> users) {
@@ -37,7 +36,7 @@ public class UserListReport {
         paragraph.setBold();
         paragraph.setMargin(10);
         document.add(paragraph);
-        // Add table
+
         Table table = new Table(4);
         table.setWidth(UnitValue.createPercentValue(100));
         table.setFontSize(10);

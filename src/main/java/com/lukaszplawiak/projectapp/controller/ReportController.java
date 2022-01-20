@@ -1,12 +1,16 @@
 package com.lukaszplawiak.projectapp.controller;
 
 import com.lukaszplawiak.projectapp.model.Project;
+import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
-import com.lukaszplawiak.projectapp.report.ProjectListReport;
-import com.lukaszplawiak.projectapp.report.UserListReport;
+import com.lukaszplawiak.projectapp.report.AllProjectListReport;
+import com.lukaszplawiak.projectapp.report.AllUserListReport;
+import com.lukaszplawiak.projectapp.report.ProjectsTaskListReport;
 import com.lukaszplawiak.projectapp.service.ProjectService;
+import com.lukaszplawiak.projectapp.service.TaskService;
 import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,10 +26,12 @@ import java.util.List;
 class ReportController {
     private final UserService userService;
     private final ProjectService projectService;
+    private final TaskService taskService;
 
-    ReportController(UserService userService, ProjectService projectService) {
+    ReportController(UserService userService, ProjectService projectService, TaskService taskService) {
         this.userService = userService;
         this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @GetMapping(path = "/users")
@@ -37,7 +43,7 @@ class ReportController {
         String headerValue = "attachment; filename=Users_List_Report_"+currentDateTime+".pdf";
         response.setHeader(headerKey, headerValue);
         List<User> users = userService.getUsers();
-        UserListReport generator = new UserListReport();
+        AllUserListReport generator = new AllUserListReport();
         generator.setUsers(users);
         generator.generateUserList(response);
     }
@@ -51,8 +57,24 @@ class ReportController {
         String headerValue = "attachment; filename=Project_List_Report_"+currentDateTime+".pdf";
         response.setHeader(headerKey, headerValue);
         List<Project> projects = projectService.getAllProjects();
-        ProjectListReport generator = new ProjectListReport();
+        AllProjectListReport generator = new AllProjectListReport();
         generator.setProjects(projects);
         generator.generateProjectList(response);
+    }
+
+    @GetMapping(path = "/projects/{id}")
+    public void getReportProjectsTaskList(HttpServletResponse response, @PathVariable Long id) throws IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Project_List_Report_"+currentDateTime+".pdf";
+        response.setHeader(headerKey, headerValue);
+        Project projects = projectService.getProjectById(id);
+        List<Task> tasks = taskService.getTasksByProjectId(id);
+        ProjectsTaskListReport generator = new ProjectsTaskListReport();
+        generator.setProjects(projects);
+        generator.setTasks(tasks);
+        generator.generateProjectsTaskList(response);
     }
 }

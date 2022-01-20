@@ -1,6 +1,7 @@
 package com.lukaszplawiak.projectapp.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -12,7 +13,7 @@ public class Task {
     private Long id;
     private String name;
     private String comment;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
     private boolean done;
     @Embedded
     private Audit audit = new Audit();
@@ -47,11 +48,11 @@ public class Task {
         this.comment = description;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
@@ -69,6 +70,10 @@ public class Task {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public Audit getAudit() {
+        return audit;
     }
 
     @Override
@@ -106,7 +111,7 @@ public class Task {
             return this;
         }
 
-        public Builder withDeadline(LocalDateTime deadline) {
+        public Builder withDeadline(LocalDate deadline) {
             task.setDeadline(deadline);
             return this;
         }

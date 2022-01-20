@@ -1,12 +1,13 @@
 package com.lukaszplawiak.projectapp.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class TaskResponseDto {
     private Long id;
     private String name;
     private String comment;
-    private LocalDateTime deadline;
+    private LocalDate deadline;
     private boolean done;
 
     public Long getId() {
@@ -21,7 +22,7 @@ public class TaskResponseDto {
         return comment;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
@@ -34,7 +35,7 @@ public class TaskResponseDto {
         private Long id;
         private String name;
         private String comment;
-        private LocalDateTime deadline;
+        private LocalDate deadline;
         private boolean done;
 
         private TaskResponseDtoBuilder() {
@@ -59,7 +60,7 @@ public class TaskResponseDto {
             return this;
         }
 
-        public TaskResponseDtoBuilder withDeadline(LocalDateTime deadline) {
+        public TaskResponseDtoBuilder withDeadline(LocalDate deadline) {
             this.deadline = deadline;
             return this;
         }

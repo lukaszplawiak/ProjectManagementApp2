@@ -4,7 +4,7 @@ create table tasks
     id BIGINT primary key auto_increment,
     name varchar(50) not null,
     comment varchar(255),
-    deadline DATETIME null,
+    deadline DATE null,
     done bit,
     created_on DATETIME null,
     updated_on DATETIME null,

@@ -3,6 +3,7 @@ package com.lukaszplawiak.projectapp.dto;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ProjectRequestDto {
@@ -12,7 +13,7 @@ public class ProjectRequestDto {
     @Size(max = 255)
     private String description;
     @NotNull(message = "Deadline is mandatory")
-    private LocalDateTime deadline;
+    private LocalDate deadline;
 
     public String getTitle() {
         return title;
@@ -22,7 +23,7 @@ public class ProjectRequestDto {
         return description;
     }
 
-    public LocalDateTime getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
@@ -30,7 +31,7 @@ public class ProjectRequestDto {
     public static final class ProjectRequestDtoBuilder {
         private String title;
         private String description;
-        private LocalDateTime deadline;
+        private LocalDate deadline;
 
         private ProjectRequestDtoBuilder() {
         }
@@ -49,7 +50,7 @@ public class ProjectRequestDto {
             return this;
         }
 
-        public ProjectRequestDtoBuilder withDeadline(LocalDateTime deadline) {
+        public ProjectRequestDtoBuilder withDeadline(LocalDate deadline) {
             this.deadline = deadline;
             return this;
         }

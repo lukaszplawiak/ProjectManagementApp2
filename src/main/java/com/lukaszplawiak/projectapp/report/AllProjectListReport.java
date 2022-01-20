@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ProjectListReport {
-    public static final Logger logger = LoggerFactory.getLogger(ProjectListReport.class);
+public class AllProjectListReport {
+    public static final Logger logger = LoggerFactory.getLogger(AllProjectListReport.class);
     private List<Project> projects;
 
     public void setProjects(List<Project> projects) {
@@ -34,8 +34,6 @@ public class ProjectListReport {
         pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
 
         pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
-
-
         Document document = new Document(pdfDocument);
 
         Paragraph paragraph = new Paragraph("All Project's List");
@@ -45,7 +43,7 @@ public class ProjectListReport {
         paragraph.setMargin(10);
         document.add(paragraph);
 
-        float[] columnWidth = {1, 12, 4, 4, 4, 2};
+        float[] columnWidth = {1, 12, 3, 4, 4, 2};
         Table table = new Table(UnitValue.createPercentArray(columnWidth));
         table.setWidth(UnitValue.createPercentValue(100));
         table.addHeaderCell("ID");
@@ -54,12 +52,12 @@ public class ProjectListReport {
         table.addHeaderCell("Created");
         table.addHeaderCell("Updated");
         table.addHeaderCell("Done");
-        String none = "not updated";
 
+        String none = "not updated";
         for (Project project : projects) {
             table.addCell(project.getId().toString());
             table.addCell(project.getTitle());
-            table.addCell(project.getDeadline().withSecond(0).toString());
+            table.addCell(project.getDeadline().toString());
             table.addCell(project.getAudit().getCreatedOn().withSecond(0).toString());
             if (project.getAudit().getUpdatedOn() == null) {
                 table.addCell(none);

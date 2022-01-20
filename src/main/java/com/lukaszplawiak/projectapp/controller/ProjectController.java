@@ -27,7 +27,7 @@ class ProjectController {
 
     @GetMapping(path = "/{id}")
     ResponseEntity<ProjectResponseDto> readProjectById(@PathVariable Long id) {
-        return new ResponseEntity<>(projectService.getProjectById(id), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.getProjectDtoById(id), HttpStatus.OK);
     }
 
     @GetMapping

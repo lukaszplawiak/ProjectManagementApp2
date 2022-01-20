@@ -2,6 +2,7 @@ package com.lukaszplawiak.projectapp.service;
 
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
+import com.lukaszplawiak.projectapp.model.Task;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -11,9 +12,11 @@ public interface TaskService {
 
     TaskResponseDto getTaskById(Long projectId, Long taskId);
 
-    List<TaskResponseDto> getTasksByProject_Id(Long projectId, Pageable pageable);
+    List<Task> getTasksByProjectId(Long id);
 
-    List<TaskResponseDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable);
+    List<TaskResponseDto> getTasksDtoByProjectId(Long projectId, Pageable pageable);
+
+    List<TaskResponseDto> getTasksByDoneIsFalseAndProjectId(Long projectId, boolean done, Pageable pageable);
 
     TaskRequestDto updateTaskById(Long projectId, Long TaskId, TaskRequestDto taskRequestDto);
 

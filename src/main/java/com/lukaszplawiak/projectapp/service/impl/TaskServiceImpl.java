@@ -62,7 +62,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponseDto> getTasksByProject_Id(Long projectId, Pageable pageable) {
+    public List<Task> getTasksByProjectId(Long id) {
+        return taskRepository.findByProjectId(id);
+    }
+
+    @Override
+    public List<TaskResponseDto> getTasksDtoByProjectId(Long projectId, Pageable pageable) {
         List<Task> tasks = taskRepository.findByProjectId(projectId);
         List<TaskResponseDto> collect = tasks.stream()
                 .map(task -> mapToTaskResponseDto(task))
@@ -72,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskResponseDto> getTasksByDoneIsFalseAndProject_Id(Long projectId, boolean done, Pageable pageable) {
+    public List<TaskResponseDto> getTasksByDoneIsFalseAndProjectId(Long projectId, boolean done, Pageable pageable) {
         List<Task> byDoneAndProjectId = taskRepository.findByDoneAndProjectId(done, projectId);
         List<TaskResponseDto> taskResponseDtoList = byDoneAndProjectId.stream()
                 .map(task -> mapToTaskResponseDto(task))
