@@ -72,6 +72,9 @@ public class Project {
         this.tasks = tasks;
     }
 
+    public Audit getAudit() {
+        return audit;
+    }
 
     public static final class ProjectBuilder {
         private Project project;

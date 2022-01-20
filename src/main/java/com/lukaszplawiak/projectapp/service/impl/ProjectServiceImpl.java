@@ -38,17 +38,22 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponseDto getProjectById(Long id) {
         Project project = projectRepository.getById(id);
-        logger.info("Exposed project of id: " + id);
+        logger.info("Fetch project of id: " + id);
         return mapToProjectResponseDto(project);
     }
 
     @Override
-    public List<ProjectResponseDto> getAllProjects(Pageable page) {
+    public List<Project> getAllProjects() {
+        return projectRepository.findAll();
+    }
+
+    @Override
+    public List<ProjectResponseDto> getAllDtoProjects(Pageable page) {
         List<Project> projectList = projectRepository.findAll(page).getContent();
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectResponseDto(project))
                 .collect(Collectors.toList());
-        logger.warn("Exposed all the projects");
+        logger.warn("Fetch all the projects");
         return projectWriteDtoList;
     }
 
@@ -58,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectResponseDto(project))
                 .collect(Collectors.toList());
-        logger.info("Exposed all the projects by 'done' state");
+        logger.info("Fetch all the projects by 'done' state");
         return projectWriteDtoList;
     }
 

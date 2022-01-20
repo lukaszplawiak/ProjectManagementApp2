@@ -2,6 +2,7 @@ package com.lukaszplawiak.projectapp.service;
 
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
+import com.lukaszplawiak.projectapp.model.Project;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -11,7 +12,9 @@ public interface ProjectService {
 
     ProjectResponseDto getProjectById(Long id);
 
-    List<ProjectResponseDto> getAllProjects(Pageable pageable);
+    List<Project> getAllProjects();
+
+    List<ProjectResponseDto> getAllDtoProjects(Pageable pageable);
 
     List<ProjectResponseDto> getProjectsByDone(boolean done, Pageable pageable);
 

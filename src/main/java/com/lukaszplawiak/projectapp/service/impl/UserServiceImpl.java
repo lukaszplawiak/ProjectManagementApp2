@@ -61,18 +61,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserResponseDto> getUsers() {
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<UserResponseDto> getDtoUsers() {
         List<User> users = userRepository.findAll();
         List<UserResponseDto> usersResponse = users.stream()
                 .map(user -> mapToUserResponseDto(user))
                 .collect(Collectors.toList());
-        logger.info("Exposed all users");
+        logger.info("Fetch all users");
         return usersResponse;
     }
 
     @Override
     public List<Role> getRoles() {
-        logger.info("Exposed all roles");
+        logger.info("Fetch all roles");
         return roleRepository.findAll();
     }
 

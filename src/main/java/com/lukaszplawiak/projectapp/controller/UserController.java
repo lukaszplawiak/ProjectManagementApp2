@@ -22,7 +22,7 @@ class UserController {
 
     @GetMapping(path = "/users")
     ResponseEntity<List<UserResponseDto>> getAllUsers() {
-        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getDtoUsers(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/roles")

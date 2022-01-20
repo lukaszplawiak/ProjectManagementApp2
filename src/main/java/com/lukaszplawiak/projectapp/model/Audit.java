@@ -10,6 +10,22 @@ public class Audit {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
 
+    public LocalDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    void setCreatedOn(LocalDateTime createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public LocalDateTime getUpdatedOn() {
+        return updatedOn;
+    }
+
+    void setUpdatedOn(LocalDateTime updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
     @PrePersist
     void prePersist() {
         createdOn = LocalDateTime.now().withNano(0);

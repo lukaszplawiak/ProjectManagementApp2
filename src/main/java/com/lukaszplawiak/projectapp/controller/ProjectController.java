@@ -32,7 +32,7 @@ class ProjectController {
 
     @GetMapping
     ResponseEntity<List<ProjectResponseDto>> readAllProjects(Pageable pageable) {
-        return new ResponseEntity<>(projectService.getAllProjects(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.getAllDtoProjects(pageable), HttpStatus.OK);
     }
 
     @GetMapping(path = "/search")

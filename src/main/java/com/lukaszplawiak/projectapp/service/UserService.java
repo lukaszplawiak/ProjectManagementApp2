@@ -14,7 +14,9 @@ public interface UserService {
 
     User getUser(String email);
 
-    List<UserResponseDto> getUsers();
+    List<User> getUsers();
+
+    List<UserResponseDto> getDtoUsers();
 
     List<Role> getRoles();
 

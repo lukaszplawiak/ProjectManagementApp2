@@ -30,6 +30,7 @@ public class UserWarmup implements ApplicationListener<ContextRefreshedEvent> {
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_USER");
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_MANAGER");
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_ADMIN");
+        userService.addRoleToUser("lukpla@gmail.com", "ROLE_SUPER_ADMIN");
         userService.addRoleToUser("adamala@gmail.com", "ROLE_USER");
         userService.addRoleToUser("ulalula@gmail.com", "ROLE_ADMIN");
         userService.addRoleToUser("alahala@gmail.com", "ROLE_SUPER_ADMIN");

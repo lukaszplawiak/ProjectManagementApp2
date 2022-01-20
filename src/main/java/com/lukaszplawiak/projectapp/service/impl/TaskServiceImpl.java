@@ -57,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
-        logger.info("Exposed task of id: " + taskId);
+        logger.info("Fetch task of id: " + taskId);
         return mapToTaskResponseDto(task);
     }
 
@@ -67,7 +67,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskResponseDto> collect = tasks.stream()
                 .map(task -> mapToTaskResponseDto(task))
                 .collect(Collectors.toList());
-        logger.info("Exposed all the tasks of project of id: " + projectId);
+        logger.info("Fetch all the tasks of project of id: " + projectId);
         return collect;
     }
 
@@ -77,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
         List<TaskResponseDto> taskResponseDtoList = byDoneAndProjectId.stream()
                 .map(task -> mapToTaskResponseDto(task))
                 .collect(Collectors.toList());
-        logger.info("Exposed all the tasks by 'done' state of project id: " + projectId);
+        logger.info("Fetch all the tasks by 'done' state of project id: " + projectId);
         return taskResponseDtoList;
     }
 

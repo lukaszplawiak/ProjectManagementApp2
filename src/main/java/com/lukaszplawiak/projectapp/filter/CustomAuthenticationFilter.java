@@ -3,8 +3,12 @@ package com.lukaszplawiak.projectapp.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lukaszplawiak.projectapp.config.PropertiesConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +31,8 @@ import java.util.stream.Collectors;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationFilter.class);
+//    @Value("jwt.secret")
+//    private PropertiesConfig secret;
 
     public CustomAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -44,10 +50,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
-        // for prod ready, secret below should be long, secure, encrypted well and saved somewhere else(not plain text in application.properties!)
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+        // for prod ready, secret below should point to 'spring.security.oauth2.resourceserver.jwt.public-key-location' in app.properties and then point to safe place
+        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes()); // secret.getBytes()
         String access_token = JWT.create()
-                .withSubject(user.getUsername()) // tutaj unikalne pole do rozpoznania usera (zrobic UUID)
+                .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
                 .withIssuer(request.getRequestURI().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
