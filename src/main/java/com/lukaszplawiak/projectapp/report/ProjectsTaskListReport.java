@@ -68,7 +68,7 @@ public class ProjectsTaskListReport {
         }
         projectTable.addCell(String.valueOf(project.isDone()));
         document.add(projectTable);
-        
+
         Paragraph paragraph2 = new Paragraph("Tasks");
         paragraph2.setFontSize(12);
         paragraph2.setTextAlignment(TextAlignment.CENTER);

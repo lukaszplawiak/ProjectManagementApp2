@@ -40,7 +40,7 @@ class ReportController {
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String currentDateTime = dateFormat.format(new Date());
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Users_List_Report_"+currentDateTime+".pdf";
+        String headerValue = "attachment; filename=Employees_List_Report_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<User> users = userService.getUsers();
         AllUserListReport generator = new AllUserListReport();
@@ -54,7 +54,7 @@ class ReportController {
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String currentDateTime = dateFormat.format(new Date());
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Project_List_Report_"+currentDateTime+".pdf";
+        String headerValue = "attachment; filename=Projects_List_Report_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<Project> projects = projectService.getAllProjects();
         AllProjectListReport generator = new AllProjectListReport();
@@ -68,7 +68,7 @@ class ReportController {
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
         String currentDateTime = dateFormat.format(new Date());
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Project_List_Report_"+currentDateTime+".pdf";
+        String headerValue = "attachment; filename=Project_Details_List_Report_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
         Project projects = projectService.getProjectById(id);
         List<Task> tasks = taskService.getTasksByProjectId(id);
