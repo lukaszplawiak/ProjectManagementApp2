@@ -5,14 +5,12 @@ import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.report.AllProjectListReport;
 import com.lukaszplawiak.projectapp.report.AllUserListReport;
+import com.lukaszplawiak.projectapp.report.DoneProjectsListReport;
 import com.lukaszplawiak.projectapp.report.ProjectsTaskListReport;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import com.lukaszplawiak.projectapp.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -76,5 +74,19 @@ class ReportController {
         generator.setProjects(projects);
         generator.setTasks(tasks);
         generator.generateProjectsTaskList(response);
+    }
+
+    @GetMapping(path = "/projects/search")
+    public void getReportProjectsTaskList(HttpServletResponse response, @RequestParam(defaultValue = "true") boolean done) throws IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=Projects_Done_List_Report_" + currentDateTime + ".pdf";
+        response.setHeader(headerKey, headerValue);
+        List<Project> projects = projectService.getProjectByDone(done);
+        DoneProjectsListReport generator = new DoneProjectsListReport();
+        generator.setProjects(projects);
+        generator.generateDoneProjectList(response);
     }
 }

@@ -15,14 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class AllProjectListReport {
+public class DoneProjectsListReport {
     private List<Project> projects;
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
 
-    public void generateProjectList(HttpServletResponse response) throws IOException {
+    public void generateDoneProjectList(HttpServletResponse response) throws IOException {
         PdfWriter writer = new PdfWriter(response.getOutputStream());
         PdfDocument pdfDocument = new PdfDocument(writer);
         HeaderEventHandler headerEventHandler = new HeaderEventHandler("Project Management App by Lukasz Plawiak");
@@ -33,7 +33,7 @@ public class AllProjectListReport {
         pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
         Document document = new Document(pdfDocument);
 
-        Paragraph paragraph = new Paragraph("All Project's List");
+        Paragraph paragraph = new Paragraph("Projects Done List");
         paragraph.setFontSize(12);
         paragraph.setTextAlignment(TextAlignment.CENTER);
         paragraph.setBold();

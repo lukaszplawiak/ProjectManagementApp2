@@ -37,7 +37,7 @@ class ProjectController {
 
     @GetMapping(path = "/search")
     ResponseEntity<List<ProjectResponseDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean done, Pageable pageable) {
-        return new ResponseEntity<>(projectService.getProjectsByDone(done, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.getProjectsDtoByDone(done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")

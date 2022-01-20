@@ -18,7 +18,9 @@ public interface ProjectService {
 
     List<ProjectResponseDto> getAllDtoProjects(Pageable pageable);
 
-    List<ProjectResponseDto> getProjectsByDone(boolean done, Pageable pageable);
+    List<Project> getProjectByDone(boolean done);
+
+    List<ProjectResponseDto> getProjectsDtoByDone(boolean done, Pageable pageable);
 
     ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id);
 

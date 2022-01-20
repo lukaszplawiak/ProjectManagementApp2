@@ -63,7 +63,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectResponseDto> getProjectsByDone(boolean done, Pageable page) {
+    public List<Project> getProjectByDone(boolean done) {
+        return projectRepository.findByDone(done);
+    }
+
+    @Override
+    public List<ProjectResponseDto> getProjectsDtoByDone(boolean done, Pageable page) {
         List<Project> projectList = projectRepository.findByDone(done);
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectResponseDto(project))
