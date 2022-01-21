@@ -22,8 +22,8 @@ public class UserWarmup implements ApplicationListener<ContextRefreshedEvent> {
         userService.saveRole(new Role(null, "ROLE_ADMIN"));
         userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
-        userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Luk").withLastName("PLa").withEmail("lukpla@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ada").withLastName("Mala").withEmail("adamala@gmail.com").withPassword("1234").build());
+        userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Luk").withLastName("PLa").withEmail("lukpla@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ula").withLastName("Lula").withEmail("ulalula@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ala").withLastName("Hala").withEmail("alahala@gmail.com").withPassword("1234").build());
 

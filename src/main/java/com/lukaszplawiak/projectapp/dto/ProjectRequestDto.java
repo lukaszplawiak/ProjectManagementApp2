@@ -4,7 +4,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class ProjectRequestDto {
     @NotEmpty
@@ -26,7 +25,6 @@ public class ProjectRequestDto {
     public LocalDate getDeadline() {
         return deadline;
     }
-
 
     public static final class ProjectRequestDtoBuilder {
         private String title;

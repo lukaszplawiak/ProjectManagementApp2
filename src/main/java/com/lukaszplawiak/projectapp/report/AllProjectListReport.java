@@ -62,9 +62,67 @@ public class AllProjectListReport {
                 table.addCell(project.getAudit().getUpdatedOn().withSecond(0).toString());
             }
             table.addCell(String.valueOf(project.isDone()));
-            table.addCell(project.getUser().toString());
+            table.addCell(project.getUser().getId().toString());
         }
         document.add(table);
         document.close();
     }
+
+
+
+
+
+
+
+//    private List<Project> projects;
+//
+//    public void setProjects(List<Project> projects) {
+//        this.projects = projects;
+//    }
+//
+//    public void generateProjectList(HttpServletResponse response) throws IOException {
+//        PdfWriter writer = new PdfWriter(response.getOutputStream());
+//        PdfDocument pdfDocument = new PdfDocument(writer);
+//        HeaderEventHandler headerEventHandler = new HeaderEventHandler("Project Management App by Lukasz Plawiak");
+//        FooterEventHandler footerEventHandler = new FooterEventHandler();
+//        pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, headerEventHandler);
+//        pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
+//        pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
+//
+//        Document document = new Document(pdfDocument);
+//        Paragraph paragraph = new Paragraph("All Project's List");
+//        paragraph.setFontSize(12);
+//        paragraph.setTextAlignment(TextAlignment.CENTER);
+//        paragraph.setBold();
+//        paragraph.setMargin(10);
+//        document.add(paragraph);
+//
+//        float[] columnWidth = {1, 12, 3, 4, 4, 2, 1};
+//        Table table = new Table(UnitValue.createPercentArray(columnWidth));
+//        table.setWidth(UnitValue.createPercentValue(100));
+//        table.addHeaderCell("ID");
+//        table.addHeaderCell("Title");
+//        table.addHeaderCell("Deadline");
+//        table.addHeaderCell("Created");
+//        table.addHeaderCell("Updated");
+//        table.addHeaderCell("Done");
+//        table.addHeaderCell("Employee");
+//
+//        String none = "not updated";
+//        for (Project project : projects) {
+//            table.addCell(project.getId().toString());
+//            table.addCell(project.getTitle());
+//            table.addCell(project.getDeadline().toString());
+//            table.addCell(project.getAudit().getCreatedOn().withSecond(0).toString());
+//            if (project.getAudit().getUpdatedOn() == null) {
+//                table.addCell(none);
+//            } else {
+//                table.addCell(project.getAudit().getUpdatedOn().withSecond(0).toString());
+//            }
+//            table.addCell(String.valueOf(project.isDone()));
+//            table.addCell(project.getUser().getFirstName() + " " + project.getUser().getLastName());
+//        }
+//        document.add(table);
+//        document.close();
+//    }
 }

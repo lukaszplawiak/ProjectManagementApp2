@@ -48,7 +48,7 @@ public class DoneProjectsListReport {
         table.addHeaderCell("Created");
         table.addHeaderCell("Updated");
         table.addHeaderCell("Done");
-        table.addHeaderCell("EmpID");
+        table.addHeaderCell("Employee");
 
         String none = "not updated";
         for (Project project : projects) {
@@ -62,7 +62,7 @@ public class DoneProjectsListReport {
                 table.addCell(project.getAudit().getUpdatedOn().withSecond(0).toString());
             }
             table.addCell(String.valueOf(project.isDone()));
-            table.addCell(project.getUser().toString());
+            table.addCell(project.getUser().getFirstName() + " " + project.getUser().getLastName());
         }
         document.add(table);
         document.close();

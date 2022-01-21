@@ -2,9 +2,11 @@ package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
+import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
 import com.lukaszplawiak.projectapp.exception.IllegalCreateTaskException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
+import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.repository.TaskRepository;
 import com.lukaszplawiak.projectapp.service.TaskService;
@@ -37,8 +39,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto) {
+    public TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
+        if (!(project.getUser().getId() == user.getId())) {
+            logger.info("Update access denied");
+            throw new IllegalAccessException("Update access denied");
+        }
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
             throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible");
@@ -87,9 +93,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskRequestDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto) {
+    public TaskRequestDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
+        if (!(project.getUser().getId() == user.getId())) {
+            logger.info("Update access denied");
+            throw new IllegalAccessException("Update access denied");
+        }
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }
@@ -102,9 +112,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTaskById(Long projectId, Long taskId) {
+    public void deleteTaskById(Long projectId, Long taskId, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
+        if (!(project.getUser().getId() == user.getId())) {
+            logger.info("Update access denied");
+            throw new IllegalAccessException("Update access denied");
+        }
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
         }

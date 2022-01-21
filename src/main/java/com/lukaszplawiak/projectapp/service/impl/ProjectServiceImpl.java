@@ -2,7 +2,9 @@ package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
+import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
 import com.lukaszplawiak.projectapp.model.Project;
+import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import org.slf4j.Logger;
@@ -28,8 +30,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectRequestDto createProject(ProjectRequestDto projectRequestDto) {
+    public ProjectRequestDto createProject(ProjectRequestDto projectRequestDto, User user) {
         Project project = mapToProjectEntity(projectRequestDto);
+        project.setUser(user);
         projectRepository.save(project);
         logger.info("Created project of id: " + project.getId());
         return projectRequestDto;
@@ -78,8 +81,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id) {
+    public ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user) {
         Project project = projectRepository.getById(id);
+        if (!(project.getUser().getId() == user.getId())) {
+            logger.info("Update access denied");
+            throw new IllegalAccessException("Update access denied");
+        }
         project.setId(id);
         project.setTitle(projectRequestDto.getTitle());
         project.setDescription(projectRequestDto.getDescription());
@@ -89,8 +96,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public void deleteProjectById(Long id) {
+    public void deleteProjectById(Long id, User user) {
         Project project = projectRepository.getById(id);
+        if (!(project.getUser().getId() == user.getId())) {
+            logger.info("Access denied");
+            throw new IllegalAccessException("Access denied");
+        }
         projectRepository.delete(project);
         logger.info("Deleted project of id: " + id);
     }

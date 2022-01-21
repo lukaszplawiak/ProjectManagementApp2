@@ -9,9 +9,8 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.properties.TextAlignment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 class HeaderEventHandler implements IEventHandler {
     private String header;
@@ -21,14 +20,15 @@ class HeaderEventHandler implements IEventHandler {
     }
     @Override
     public void handleEvent(Event event) {
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM");
-        String currentDateTime = dateFormat.format(new Date());
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String formatDateTime = dateFormat.format(currentDateTime);
         PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         Canvas canvas = new Canvas(new PdfCanvas(page), pageSize);
         canvas.setFontSize(8);
-        canvas.showTextAligned(header + "   " + currentDateTime,
+        canvas.showTextAligned(header + "   " + formatDateTime,
                 pageSize.getWidth() / 2, pageSize.getTop() - 26,
                 TextAlignment.RIGHT);
         canvas.close();

@@ -8,7 +8,7 @@ public class RoleAndUserForm {
         return email;
     }
 
-    public void setEmail(String email) {
+    void setEmail(String email) {
         this.email = email;
     }
 
@@ -16,7 +16,7 @@ public class RoleAndUserForm {
         return roleName;
     }
 
-    public void setRoleName(String roleName) {
+    void setRoleName(String roleName) {
         this.roleName = roleName;
     }
 }

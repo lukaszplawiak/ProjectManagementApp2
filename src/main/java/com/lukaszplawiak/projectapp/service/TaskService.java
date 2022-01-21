@@ -3,12 +3,13 @@ package com.lukaszplawiak.projectapp.service;
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.model.Task;
+import com.lukaszplawiak.projectapp.model.User;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface TaskService {
-    TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto);
+    TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto, User user);
 
     TaskResponseDto getTaskById(Long projectId, Long taskId);
 
@@ -18,10 +19,10 @@ public interface TaskService {
 
     List<TaskResponseDto> getTasksByDoneIsFalseAndProjectId(Long projectId, boolean done, Pageable pageable);
 
-    TaskRequestDto updateTaskById(Long projectId, Long TaskId, TaskRequestDto taskRequestDto);
+    TaskRequestDto updateTaskById(Long projectId, Long TaskId, TaskRequestDto taskRequestDto, User user);
 
     void toggleTask(Long projectId, Long taskId);
 
-    void deleteTaskById(Long projectId, Long TaskId);
+    void deleteTaskById(Long projectId, Long TaskId, User user);
 
 }

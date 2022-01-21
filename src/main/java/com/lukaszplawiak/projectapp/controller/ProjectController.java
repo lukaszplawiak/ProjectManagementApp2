@@ -1,29 +1,36 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
+import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
+import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.service.ProjectService;
+import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/projects")
 class ProjectController {
     private final ProjectService projectService;
+    private final UserService userService;
 
-    public ProjectController(final ProjectService projectService) {
+    public ProjectController(final ProjectService projectService, UserService userService) {
         this.projectService = projectService;
+        this.userService = userService;
     }
 
     @PostMapping
-    ResponseEntity<ProjectRequestDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto, Principal principal) {
-        return new ResponseEntity<>(projectService.createProject(projectRequestDto), HttpStatus.CREATED);
+    ResponseEntity<ProjectRequestDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
+                                                    Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        return new ResponseEntity<>(projectService.createProject(projectRequestDto, user), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/{id}")
@@ -37,18 +44,24 @@ class ProjectController {
     }
 
     @GetMapping(path = "/search")
-    ResponseEntity<List<ProjectResponseDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean done, Pageable pageable) {
+    ResponseEntity<List<ProjectResponseDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean done,
+                                                               Pageable pageable) {
         return new ResponseEntity<>(projectService.getProjectsDtoByDone(done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")
-    ResponseEntity<ProjectRequestDto> updateProject(@RequestBody @Valid ProjectRequestDto projectRequestDto, @PathVariable Long id) {
-        return new ResponseEntity<>(projectService.updateProject(projectRequestDto, id), HttpStatus.OK);
+    ResponseEntity<ProjectRequestDto> updateProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
+                                                    @PathVariable Long id, Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        return new ResponseEntity<>(projectService.updateProject(projectRequestDto, id, user), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
-    ResponseEntity<String> deleteProject(@PathVariable Long id) {
-        projectService.deleteProjectById(id);
+    ResponseEntity<String> deleteProject(@PathVariable Long id, Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        projectService.deleteProjectById(id, user);
         return new ResponseEntity<>("Project entity of id: " + id + " deleted", HttpStatus.OK);
     }
 }

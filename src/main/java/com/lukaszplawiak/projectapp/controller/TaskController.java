@@ -2,10 +2,13 @@ package com.lukaszplawiak.projectapp.controller;
 
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
+import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.service.TaskService;
+import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,14 +18,19 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/projects/{projectId}/tasks")
 class TaskController {
     private final TaskService taskService;
+    private final UserService userService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @PostMapping
-    ResponseEntity<TaskRequestDto> createTask(@RequestBody @Valid TaskRequestDto taskRequestDto, @PathVariable Long projectId) {
-        return new ResponseEntity<>(taskService.createTask(projectId, taskRequestDto), HttpStatus.CREATED);
+    ResponseEntity<TaskRequestDto> createTask(@RequestBody @Valid TaskRequestDto taskRequestDto,
+                                              @PathVariable Long projectId, Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        return new ResponseEntity<>(taskService.createTask(projectId, taskRequestDto, user), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -40,8 +48,11 @@ class TaskController {
     }
 
     @PutMapping(path = "/{taskId}")
-    ResponseEntity<TaskRequestDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId, @RequestBody @Valid TaskRequestDto taskRequestDto) {
-        TaskRequestDto updatedTask = taskService.updateTaskById(projectId, taskId, taskRequestDto);
+    ResponseEntity<TaskRequestDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId,
+                                                  @RequestBody @Valid TaskRequestDto taskRequestDto, Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        TaskRequestDto updatedTask = taskService.updateTaskById(projectId, taskId, taskRequestDto, user);
         return new ResponseEntity<>(updatedTask,HttpStatus.OK);
     }
 
@@ -52,8 +63,11 @@ class TaskController {
     }
 
     @DeleteMapping(path = "/{taskId}")
-    ResponseEntity<String> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId) {
-        taskService.deleteTaskById(projectId, taskId);
+    ResponseEntity<String> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId,
+                                          Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        taskService.deleteTaskById(projectId, taskId, user);
         return new ResponseEntity<>("Task of id: " + taskId + " deleted", HttpStatus.OK);
     }
 }

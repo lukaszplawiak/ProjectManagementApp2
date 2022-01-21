@@ -36,8 +36,8 @@ public class ProjectsTaskListReport {
         pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, headerEventHandler);
         pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
         pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
-
         Document document = new Document(pdfDocument);
+
         Paragraph paragraph = new Paragraph("Project details with tasks");
         paragraph.setFontSize(12);
         paragraph.setTextAlignment(TextAlignment.CENTER);
@@ -56,7 +56,7 @@ public class ProjectsTaskListReport {
         projectTable.addHeaderCell("Created");
         projectTable.addHeaderCell("Updated");
         projectTable.addHeaderCell("Done");
-        projectTable.addHeaderCell("EmpId");
+        projectTable.addHeaderCell("Employee");
 
         String none = "not updated";
         projectTable.addCell(project.getId().toString());
@@ -70,7 +70,7 @@ public class ProjectsTaskListReport {
             projectTable.addCell(project.getAudit().getUpdatedOn().withSecond(0).toString());
         }
         projectTable.addCell(String.valueOf(project.isDone()));
-        projectTable.addCell(project.getUser().toString());
+        projectTable.addCell(project.getUser().getFirstName() + " " + project.getUser().getLastName());
         document.add(projectTable);
 
         Paragraph paragraph2 = new Paragraph("Tasks");

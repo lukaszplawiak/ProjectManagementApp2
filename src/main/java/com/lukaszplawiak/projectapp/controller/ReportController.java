@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -34,11 +33,8 @@ class ReportController {
 
     @GetMapping(path = "/users")
     public void getReportUsersList(HttpServletResponse response) throws IOException {
-        response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String currentDateTime = dateFormat.format(new Date());
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Employees_List_Report_" + currentDateTime + ".pdf";
+        String headerKey = setContentTypeAndHeader(response);
+        String headerValue = "attachment; filename=Employees_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<User> users = userService.getUsers();
         AllUserListReport generator = new AllUserListReport();
@@ -48,11 +44,8 @@ class ReportController {
 
     @GetMapping(path = "/projects")
     public void getReportProjectsList(HttpServletResponse response) throws IOException {
-        response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String currentDateTime = dateFormat.format(new Date());
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Projects_List_Report_" + currentDateTime + ".pdf";
+        String headerKey = setContentTypeAndHeader(response);
+        String headerValue = "attachment; filename=Projects_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<Project> projects = projectService.getAllProjects();
         AllProjectListReport generator = new AllProjectListReport();
@@ -62,11 +55,8 @@ class ReportController {
 
     @GetMapping(path = "/projects/{id}")
     public void getReportProjectsTaskList(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String currentDateTime = dateFormat.format(new Date());
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Project_Details_List_Report_" + currentDateTime + ".pdf";
+        String headerKey = setContentTypeAndHeader(response);
+        String headerValue = "attachment; filename=Project_Details_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         Project projects = projectService.getProjectById(id);
         List<Task> tasks = taskService.getTasksByProjectId(id);
@@ -78,15 +68,23 @@ class ReportController {
 
     @GetMapping(path = "/projects/search")
     public void getReportProjectsTaskList(HttpServletResponse response, @RequestParam(defaultValue = "true") boolean done) throws IOException {
-        response.setContentType("application/pdf");
-        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
-        String currentDateTime = dateFormat.format(new Date());
-        String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=Projects_Done_List_Report_" + currentDateTime + ".pdf";
+        String headerKey = setContentTypeAndHeader(response);
+        String headerValue = "attachment; filename=Projects_Done_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<Project> projects = projectService.getProjectByDone(done);
         DoneProjectsListReport generator = new DoneProjectsListReport();
         generator.setProjects(projects);
         generator.generateDoneProjectList(response);
+    }
+
+    private String setContentTypeAndHeader(HttpServletResponse response) {
+        response.setContentType("application/pdf");
+        return "Content-Disposition";
+    }
+
+    private String currentDateTime() {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        return dateFormat.format(currentDateTime);
     }
 }

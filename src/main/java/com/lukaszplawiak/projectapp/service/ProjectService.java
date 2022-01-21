@@ -3,13 +3,14 @@ package com.lukaszplawiak.projectapp.service;
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.model.Project;
+import com.lukaszplawiak.projectapp.model.User;
 import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
 import java.util.List;
 
 public interface ProjectService {
-    ProjectRequestDto createProject(ProjectRequestDto projectRequestDto);
+    ProjectRequestDto createProject(ProjectRequestDto projectRequestDto, User user);
 
     Project getProjectById(Long id);
 
@@ -23,7 +24,7 @@ public interface ProjectService {
 
     List<ProjectResponseDto> getProjectsDtoByDone(boolean done, Pageable pageable);
 
-    ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id);
+    ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user);
 
-    void deleteProjectById(Long id);
+    void deleteProjectById(Long id, User user);
 }
