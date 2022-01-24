@@ -45,7 +45,7 @@ public class ProjectsTaskListReport {
         paragraph.setMargin(10);
         document.add(paragraph);
 
-        float[] projectColumnWidth = {1, 4, 5, 3, 3, 3, 1, 1};
+        float[] projectColumnWidth = {1, 4, 5, 2, 3, 3, 1, 1};
         Table projectTable = new Table(UnitValue.createPercentArray(projectColumnWidth));
         projectTable.setWidth(UnitValue.createPercentValue(100));
         projectTable.setFontSize(9);

@@ -2,9 +2,9 @@ drop table if exists tasks;
 create table tasks
 (
     id BIGINT(20) primary key auto_increment,
-    name varchar(50) not null,
+    name varchar(50) not null CHECK (name <> ''),
     comment varchar(255) null,
-    deadline DATE null,
+    deadline DATE not null,
     done bit,
     created_on DATETIME not null,
     updated_on DATETIME null,

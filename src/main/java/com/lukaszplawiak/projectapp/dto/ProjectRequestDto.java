@@ -1,17 +1,10 @@
 package com.lukaszplawiak.projectapp.dto;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class ProjectRequestDto {
-    @NotEmpty
-    @Size(min = 2, max = 50, message = "Name must be 2 or more characters")
     private String title;
-    @Size(max = 255)
     private String description;
-    @NotNull(message = "Deadline is mandatory")
     private LocalDate deadline;
 
     public String getTitle() {

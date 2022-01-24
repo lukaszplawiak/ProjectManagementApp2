@@ -1,0 +1,933 @@
+{
+	"info": {
+		"_postman_id": "b840b6ca-31c0-40ab-8160-77fd27b2cf60",
+		"name": "ProjectManagementApp2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "login and get JWT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "mickeymouse@gmail.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "default"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get refresh token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtYWxhQGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiIvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjQyNDkxODg0fQ.JM2wiAAUcvM8VHRpfNHf-INBs98a3y-7aYJzMMUSYW8",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/v1/token/refresh",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"token",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get all projects",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/report/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get project with tasks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/report/projects/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"projects",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get projects by done=true/false",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/report/projects/search?done=true",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"projects",
+						"search"
+					],
+					"query": [
+						{
+							"key": "done",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get all employees",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/report/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"report",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users roles",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/roles",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all projects with tasks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get project by id with tasks",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all tasks by project id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/tasks",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get task by project and task id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						"tasks",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all project by done=true/false",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/search?done=true",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"search"
+					],
+					"query": [
+						{
+							"key": "done",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all tasks by done=true/false and project id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/tasks/search?done=true",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						"tasks",
+						"search"
+					],
+					"query": [
+						{
+							"key": "done",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"SOLID learn NEW PROJECT\",\n    \"description\": \"Learn all 5 solid principles!\",\n    \"deadline\": \"2022-02-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new task related to project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 NEW TASK\",\n    \"comment\": \"Task 2 of project 1\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/1/tasks",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukplas@gmail.com\",\n        \"password\": \"$2a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users/save",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new role",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"name\": \"Lukasz_ROLE\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/roles/save",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add role to user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"email\": \"johnsmith@gmail.com\",\n        \"roleName\": \"ROLE_ADMIN\" \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/roles/addtouser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"addtouser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update project by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"title\": \"KISS and DRY ; UPDATE\",\n    \"description\": \"Remember what is all about!\",\n    \"deadline\": \"2022-02-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update task by project and task  id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						"tasks",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "toggle task by project and task id",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						"tasks",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete project by id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete task by project and task id",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"2",
+						"tasks",
+						"5"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

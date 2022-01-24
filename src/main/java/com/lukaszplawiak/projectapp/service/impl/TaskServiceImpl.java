@@ -93,7 +93,7 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
-        if (!(project.getUser().getId() == user.getId())) {
+        if (!(task.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
             throw new IllegalAccessException("Update access denied");
         }
@@ -113,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTaskById(Long projectId, Long taskId, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
-        if (!(project.getUser().getId() == user.getId())) {
+        if (!(task.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
             throw new IllegalAccessException("Update access denied");
         }

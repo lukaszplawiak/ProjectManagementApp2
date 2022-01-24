@@ -2,7 +2,7 @@ drop table if exists projects;
 create table projects
 (
     id BIGINT(20) primary key auto_increment,
-    title varchar(50) not null,
+    title varchar(50) not null CHECK (title <> ''),
     description varchar(255),
     deadline DATE not null,
     done bit,

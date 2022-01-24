@@ -1,20 +1,9 @@
 package com.lukaszplawiak.projectapp.dto;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-
 public class UserRequestDto {
-    @NotBlank
-    @Size(min = 2, max = 50, message = "First name must be 2 or more characters")
     private String firstName;
-    @NotBlank
-    @Size(min = 2, max = 50, message = "Last name must be 2 or more characters")
     private String lastName;
-    @Email
     private String email;
-    @NotBlank
-    @Size(min = 4, max = 50, message = "Password must be 4 or more characters")
     private String password;
 
     public String getFirstName() {

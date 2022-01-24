@@ -27,6 +27,7 @@ public class AppUsersWarmup implements ApplicationListener<ContextRefreshedEvent
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Jan").withLastName("Kowlski").withEmail("jankowalski@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Mickey").withLastName("Mouse").withEmail("mickeymouse@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Geralt").withLastName("Rivi").withEmail("geraltrivi@gmail.com").withPassword("1234").build());
+        userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Mona").withLastName("Liza").withEmail("monaliza@gmail.com").withPassword("1234").build());
 
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_USER");
         userService.addRoleToUser("lukpla@gmail.com", "ROLE_MANAGER");
@@ -37,5 +38,6 @@ public class AppUsersWarmup implements ApplicationListener<ContextRefreshedEvent
         userService.addRoleToUser("mickeymouse@gmail.com", "ROLE_ADMIN");
         userService.addRoleToUser("geraltrivi@gmail.com", "ROLE_USER");
         userService.addRoleToUser("geraltrivi@gmail.com", "ROLE_MANAGER");
+        userService.addRoleToUser("monaliza@gmail.com", "ROLE_SUPER_ADMIN");
     }
 }

@@ -16,7 +16,7 @@ public class User {
     private String password;
     @Embedded
     private Audit audit = new Audit();
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Role> roles = new ArrayList<>();
 
     public User() {

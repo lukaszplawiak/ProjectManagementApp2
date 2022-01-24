@@ -46,10 +46,10 @@ class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/users/delete")
-    ResponseEntity<String> deleteUser(@RequestBody RoleAndUserForm form) {
-        userService.deleteUser(form.getEmail());
-        return new ResponseEntity<>("Deleted user: " + form.getEmail(), HttpStatus.OK);
-    }
+//    @DeleteMapping(path = "/users/delete")
+//    ResponseEntity<String> deleteUser(@RequestBody RoleAndUserForm form) {
+//        userService.deleteUser(form.getEmail());
+//        return new ResponseEntity<>("Deleted user: " + form.getEmail(), HttpStatus.OK);
+//    }
 }
 
