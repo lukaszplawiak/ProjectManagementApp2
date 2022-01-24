@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.service;
 
-import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
+import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
 import org.springframework.data.domain.Pageable;

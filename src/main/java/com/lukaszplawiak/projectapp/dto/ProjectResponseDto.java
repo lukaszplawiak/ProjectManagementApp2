@@ -1,7 +1,6 @@
 package com.lukaszplawiak.projectapp.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +35,6 @@ public class ProjectResponseDto {
     public Set<TaskResponseDto> getTasks() {
         return tasks;
     }
-
 
     public static final class ProjectResponseDtoBuilder {
         private Long id;

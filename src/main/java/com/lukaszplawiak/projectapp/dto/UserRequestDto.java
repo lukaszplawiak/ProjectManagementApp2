@@ -9,12 +9,12 @@ public class UserRequestDto {
     @Size(min = 2, max = 50, message = "First name must be 2 or more characters")
     private String firstName;
     @NotBlank
-    @Size(min = 2, max = 50, message = "Last name must be 2 more characters")
+    @Size(min = 2, max = 50, message = "Last name must be 2 or more characters")
     private String lastName;
     @Email
     private String email;
     @NotBlank
-    @Size(min = 4, max = 50, message = "Last name must be 4 or more characters")
+    @Size(min = 4, max = 50, message = "Password must be 4 or more characters")
     private String password;
 
     public String getFirstName() {

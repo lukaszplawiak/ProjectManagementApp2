@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
+import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import com.lukaszplawiak.projectapp.service.UserService;

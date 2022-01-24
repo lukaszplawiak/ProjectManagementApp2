@@ -1,7 +1,7 @@
 package com.lukaszplawiak.projectapp.service.impl;
 
-import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
+import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
 import com.lukaszplawiak.projectapp.exception.IllegalCreateTaskException;
 import com.lukaszplawiak.projectapp.model.Project;
@@ -21,8 +21,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskEntityMapper.mapToTaskEntity;
-import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskResponseDto;
 import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskRequestDtoMapper.mapToTaskRequestDto;
+import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskResponseDto;
 
 @Service
 @Transactional
@@ -144,6 +144,4 @@ public class TaskServiceImpl implements TaskService {
         taskRepository.save(task);
         projectServiceImpl.toggleProject(projectId);
     }
-
-
 }

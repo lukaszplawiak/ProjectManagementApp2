@@ -1,10 +1,9 @@
 package com.lukaszplawiak.projectapp.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class TaskRequestDto {
     @NotBlank
@@ -12,6 +11,7 @@ public class TaskRequestDto {
     private String name;
     @Size(max = 255)
     private String comment;
+    @NotNull(message = "Deadline is mandatory")
     private LocalDate deadline;
 
     public String getName() {

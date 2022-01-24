@@ -1,6 +1,5 @@
 package com.lukaszplawiak.projectapp.exception;
 
-
 public class IllegalCreateTaskException extends RuntimeException {
     private final String message;
 

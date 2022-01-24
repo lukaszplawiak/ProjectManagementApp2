@@ -53,16 +53,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
     }
 
-
     @Override
     public User getUser(String email) {
         logger.info("Fetch user " + email + " from database");
         return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public User save(User user) {
-        return userRepository.save(user);
     }
 
     @Override
@@ -85,7 +79,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         logger.info("Fetch all roles");
         return roleRepository.findAll();
     }
-
 
     @Override
     public UserResponseDto saveUser(UserRequestDto userRequestDto) {

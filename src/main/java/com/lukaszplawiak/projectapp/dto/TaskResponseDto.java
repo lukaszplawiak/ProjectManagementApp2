@@ -1,7 +1,6 @@
 package com.lukaszplawiak.projectapp.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class TaskResponseDto {
     private Long id;
@@ -29,7 +28,6 @@ public class TaskResponseDto {
     public boolean isDone() {
         return done;
     }
-
 
     public static final class TaskResponseDtoBuilder {
         private Long id;
