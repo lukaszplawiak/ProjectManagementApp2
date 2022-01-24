@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ProjectService {
-    ProjectRequestDto createProject(ProjectRequestDto projectRequestDto, User user);
+    ProjectResponseDto createProject(ProjectRequestDto projectRequestDto, User user);
 
     Project getProjectById(Long id);
 
@@ -23,7 +23,7 @@ public interface ProjectService {
 
     List<ProjectResponseDto> getProjectsDtoByDone(boolean done, Pageable pageable);
 
-    ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user);
+    ProjectResponseDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user);
 
     void deleteProjectById(Long id, User user);
 }

@@ -26,7 +26,7 @@ class TaskController {
     }
 
     @PostMapping
-    ResponseEntity<TaskRequestDto> createTask(@RequestBody @Valid TaskRequestDto taskRequestDto,
+    ResponseEntity<TaskResponseDto> createTask(@RequestBody @Valid TaskRequestDto taskRequestDto,
                                               @PathVariable Long projectId, Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);
@@ -48,11 +48,11 @@ class TaskController {
     }
 
     @PutMapping(path = "/{taskId}")
-    ResponseEntity<TaskRequestDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId,
+    ResponseEntity<TaskResponseDto> updateTaskById(@PathVariable Long projectId, @PathVariable Long taskId,
                                                   @RequestBody @Valid TaskRequestDto taskRequestDto, Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);
-        TaskRequestDto updatedTask = taskService.updateTaskById(projectId, taskId, taskRequestDto, user);
+        TaskResponseDto updatedTask = taskService.updateTaskById(projectId, taskId, taskRequestDto, user);
         return new ResponseEntity<>(updatedTask,HttpStatus.OK);
     }
 

@@ -26,7 +26,7 @@ class ProjectController {
     }
 
     @PostMapping
-    ResponseEntity<ProjectRequestDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
+    ResponseEntity<ProjectResponseDto> createProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
                                                     Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);
@@ -50,7 +50,7 @@ class ProjectController {
     }
 
     @PutMapping(path = "/{id}")
-    ResponseEntity<ProjectRequestDto> updateProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
+    ResponseEntity<ProjectResponseDto> updateProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
                                                     @PathVariable Long id, Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);

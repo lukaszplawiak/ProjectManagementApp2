@@ -39,12 +39,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskRequestDto createTask(Long projectId, TaskRequestDto taskRequestDto, User user) {
+    public TaskResponseDto createTask(Long projectId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
-        if (!(project.getUser().getId() == user.getId())) {
-            logger.info("Update access denied");
-            throw new IllegalAccessException("Update access denied");
-        }
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
             throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible");
@@ -54,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
         task.setUser(user);
         Task newTask = taskRepository.save(task);
         logger.info("Created task of id: " + newTask.getId());
-        return mapToTaskRequestDto(newTask);
+        return mapToTaskResponseDto(newTask);
     }
 
     @Override
@@ -94,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskRequestDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto, User user) {
+    public TaskResponseDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
         if (!(project.getUser().getId() == user.getId())) {
@@ -110,7 +106,7 @@ public class TaskServiceImpl implements TaskService {
         task.setDeadline(taskRequestDto.getDeadline());
         task.setUser(user);
         logger.info("Updated task of id: " + taskId);
-        return mapToTaskRequestDto(task);
+        return mapToTaskResponseDto(task);
     }
 
     @Override
@@ -131,7 +127,7 @@ public class TaskServiceImpl implements TaskService {
     public void toggleTask(Long projectId, Long taskId, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
-        if (!(project.getUser().getId() == user.getId())) {
+        if (!(task.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
             throw new IllegalAccessException("Update access denied");
         }

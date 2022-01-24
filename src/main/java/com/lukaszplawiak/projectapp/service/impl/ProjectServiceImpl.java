@@ -30,12 +30,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectRequestDto createProject(ProjectRequestDto projectRequestDto, User user) {
+    public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto, User user) {
         Project project = mapToProjectEntity(projectRequestDto);
         project.setUser(user);
         projectRepository.save(project);
         logger.info("Created project of id: " + project.getId());
-        return projectRequestDto;
+        return mapToProjectResponseDto(project);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectRequestDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user) {
+    public ProjectResponseDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user) {
         Project project = projectRepository.getById(id);
         if (!(project.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
@@ -92,7 +92,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setDescription(projectRequestDto.getDescription());
         project.setDeadline(projectRequestDto.getDeadline());
         logger.info("Updated project of id: " + id);
-        return projectRequestDto;
+        return mapToProjectResponseDto(project);
     }
 
     @Override
