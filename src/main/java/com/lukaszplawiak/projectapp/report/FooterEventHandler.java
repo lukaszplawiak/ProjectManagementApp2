@@ -14,7 +14,7 @@ import com.itextpdf.layout.properties.TextAlignment;
 
 class FooterEventHandler implements IEventHandler {
     protected PdfFormXObject placeholder;
-    protected float side = 20;
+    protected final float side = 20;
 
     public FooterEventHandler() {
         placeholder = new PdfFormXObject(new Rectangle(0, 0, side, side));

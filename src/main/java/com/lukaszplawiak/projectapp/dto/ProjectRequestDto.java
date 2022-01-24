@@ -4,6 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ProjectRequestDto {
     @NotEmpty
@@ -13,6 +14,7 @@ public class ProjectRequestDto {
     private String description;
     @NotNull(message = "Deadline is mandatory")
     private LocalDate deadline;
+
 
     public String getTitle() {
         return title;

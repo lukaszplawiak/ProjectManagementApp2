@@ -21,7 +21,7 @@ public interface TaskService {
 
     TaskRequestDto updateTaskById(Long projectId, Long TaskId, TaskRequestDto taskRequestDto, User user);
 
-    void toggleTask(Long projectId, Long taskId);
+    void toggleTask(Long projectId, Long taskId, User user);
 
     void deleteTaskById(Long projectId, Long TaskId, User user);
 

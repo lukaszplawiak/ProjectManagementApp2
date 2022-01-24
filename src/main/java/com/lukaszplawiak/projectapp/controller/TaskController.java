@@ -57,8 +57,11 @@ class TaskController {
     }
 
     @PatchMapping(path = "/{taskId}")
-    ResponseEntity<?> toggleTask(@PathVariable Long projectId, @PathVariable Long taskId) {
-        taskService.toggleTask(projectId, taskId);
+    ResponseEntity<?> toggleTask(@PathVariable Long projectId, @PathVariable Long taskId,
+                                 Authentication authentication) {
+        String userEmail = authentication.getName();
+        User user = userService.getUser(userEmail);
+        taskService.toggleTask(projectId, taskId, user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -51,6 +51,7 @@ public class TaskServiceImpl implements TaskService {
         }
         Task task = mapToTaskEntity(taskRequestDto);
         task.setProject(project);
+        task.setUser(user);
         Task newTask = taskRepository.save(task);
         logger.info("Created task of id: " + newTask.getId());
         return mapToTaskRequestDto(newTask);
@@ -107,6 +108,7 @@ public class TaskServiceImpl implements TaskService {
         task.setName(taskRequestDto.getName());
         task.setComment(taskRequestDto.getComment());
         task.setDeadline(taskRequestDto.getDeadline());
+        task.setUser(user);
         logger.info("Updated task of id: " + taskId);
         return mapToTaskRequestDto(task);
     }
@@ -126,9 +128,13 @@ public class TaskServiceImpl implements TaskService {
         logger.info("Deleted task of id: " + taskId);
     }
 
-    public void toggleTask(Long projectId, Long taskId) {
+    public void toggleTask(Long projectId, Long taskId, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
+        if (!(project.getUser().getId() == user.getId())) {
+            logger.info("Update access denied");
+            throw new IllegalAccessException("Update access denied");
+        }
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Toggle task is impossible");
             throw new IllegalArgumentException("Project of id: " + projectId + " is done. Toggle task is impossible"); // tutaj potrzebny wlasny wyjatek !!!

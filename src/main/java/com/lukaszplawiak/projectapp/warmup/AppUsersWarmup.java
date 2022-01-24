@@ -8,10 +8,10 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserWarmup implements ApplicationListener<ContextRefreshedEvent> {
+public class AppUsersWarmup implements ApplicationListener<ContextRefreshedEvent> {
     private final UserService userService;
 
-    public UserWarmup(UserService userService) {
+    public AppUsersWarmup(UserService userService) {
         this.userService = userService;
     }
 
@@ -22,8 +22,8 @@ public class UserWarmup implements ApplicationListener<ContextRefreshedEvent> {
         userService.saveRole(new Role(null, "ROLE_ADMIN"));
         userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
+        userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Lukasz").withLastName("Plawiak").withEmail("lukpla@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ada").withLastName("Mala").withEmail("adamala@gmail.com").withPassword("1234").build());
-        userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Luk").withLastName("PLa").withEmail("lukpla@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ula").withLastName("Lula").withEmail("ulalula@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Ala").withLastName("Hala").withEmail("alahala@gmail.com").withPassword("1234").build());
 

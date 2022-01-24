@@ -89,7 +89,7 @@ public class ProjectsTaskListReport {
         taskTable.addHeaderCell("Created");
         taskTable.addHeaderCell("Updated");
         taskTable.addHeaderCell("Done");
-        taskTable.addHeaderCell("EmpID");
+        taskTable.addHeaderCell("Employee");
 
         for (Task task : tasks) {
             taskTable.addCell(task.getId().toString());
@@ -103,7 +103,7 @@ public class ProjectsTaskListReport {
                 taskTable.addCell(task.getAudit().getUpdatedOn().withSecond(0).toString());
             }
             taskTable.addCell(String.valueOf(task.isDone()));
-            taskTable.addCell(task.getUser().toString());
+            taskTable.addCell(task.getUser().getFirstName() + " " + task.getUser().getLastName());
         }
         document.add(taskTable);
         document.close();

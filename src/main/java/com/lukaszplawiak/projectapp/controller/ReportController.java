@@ -33,7 +33,7 @@ class ReportController {
 
     @GetMapping(path = "/users")
     public void getReportUsersList(HttpServletResponse response) throws IOException {
-        String headerKey = setContentTypeAndHeader(response);
+        String headerKey = setContentType();
         String headerValue = "attachment; filename=Employees_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<User> users = userService.getUsers();
@@ -44,7 +44,7 @@ class ReportController {
 
     @GetMapping(path = "/projects")
     public void getReportProjectsList(HttpServletResponse response) throws IOException {
-        String headerKey = setContentTypeAndHeader(response);
+        String headerKey = setContentType();
         String headerValue = "attachment; filename=Projects_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<Project> projects = projectService.getAllProjects();
@@ -55,7 +55,7 @@ class ReportController {
 
     @GetMapping(path = "/projects/{id}")
     public void getReportProjectsTaskList(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        String headerKey = setContentTypeAndHeader(response);
+        String headerKey = setContentType();
         String headerValue = "attachment; filename=Project_Details_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         Project projects = projectService.getProjectById(id);
@@ -68,7 +68,7 @@ class ReportController {
 
     @GetMapping(path = "/projects/search")
     public void getReportProjectsTaskList(HttpServletResponse response, @RequestParam(defaultValue = "true") boolean done) throws IOException {
-        String headerKey = setContentTypeAndHeader(response);
+        String headerKey = setContentType();
         String headerValue = "attachment; filename=Projects_Done_List_Report_" + currentDateTime() + ".pdf";
         response.setHeader(headerKey, headerValue);
         List<Project> projects = projectService.getProjectByDone(done);
@@ -77,8 +77,7 @@ class ReportController {
         generator.generateDoneProjectList(response);
     }
 
-    private String setContentTypeAndHeader(HttpServletResponse response) {
-        response.setContentType("application/pdf");
+    private String setContentType() {
         return "Content-Disposition";
     }
 
