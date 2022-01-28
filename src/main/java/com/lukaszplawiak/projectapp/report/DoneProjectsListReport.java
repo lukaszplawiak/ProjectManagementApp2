@@ -42,6 +42,7 @@ public class DoneProjectsListReport {
         float[] columnWidth = {1, 12, 3, 4, 4, 2, 1};
         Table table = new Table(UnitValue.createPercentArray(columnWidth));
         table.setWidth(UnitValue.createPercentValue(100));
+        table.setFontSize(8);
         table.addHeaderCell("ID");
         table.addHeaderCell("Title");
         table.addHeaderCell("Deadline");

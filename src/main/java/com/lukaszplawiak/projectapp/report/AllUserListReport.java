@@ -39,7 +39,7 @@ public class AllUserListReport {
 
         Table table = new Table(4);
         table.setWidth(UnitValue.createPercentValue(100));
-        table.setFontSize(10);
+        table.setFontSize(8);
         table.addHeaderCell("ID");
         table.addHeaderCell("First Name");
         table.addHeaderCell("Last Name");

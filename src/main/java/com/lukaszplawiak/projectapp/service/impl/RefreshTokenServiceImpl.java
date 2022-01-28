@@ -42,11 +42,12 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
+                //Clock.fixed()
                 String username = decodedJWT.getSubject();
                 User user = userService.getUser(username);
                 String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                 String access_token = JWT.create()
-                        .withSubject(user.getEmail()) // tutaj unikalne pole do rozpoznania usera (zrobic UUID)
+                        .withSubject(user.getEmail())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                         .withIssuer(request.getRequestURI())
                         .withClaim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))

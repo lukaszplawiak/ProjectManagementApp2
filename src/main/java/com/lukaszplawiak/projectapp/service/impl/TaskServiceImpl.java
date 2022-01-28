@@ -43,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
         Project project = projectRepository.getById(projectId);
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
-            throw new IllegalCreateTaskException("Project of id: " + projectId + " is done. Create task for this project is impossible");
+            throw new IllegalCreateTaskException(projectId);
         }
         Task task = mapToTaskEntity(taskRequestDto);
         task.setProject(project);
@@ -95,7 +95,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.getById(taskId);
         if (!(task.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
-            throw new IllegalAccessException("Update access denied");
+            throw new IllegalAccessException();
         }
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
@@ -115,7 +115,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.getById(taskId);
         if (!(task.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
-            throw new IllegalAccessException("Update access denied");
+            throw new IllegalAccessException();
         }
         if (!Objects.equals(task.getProject().getId(), project.getId())) {
             throw new IllegalArgumentException("Task does not belong to project");
@@ -129,7 +129,7 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.getById(taskId);
         if (!(task.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
-            throw new IllegalAccessException("Update access denied");
+            throw new IllegalAccessException();
         }
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Toggle task is impossible");
@@ -137,7 +137,6 @@ public class TaskServiceImpl implements TaskService {
         }
         task.setDone(!task.isDone());
         logger.info("Toggled task of id: " + taskId);
-        taskRepository.save(task);
         projectServiceImpl.toggleProject(projectId);
     }
 }

@@ -1,15 +1,8 @@
 package com.lukaszplawiak.projectapp.exception;
 
-public class IllegalAccessException extends RuntimeException{
-    private final String message;
+public class IllegalAccessException extends RuntimeException {
 
-    public IllegalAccessException(String message) {
-        this.message = message;
+    public IllegalAccessException() {
+        super("Update access denied");
     }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
 }

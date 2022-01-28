@@ -85,7 +85,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.getById(id);
         if (!(project.getUser().getId() == user.getId())) {
             logger.info("Update access denied");
-            throw new IllegalAccessException("Update access denied");
+            throw new IllegalAccessException();
         }
         project.setId(id);
         project.setTitle(projectRequestDto.getTitle());
@@ -100,7 +100,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.getById(id);
         if (!(project.getUser().getId() == user.getId())) {
             logger.info("Access denied");
-            throw new IllegalAccessException("Access denied");
+            throw new IllegalAccessException();
         }
         projectRepository.delete(project);
         logger.info("Deleted project of id: " + id);

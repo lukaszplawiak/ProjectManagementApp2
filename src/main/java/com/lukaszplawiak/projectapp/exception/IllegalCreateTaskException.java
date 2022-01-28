@@ -1,15 +1,8 @@
 package com.lukaszplawiak.projectapp.exception;
 
 public class IllegalCreateTaskException extends RuntimeException {
-    private final String message;
 
-    public IllegalCreateTaskException(String message) {
-        this.message = message;
+    public IllegalCreateTaskException(Long projectId) {
+        super("Project of id: " + projectId + " is done. Create task is impossible");
     }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
 }

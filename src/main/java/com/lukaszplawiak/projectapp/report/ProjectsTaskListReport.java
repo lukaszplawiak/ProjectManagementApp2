@@ -48,7 +48,7 @@ public class ProjectsTaskListReport {
         float[] projectColumnWidth = {1, 4, 5, 2, 3, 3, 1, 1};
         Table projectTable = new Table(UnitValue.createPercentArray(projectColumnWidth));
         projectTable.setWidth(UnitValue.createPercentValue(100));
-        projectTable.setFontSize(9);
+        projectTable.setFontSize(8);
         projectTable.addHeaderCell("ID");
         projectTable.addHeaderCell("Title");
         projectTable.addHeaderCell("Description");
@@ -78,10 +78,10 @@ public class ProjectsTaskListReport {
         paragraph2.setTextAlignment(TextAlignment.CENTER);
         document.add(paragraph2);
 
-        float[] taskColumnWidth = {1, 4, 5, 3, 3, 3, 1, 1};
+        float[] taskColumnWidth = {1, 4, 5, 2, 3, 3, 1, 1};
         Table taskTable = new Table(UnitValue.createPercentArray(taskColumnWidth));
         taskTable.setWidth(UnitValue.createPercentValue(100));
-        taskTable.setFontSize(9);
+        taskTable.setFontSize(8);
         taskTable.addHeaderCell("ID");
         taskTable.addHeaderCell("Name");
         taskTable.addHeaderCell("Comment");

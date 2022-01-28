@@ -28,10 +28,10 @@ public class Audit {
 
     @PrePersist
     void prePersist() {
-        createdOn = LocalDateTime.now().withNano(0);
+        createdOn = LocalDateTime.now().withSecond(0).withNano(0);
     }
     @PreUpdate
     void preMerge() {
-        updatedOn = LocalDateTime.now().withNano(0);
+        updatedOn = LocalDateTime.now().withSecond(0).withNano(0);
     }
 }

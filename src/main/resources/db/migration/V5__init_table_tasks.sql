@@ -1,8 +1,7 @@
-drop table if exists tasks;
 create table tasks
 (
     id BIGINT(20) primary key auto_increment,
-    name varchar(50) not null CHECK (name <> ''),
+    name varchar(50) not null,
     comment varchar(255) null,
     deadline DATE not null,
     done bit,

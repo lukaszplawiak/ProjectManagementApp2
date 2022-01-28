@@ -1,4 +1,3 @@
-drop table if exists users_roles;
 create table users_roles
 (
     user_id  BIGINT(20) not null,
@@ -7,6 +6,3 @@ create table users_roles
     foreign key (user_id) references users (id),
     foreign key (roles_id) references roles (id)
 )
-
-
-
