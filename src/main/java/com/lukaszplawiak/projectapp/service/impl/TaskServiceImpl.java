@@ -4,6 +4,7 @@ import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
 import com.lukaszplawiak.projectapp.exception.IllegalCreateTaskException;
+import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
@@ -21,7 +22,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskEntityMapper.mapToTaskEntity;
-import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskRequestDtoMapper.mapToTaskRequestDto;
 import static com.lukaszplawiak.projectapp.service.impl.mapper.TaskResponseDtoMapper.mapToTaskResponseDto;
 
 @Service
@@ -44,6 +44,12 @@ public class TaskServiceImpl implements TaskService {
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. Create task is impossible");
             throw new IllegalCreateTaskException(projectId);
+        } else if (taskRequestDto.getName() == null) {
+            logger.info("Task's name must not be empty");
+            throw new IllegalInputException();
+        } else if (taskRequestDto.getDeadline() == null) {
+            logger.info("Task's deadline must not be empty");
+            throw new IllegalInputException();
         }
         Task task = mapToTaskEntity(taskRequestDto);
         task.setProject(project);
@@ -93,13 +99,16 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto updateTaskById(Long projectId, Long taskId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
         Task task = taskRepository.getById(taskId);
-        if (!(task.getUser().getId() == user.getId())) {
+        if ((!Objects.equals(task.getUser().getId(), user.getId()))) {
             logger.info("Update access denied");
             throw new IllegalAccessException();
-        }
-        if (!Objects.equals(task.getProject().getId(), project.getId())) {
+        } else if (!Objects.equals(task.getProject().getId(), project.getId())) {
+            logger.info("Task does not belong to project");
             throw new IllegalArgumentException("Task does not belong to project");
         }
+//        if (!Objects.equals(task.getProject().getId(), project.getId())) {
+//            throw new IllegalArgumentException("Task does not belong to project");
+//        }
         task.setId(taskId);
         task.setName(taskRequestDto.getName());
         task.setComment(taskRequestDto.getComment());

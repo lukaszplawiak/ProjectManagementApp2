@@ -35,7 +35,7 @@ public class User {
         return id;
     }
 
-    public void setId(Long id) {
+    void setId(Long id) {
         this.id = id;
     }
 
@@ -43,7 +43,7 @@ public class User {
         return firstName;
     }
 
-    public void setFirstName(String name) {
+    void setFirstName(String name) {
         this.firstName = name;
     }
 
@@ -51,7 +51,7 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -59,7 +59,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String username) {
+    void setEmail(String username) {
         this.email = username;
     }
 

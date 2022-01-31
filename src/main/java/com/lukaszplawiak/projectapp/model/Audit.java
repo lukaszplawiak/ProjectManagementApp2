@@ -3,12 +3,14 @@ package com.lukaszplawiak.projectapp.model;
 import javax.persistence.Embeddable;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Embeddable
 public class Audit {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
+    private Clock clock;
 
     public LocalDateTime getCreatedOn() {
         return createdOn;
@@ -28,10 +30,10 @@ public class Audit {
 
     @PrePersist
     void prePersist() {
-        createdOn = LocalDateTime.now().withSecond(0).withNano(0);
+        createdOn = LocalDateTime.now(clock).withSecond(0).withNano(0);
     }
     @PreUpdate
     void preMerge() {
-        updatedOn = LocalDateTime.now().withSecond(0).withNano(0);
+        updatedOn = LocalDateTime.now(clock).withSecond(0).withNano(0);
     }
 }
