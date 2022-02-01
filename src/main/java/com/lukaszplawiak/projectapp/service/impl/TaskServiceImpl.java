@@ -2,8 +2,9 @@ package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
-import com.lukaszplawiak.projectapp.exception.*;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
+import com.lukaszplawiak.projectapp.exception.IllegalActionException;
+import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
@@ -130,7 +131,7 @@ public class TaskServiceImpl implements TaskService {
     private void projectIsDoneCheck(Long projectId, Project project) {
         if (project.isDone()) {
             logger.info("Project of id: " + projectId + " is done. The action is impossible to execute");
-            throw new IllegalActionTaskException(projectId);
+            throw new IllegalActionException(projectId);
         }
     }
 
@@ -143,7 +144,7 @@ public class TaskServiceImpl implements TaskService {
 
     private void taskNameValidation(TaskRequestDto taskRequestDto) {
         if (taskRequestDto.getName() == null || taskRequestDto.getName().isBlank()) {
-            logger.info("Task's name must not be empty or blank");
+            logger.info("Task's name must not be blank");
             throw new IllegalInputException();
         }
     }

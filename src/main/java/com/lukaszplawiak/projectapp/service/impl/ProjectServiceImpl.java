@@ -3,6 +3,8 @@ package com.lukaszplawiak.projectapp.service.impl;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
+import com.lukaszplawiak.projectapp.exception.IllegalActionException;
+import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
@@ -13,7 +15,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectEntityMapper.mapToProjectEntity;
@@ -23,15 +29,20 @@ import static com.lukaszplawiak.projectapp.service.impl.mapper.ProjectResponseDt
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
+    private final Clock clock;
     private static final Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
 
-    public ProjectServiceImpl(final ProjectRepository projectRepository) {
+    public ProjectServiceImpl(final ProjectRepository projectRepository, Clock clock) {
         this.projectRepository = projectRepository;
+        this.clock = clock;
     }
 
     @Override
     public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto, User user) {
         Project project = mapToProjectEntity(projectRequestDto);
+        projectNameValidation(projectRequestDto);
+        projectDescriptionValidation(projectRequestDto);
+        projectDeadlineValidation(projectRequestDto);
         project.setUser(user);
         projectRepository.save(project);
         logger.info("Created project of id: " + project.getId());
@@ -83,10 +94,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponseDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user) {
         Project project = projectRepository.getById(id);
-        if (!(project.getUser().getId() == user.getId())) {
-            logger.info("Update access denied");
-            throw new IllegalAccessException();
-        }
+        userAccessCheck(user, project);
+        projectIsDoneCheck(id, project);
+        projectNameValidation(projectRequestDto);
+        projectDescriptionValidation(projectRequestDto);
+        projectDeadlineValidation(projectRequestDto);
         project.setId(id);
         project.setTitle(projectRequestDto.getTitle());
         project.setDescription(projectRequestDto.getDescription());
@@ -98,10 +110,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void deleteProjectById(Long id, User user) {
         Project project = projectRepository.getById(id);
-        if (!(project.getUser().getId() == user.getId())) {
-            logger.info("Access denied");
-            throw new IllegalAccessException();
-        }
+        userAccessCheck(user, project);
         projectRepository.delete(project);
         logger.info("Deleted project of id: " + id);
     }
@@ -115,4 +124,41 @@ public class ProjectServiceImpl implements ProjectService {
             logger.info("Toggled project of id: " + projectId);
         }
     }
+
+    private void userAccessCheck(User user, Project project) {
+        if (!(Objects.equals(project.getUser().getId(), user.getId()))) {
+            logger.info("Access denied");
+            throw new IllegalAccessException();
+        }
+    }
+
+    private void projectIsDoneCheck(Long projectId, Project project) {
+        if (project.isDone()) {
+            logger.info("Project of id: " + projectId + " is done. The action is impossible to execute");
+            throw new IllegalActionException(projectId);
+        }
+    }
+
+    private void projectNameValidation(ProjectRequestDto projectRequestDto) {
+        if (projectRequestDto.getTitle() == null || projectRequestDto.getTitle().isBlank()) {
+            logger.info("Project's title must not be blank");
+            throw new IllegalInputException();
+        }
+    }
+
+    private void projectDescriptionValidation(ProjectRequestDto projectRequestDto) {
+        if (projectRequestDto.getDescription() == null) {
+            logger.info("Project's description must not be null");
+            throw new IllegalInputException();
+        }
+    }
+
+    private void projectDeadlineValidation(ProjectRequestDto projectRequestDto) {
+        if (projectRequestDto.getDeadline() == null || projectRequestDto.getDeadline().isBefore(ChronoLocalDate.from(LocalDateTime.now(clock)))) {
+            logger.info("Project's deadline must be set after now");
+            throw new IllegalInputException();
+        }
+    }
 }
+
+
