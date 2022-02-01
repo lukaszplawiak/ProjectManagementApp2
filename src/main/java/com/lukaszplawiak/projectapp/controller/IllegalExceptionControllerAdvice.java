@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 class IllegalExceptionControllerAdvice {
-    //@ResponseBody ?
+    //@ResponseBody?
     @ExceptionHandler(IllegalAccessException.class)
     ResponseEntity<?> handleIllegalAccessException(IllegalAccessException e) {
         return ResponseEntity.status(403).build();
