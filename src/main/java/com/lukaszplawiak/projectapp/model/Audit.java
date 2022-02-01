@@ -1,16 +1,22 @@
 package com.lukaszplawiak.projectapp.model;
 
+import org.springframework.stereotype.Service;
+
 import javax.persistence.Embeddable;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 import java.time.Clock;
 import java.time.LocalDateTime;
 
+@Service
 @Embeddable
 public class Audit {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
-    private Clock clock;
+    @Transient
+    private Clock clock = Clock.systemDefaultZone();
+
 
     public LocalDateTime getCreatedOn() {
         return createdOn;

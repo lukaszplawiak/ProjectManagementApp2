@@ -7,4 +7,4 @@ create table users
     password varchar(255) not null,
     created_on DATETIME not null,
     updated_on DATETIME null
-);
+)
