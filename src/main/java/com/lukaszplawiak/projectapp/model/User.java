@@ -22,11 +22,20 @@ public class User {
     public User() {
     }
 
+    public User(Long id, String firstName, String lastName, String email, String password, Collection<Role> roles) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
 
-    void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,7 +43,7 @@ public class User {
         return firstName;
     }
 
-    void setFirstName(String name) {
+    public void setFirstName(String name) {
         this.firstName = name;
     }
 
@@ -42,7 +51,7 @@ public class User {
         return lastName;
     }
 
-    void setLastName(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
@@ -50,7 +59,7 @@ public class User {
         return email;
     }
 
-    void setEmail(String username) {
+    public void setEmail(String username) {
         this.email = username;
     }
 
@@ -66,7 +75,7 @@ public class User {
         return roles;
     }
 
-    void setRoles(Collection<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
 

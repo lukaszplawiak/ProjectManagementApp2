@@ -89,42 +89,65 @@ public class Project {
     }
 
     public static final class ProjectBuilder {
-        private Project project;
+        private Long id;
+        private String title;
+        private String description;
+        private LocalDate deadline;
+        private boolean done;
+        private Set<Task> tasks = new HashSet<>();
+        private User user;
 
         private ProjectBuilder() {
-            project = new Project();
         }
 
         public static ProjectBuilder aProject() {
             return new ProjectBuilder();
         }
 
+        public ProjectBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
         public ProjectBuilder withTitle(String title) {
-            project.setTitle(title);
+            this.title = title;
             return this;
         }
 
         public ProjectBuilder withDescription(String description) {
-            project.setDescription(description);
+            this.description = description;
             return this;
         }
 
         public ProjectBuilder withDeadline(LocalDate deadline) {
-            project.setDeadline(deadline);
+            this.deadline = deadline;
             return this;
         }
 
         public ProjectBuilder withDone(boolean done) {
-            project.setDone(done);
+            this.done = done;
             return this;
         }
 
         public ProjectBuilder withTasks(Set<Task> tasks) {
-            project.setTasks(tasks);
+            this.tasks = tasks;
+            return this;
+        }
+
+        public ProjectBuilder withUser(User user) {
+            this.user = user;
             return this;
         }
 
         public Project build() {
+            Project project = new Project();
+            project.setId(id);
+            project.setTitle(title);
+            project.setDescription(description);
+            project.setDeadline(deadline);
+            project.setDone(done);
+            project.setTasks(tasks);
+            project.setUser(user);
             return project;
         }
     }

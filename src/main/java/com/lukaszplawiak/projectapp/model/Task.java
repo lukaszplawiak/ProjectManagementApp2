@@ -101,42 +101,65 @@ public class Task {
     }
 
     public static final class Builder {
-        private Task task;
+        private Long id;
+        private String name;
+        private String comment;
+        private LocalDate deadline;
+        private boolean done;
+        private Project project;
+        private User user;
 
         private Builder() {
-            task = new Task();
         }
 
         public static Builder aTask() {
             return new Builder();
         }
 
+        public Builder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
         public Builder withName(String name) {
-            task.setName(name);
+            this.name = name;
             return this;
         }
 
         public Builder withComment(String comment) {
-            task.setComment(comment);
+            this.comment = comment;
             return this;
         }
 
         public Builder withDeadline(LocalDate deadline) {
-            task.setDeadline(deadline);
+            this.deadline = deadline;
             return this;
         }
 
         public Builder withDone(boolean done) {
-            task.setDone(done);
+            this.done = done;
             return this;
         }
 
         public Builder withProject(Project project) {
-            task.setProject(project);
+            this.project = project;
+            return this;
+        }
+
+        public Builder withUser(User user) {
+            this.user = user;
             return this;
         }
 
         public Task build() {
+            Task task = new Task();
+            task.setId(id);
+            task.setName(name);
+            task.setComment(comment);
+            task.setDeadline(deadline);
+            task.setDone(done);
+            task.setProject(project);
+            task.setUser(user);
             return task;
         }
     }
