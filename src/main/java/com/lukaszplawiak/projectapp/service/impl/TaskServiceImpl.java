@@ -137,7 +137,7 @@ public class TaskServiceImpl implements TaskService {
 
     private void userAccessCheck(User user, Task task) {
         if (!(Objects.equals(task.getUser().getId(), user.getId()))) {
-            logger.info("Update access denied");
+            logger.info("Access denied");
             throw new IllegalAccessException();
         }
     }

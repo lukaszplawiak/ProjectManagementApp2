@@ -28,8 +28,6 @@ public class Project {
     public Project() {
     }
 
-    // zrobic konstruktor zamist buildera i inicjalizowac obiekt konstruktorem, nie setterami albo builderem
-
     public void setId(Long id) {
         this.id = id;
     }

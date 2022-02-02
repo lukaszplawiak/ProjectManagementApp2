@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ProjectsTaskListReport {
+public class ProjectDetailsReport {
     private Project project;
     private List<Task> tasks;
 

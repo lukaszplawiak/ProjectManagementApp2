@@ -22,8 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
 class TaskServiceImplTest {
@@ -129,9 +128,6 @@ class TaskServiceImplTest {
     @Test
     void createTaskShouldThrowIllegalInputExceptionWhenTasksDeadlineIsNull() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 10, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         var mockProject = mock(Project.class);
         when(mockProject.isDone()).thenReturn(false);
         var mockProjectRepository = mock(ProjectRepository.class);
@@ -142,7 +138,7 @@ class TaskServiceImplTest {
         when(mockTaskRequestDto.getComment()).thenReturn("Comment");
         when(mockTaskRequestDto.getDeadline()).thenReturn(null);
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
+        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
@@ -225,9 +221,9 @@ class TaskServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, null, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(null, 1L, null, mockUser1))
                 .isInstanceOf(IllegalAccessException.class)
-                .hasMessageContaining("Update access denied");
+                .hasMessageContaining("Access denied");
     }
 
     @Test
@@ -443,4 +439,141 @@ class TaskServiceImplTest {
                         IllegalInputException.class
                 );
     }
+
+    @Test
+    void deleteTaskByIdShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
+        // given
+        var mockUser1 = mock(User.class);
+        when(mockUser1.getId()).thenReturn(1L);
+        var mockUser2 = mock(User.class);
+        when(mockUser2.getId()).thenReturn(2L);
+        var mockTask = mock(Task.class);
+        when(mockTask.getUser()).thenReturn(mockUser2);
+        var mockProjectRepository = mock(ProjectRepository.class);
+        var mockTaskRepository = mock(TaskRepository.class);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+
+        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+
+        // when
+        // then
+        assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(22L, 22L, mockUser1))
+                .isInstanceOf(IllegalAccessException.class)
+                .hasMessageContaining("Access denied");
+    }
+
+    @Test
+    void deleteTaskByIdShouldThrowIllegalActionExceptionWhenProjectIsDone() {
+        // given
+        var mockProject = mock(Project.class);
+        when(mockProject.isDone()).thenReturn(true);
+        var mockUser1 = mock(User.class);
+        when(mockUser1.getId()).thenReturn(1L);
+        var mockTask = mock(Task.class);
+        when(mockTask.getUser()).thenReturn(mockUser1);
+        var mockProjectRepository = mock(ProjectRepository.class);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        var mockTaskRepository = mock(TaskRepository.class);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+
+        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+
+        // when
+        // then
+        assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(22L, 22L, mockUser1))
+                .isInstanceOf(IllegalActionException.class)
+                .hasMessageContaining("The action is impossible to execute");
+    }
+
+    @Test
+    void deleteTaskByIdShouldNotThrowAnyException() {
+        // given
+        var mockProject = mock(Project.class);
+        when(mockProject.isDone()).thenReturn(false);
+        var mockUser1 = mock(User.class);
+        when(mockUser1.getId()).thenReturn(1L);
+        var mockTask = mock(Task.class);
+        when(mockTask.getUser()).thenReturn(mockUser1);
+        var mockProjectRepository = mock(ProjectRepository.class);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        var mockTaskRepository = mock(TaskRepository.class);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+
+        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+
+        // when
+        taskServiceImpl.deleteTaskById(1L,1L, mockUser1);
+
+        // then
+        verify(mockTaskRepository, times(1)).delete(mockTask);
+    }
+
+    @Test
+    void toggleTaskShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
+        // given
+        var mockUser1 = mock(User.class);
+        when(mockUser1.getId()).thenReturn(1L);
+        var mockUser2 = mock(User.class);
+        when(mockUser2.getId()).thenReturn(2L);
+        var mockTask = mock(Task.class);
+        when(mockTask.getUser()).thenReturn(mockUser2);
+        var mockProjectRepository = mock(ProjectRepository.class);
+        var mockTaskRepository = mock(TaskRepository.class);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+
+        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+
+        // when
+        // then
+        assertThatThrownBy(() -> taskServiceImpl.toggleTask(22L, 22L, mockUser1))
+                .isInstanceOf(IllegalAccessException.class)
+                .hasMessageContaining("Access denied");
+    }
+
+    @Test
+    void toggleTaskShouldThrowIllegalActionExceptionWhenProjectIsDone() {
+        // given
+        var mockProject = mock(Project.class);
+        when(mockProject.isDone()).thenReturn(true);
+        var mockUser1 = mock(User.class);
+        when(mockUser1.getId()).thenReturn(1L);
+        var mockTask = mock(Task.class);
+        when(mockTask.getUser()).thenReturn(mockUser1);
+        var mockProjectRepository = mock(ProjectRepository.class);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        var mockTaskRepository = mock(TaskRepository.class);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+
+        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+
+        // when
+        // then
+        assertThatThrownBy(() -> taskServiceImpl.toggleTask(1L, 1L, mockUser1))
+                .isInstanceOf(IllegalActionException.class)
+                .hasMessageContaining("The action is impossible to execute");
+    }
+
+    @Test
+    void toggleTaskByIdShouldChangeToTrue() {
+//        // given
+//        var mockProject = mock(Project.class);
+//        when(mockProject.isDone()).thenReturn(false);
+//        var mockUser1 = mock(User.class);
+//        when(mockUser1.getId()).thenReturn(1L);
+//        var mockTask = mock(Task.class);
+//        when(mockTask.getUser()).thenReturn(mockUser1);
+//        when(mockTask.isDone()).thenReturn(false);
+//        var mockProjectRepository = mock(ProjectRepository.class);
+//        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+//        var mockTaskRepository = mock(TaskRepository.class);
+//        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+//
+//        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+//
+//        // when
+//        taskServiceImpl.toggleTask(1L,1L, mockUser1);
+//
+//        // then
+    }
+
 }

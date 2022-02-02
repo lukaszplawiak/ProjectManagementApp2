@@ -6,7 +6,7 @@ import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.report.AllProjectListReport;
 import com.lukaszplawiak.projectapp.report.AllUserListReport;
 import com.lukaszplawiak.projectapp.report.DoneProjectsListReport;
-import com.lukaszplawiak.projectapp.report.ProjectsTaskListReport;
+import com.lukaszplawiak.projectapp.report.ProjectDetailsReport;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import com.lukaszplawiak.projectapp.service.TaskService;
 import com.lukaszplawiak.projectapp.service.UserService;
@@ -60,7 +60,7 @@ class ReportController {
         response.setHeader(headerKey, headerValue);
         Project projects = projectService.getProjectById(id);
         List<Task> tasks = taskService.getTasksByProjectId(id);
-        ProjectsTaskListReport generator = new ProjectsTaskListReport();
+        ProjectDetailsReport generator = new ProjectDetailsReport();
         generator.setProjects(projects);
         generator.setTasks(tasks);
         generator.generateProjectsTaskList(response);

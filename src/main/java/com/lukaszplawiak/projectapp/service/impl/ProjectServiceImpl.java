@@ -40,7 +40,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto, User user) {
         Project project = mapToProjectEntity(projectRequestDto);
-        projectNameValidation(projectRequestDto);
+        projectTitleValidation(projectRequestDto);
         projectDescriptionValidation(projectRequestDto);
         projectDeadlineValidation(projectRequestDto);
         project.setUser(user);
@@ -96,7 +96,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.getById(id);
         userAccessCheck(user, project);
         projectIsDoneCheck(id, project);
-        projectNameValidation(projectRequestDto);
+        projectTitleValidation(projectRequestDto);
         projectDescriptionValidation(projectRequestDto);
         projectDeadlineValidation(projectRequestDto);
         project.setId(id);
@@ -139,9 +139,9 @@ public class ProjectServiceImpl implements ProjectService {
         }
     }
 
-    private void projectNameValidation(ProjectRequestDto projectRequestDto) {
+    private void projectTitleValidation(ProjectRequestDto projectRequestDto) {
         if (projectRequestDto.getTitle() == null || projectRequestDto.getTitle().isBlank()) {
-            logger.info("Project's title must not be blank");
+            logger.info("Project's title must be at least one character");
             throw new IllegalInputException();
         }
     }

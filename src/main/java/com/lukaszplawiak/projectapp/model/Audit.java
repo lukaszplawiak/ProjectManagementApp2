@@ -17,6 +17,8 @@ public class Audit {
     @Transient
     private Clock clock = Clock.systemDefaultZone();
 
+    public Audit() {
+    }
 
     public LocalDateTime getCreatedOn() {
         return createdOn;
