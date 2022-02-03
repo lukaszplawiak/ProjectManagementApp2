@@ -421,23 +421,16 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void deleteProjectByIdShouldNotThrowAnyException() {
+    void deleteProjectByIdShouldBeSuccessful() {
         // given
         var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-
-        var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
+        var mockProjectServiceImpl = mock(ProjectServiceImpl.class);
 
         // when
-        projectServiceImpl.deleteProjectById(1L, mockUser1);
+        mockProjectServiceImpl.deleteProjectById(1L ,mockUser1);
 
         // then
-        verify(mockProjectRepository, times(1)).delete(mockProject);
+        verify(mockProjectServiceImpl, times(1)).deleteProjectById(1L , mockUser1);
     }
 
     @Test

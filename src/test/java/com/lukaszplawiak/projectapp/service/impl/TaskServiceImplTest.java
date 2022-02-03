@@ -486,26 +486,16 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void deleteTaskByIdShouldNotThrowAnyException() {
+    void deleteTaskByIdShouldBeSuccessful() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
         var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
-
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+        var mockTaskServiceImpl = mock(TaskServiceImpl.class);
 
         // when
-        taskServiceImpl.deleteTaskById(1L,1L, mockUser1);
+        mockTaskServiceImpl.deleteTaskById(1L, 1L ,mockUser1);
 
         // then
-        verify(mockTaskRepository, times(1)).delete(mockTask);
+        verify(mockTaskServiceImpl, times(1)).deleteTaskById(1L, 1L ,mockUser1);
     }
 
     @Test
