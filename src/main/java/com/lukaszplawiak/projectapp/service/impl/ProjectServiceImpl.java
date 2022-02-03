@@ -120,7 +120,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = projectRepository.getById(projectId);
         if (project.getTasks().stream().allMatch(b -> b.isDone())) {
             project.setDone(!project.isDone());
-            projectRepository.save(project);
+            //projectRepository.save(project);
             logger.info("Toggled project of id: " + projectId);
         }
     }

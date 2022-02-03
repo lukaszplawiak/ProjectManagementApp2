@@ -554,26 +554,16 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void toggleTaskByIdShouldChangeToTrue() {
-//        // given
-//        var mockProject = mock(Project.class);
-//        when(mockProject.isDone()).thenReturn(false);
-//        var mockUser1 = mock(User.class);
-//        when(mockUser1.getId()).thenReturn(1L);
-//        var mockTask = mock(Task.class);
-//        when(mockTask.getUser()).thenReturn(mockUser1);
-//        when(mockTask.isDone()).thenReturn(false);
-//        var mockProjectRepository = mock(ProjectRepository.class);
-//        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-//        var mockTaskRepository = mock(TaskRepository.class);
-//        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
-//
-//        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
-//
-//        // when
-//        taskServiceImpl.toggleTask(1L,1L, mockUser1);
-//
-//        // then
+    void toggleTaskByIdShouldBeSuccessful() {
+        // given
+        var mockUser1 = mock(User.class);
+        var mockTaskServiceImpl = mock(TaskServiceImpl.class);
+
+        // when
+        mockTaskServiceImpl.toggleTask(1L, 1L, mockUser1);
+
+        // then
+        verify(mockTaskServiceImpl, times(1)).toggleTask(1L, 1L, mockUser1);
     }
 
 }

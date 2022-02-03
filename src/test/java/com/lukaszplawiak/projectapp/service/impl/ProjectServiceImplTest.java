@@ -5,10 +5,8 @@ import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
 import com.lukaszplawiak.projectapp.exception.IllegalActionException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
-import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
-import com.lukaszplawiak.projectapp.repository.TaskRepository;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
@@ -18,11 +16,8 @@ import java.time.ZoneOffset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 class ProjectServiceImplTest {
 
@@ -233,8 +228,6 @@ class ProjectServiceImplTest {
         var mockProjectRequestDto = mock(ProjectRequestDto.class);
         when(mockProjectRequestDto.getTitle()).thenReturn(null);
 
-
-
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
@@ -438,7 +431,6 @@ class ProjectServiceImplTest {
         var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
 
-
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
@@ -449,7 +441,14 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void toggleProjectShouldChangeToTrue() {
+    void toggleProjectShouldBeSuccessful() {
+        // given
+        var mockProjectServiceImpl = mock(ProjectServiceImpl.class);
 
+        // when
+        mockProjectServiceImpl.toggleProject(1L);
+
+        // then
+        verify(mockProjectServiceImpl, times(1)).toggleProject(1L);
     }
 }
