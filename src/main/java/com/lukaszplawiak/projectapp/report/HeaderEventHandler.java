@@ -12,7 +12,7 @@ import com.itextpdf.layout.properties.TextAlignment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-class HeaderEventHandler implements IEventHandler {
+public class HeaderEventHandler implements IEventHandler {
     private String header;
 
     public HeaderEventHandler(String header) {

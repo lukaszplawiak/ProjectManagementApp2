@@ -1,9 +1,6 @@
 package com.lukaszplawiak.projectapp.report;
 
-import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
@@ -11,34 +8,38 @@ import com.itextpdf.layout.properties.TextAlignment;
 import com.itextpdf.layout.properties.UnitValue;
 import com.lukaszplawiak.projectapp.model.Project;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public class AllProjectListReport {
-    private List<Project> projects;
+public class AllProjectsReportGenerator extends ReportGenerator{
+    private final List<Project> projects;
 
-    public void setProjects(List<Project> projects) {
+    public AllProjectsReportGenerator(List<Project> projects) {
         this.projects = projects;
     }
 
-    public void generateProjectList(HttpServletResponse response) throws IOException {
-        PdfWriter writer = new PdfWriter(response.getOutputStream());
-        PdfDocument pdfDocument = new PdfDocument(writer);
-        HeaderEventHandler headerEventHandler = new HeaderEventHandler("Project Management App by Lukasz Plawiak");
-        FooterEventHandler footerEventHandler = new FooterEventHandler();
-        pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, headerEventHandler);
-        pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
-        pdfDocument.setDefaultPageSize(PageSize.A4.rotate());
+    @Override
+    protected String getReportName() {
+        return "Projects_List_Report_" + LocalDateTime.now().withSecond(0).withNano(0);
+    }
 
-        Document document = new Document(pdfDocument);
+    @Override
+    protected PageSize getPageSize() {
+        return PageSize.A4.rotate();
+    }
+
+    @Override
+    protected void writeTitle(Document document) {
         Paragraph paragraph = new Paragraph("All Project's List");
         paragraph.setFontSize(12);
         paragraph.setTextAlignment(TextAlignment.CENTER);
         paragraph.setBold();
         paragraph.setMargin(10);
         document.add(paragraph);
+    }
 
+    @Override
+    protected void writeContent(Document document) {
         float[] columnWidth = {1, 7, 3, 3, 3, 1, 2};
         Table table = new Table(UnitValue.createPercentArray(columnWidth));
         table.setWidth(UnitValue.createPercentValue(100));
@@ -66,6 +67,6 @@ public class AllProjectListReport {
             table.addCell(project.getUser().getFirstName() + " " + project.getUser().getLastName());
         }
         document.add(table);
-        document.close();
     }
+
 }

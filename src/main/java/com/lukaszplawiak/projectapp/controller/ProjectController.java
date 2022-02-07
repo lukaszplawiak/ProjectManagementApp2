@@ -6,6 +6,7 @@ import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.service.ProjectService;
 import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,7 +21,7 @@ class ProjectController {
     private final ProjectService projectService;
     private final UserService userService;
 
-    public ProjectController(final ProjectService projectService, UserService userService) {
+    public ProjectController(ProjectService projectService, UserService userService) {
         this.projectService = projectService;
         this.userService = userService;
     }
@@ -39,7 +40,7 @@ class ProjectController {
     }
 
     @GetMapping
-    ResponseEntity<List<ProjectResponseDto>> readAllProjects(Pageable pageable) {
+    ResponseEntity<List<ProjectResponseDto>> readAllProjects(@PageableDefault Pageable pageable) {
         return new ResponseEntity<>(projectService.getAllDtoProjects(pageable), HttpStatus.OK);
     }
 
@@ -58,10 +59,10 @@ class ProjectController {
     }
 
     @DeleteMapping(path = "/{id}")
-    ResponseEntity<String> deleteProject(@PathVariable Long id, Authentication authentication) {
+    ResponseEntity<?> deleteProject(@PathVariable Long id, Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);
         projectService.deleteProjectById(id, user);
-        return new ResponseEntity<>("Project entity of id: " + id + " deleted", HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 }

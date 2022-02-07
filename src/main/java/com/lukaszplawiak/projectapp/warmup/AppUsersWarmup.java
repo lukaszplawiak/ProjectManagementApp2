@@ -17,10 +17,10 @@ public class AppUsersWarmup implements ApplicationListener<ContextRefreshedEvent
 
     @Override
     public void onApplicationEvent(final ContextRefreshedEvent event) {
-        userService.saveRole(new Role(null, "ROLE_USER"));
-        userService.saveRole(new Role(null, "ROLE_MANAGER"));
-        userService.saveRole(new Role(null, "ROLE_ADMIN"));
-        userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+//        userService.saveRole(new Role(null, "ROLE_USER"));
+//        userService.saveRole(new Role(null, "ROLE_MANAGER"));
+//        userService.saveRole(new Role(null, "ROLE_ADMIN"));
+//        userService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("Lukasz").withLastName("Plawiak").withEmail("lukpla@gmail.com").withPassword("1234").build());
         userService.saveUser(UserRequestDto.UserRequestDtoBuilder.anUserRequestDto().withFirstName("John").withLastName("Smith").withEmail("johnsmith@gmail.com").withPassword("1234").build());

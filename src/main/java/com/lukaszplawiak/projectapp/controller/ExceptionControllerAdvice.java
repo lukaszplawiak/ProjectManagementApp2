@@ -15,7 +15,7 @@ class ExceptionControllerAdvice {
     }
     @ExceptionHandler(IllegalActionException.class)
     ResponseEntity<?> handleIllegalActionTaskException(IllegalActionException e) {
-        return ResponseEntity.status(403).build();
+        return ResponseEntity.status(409).build();
     }
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {

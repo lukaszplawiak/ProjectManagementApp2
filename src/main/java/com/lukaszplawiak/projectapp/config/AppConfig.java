@@ -10,9 +10,10 @@ import java.time.Clock;
 @Configuration
 public class AppConfig {
     @Bean
-    public Clock clock() {
+    Clock clock() {
         return Clock.systemDefaultZone();
     }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

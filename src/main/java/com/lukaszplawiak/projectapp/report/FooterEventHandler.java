@@ -12,7 +12,7 @@ import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.properties.TextAlignment;
 
-class FooterEventHandler implements IEventHandler {
+public class FooterEventHandler implements IEventHandler {
     protected PdfFormXObject placeholder;
     protected final float side = 20;
 

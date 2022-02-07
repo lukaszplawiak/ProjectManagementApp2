@@ -1,89 +1,49 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.model.Project;
-import com.lukaszplawiak.projectapp.model.Task;
-import com.lukaszplawiak.projectapp.model.User;
-import com.lukaszplawiak.projectapp.report.AllProjectListReport;
-import com.lukaszplawiak.projectapp.report.AllUserListReport;
-import com.lukaszplawiak.projectapp.report.DoneProjectsListReport;
-import com.lukaszplawiak.projectapp.report.ProjectDetailsReport;
-import com.lukaszplawiak.projectapp.service.ProjectService;
-import com.lukaszplawiak.projectapp.service.TaskService;
-import com.lukaszplawiak.projectapp.service.UserService;
+import com.lukaszplawiak.projectapp.report.*;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.io.File;
+
+import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 
 @RestController
-@RequestMapping("/api/v1/report")
+@RequestMapping("/api/v1/reports/{reportType}")
 class ReportController {
-    private final UserService userService;
-    private final ProjectService projectService;
-    private final TaskService taskService;
+    private final ReportGenerationService reportGenerationService;
 
-    ReportController(UserService userService, ProjectService projectService, TaskService taskService) {
-        this.userService = userService;
-        this.projectService = projectService;
-        this.taskService = taskService;
+    ReportController(ReportGenerationService reportGenerationService) {
+        this.reportGenerationService = reportGenerationService;
     }
 
-    @GetMapping(path = "/users")
-    public void getReportUsersList(HttpServletResponse response) throws IOException {
-        String headerKey = setContentType();
-        String headerValue = "attachment; filename=Employees_List_Report_" + currentDateTime() + ".pdf";
-        response.setHeader(headerKey, headerValue);
-        List<User> users = userService.getUsers();
-        AllUserListReport generator = new AllUserListReport();
-        generator.setUsers(users);
-        generator.generateUserList(response);
+    @GetMapping()
+    public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
+                                              @RequestParam(name = "done", required = false, defaultValue = "true") boolean done,
+                                              @RequestParam(name = "id", required = false) String id,
+                                              @RequestParam(name = "email", required = false) String email)
+    {
+        File report = reportGenerationService.generateReport(reportType, done, id , email); //
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
+                .body(new FileSystemResource(report));
     }
 
-    @GetMapping(path = "/projects")
-    public void getReportProjectsList(HttpServletResponse response) throws IOException {
-        String headerKey = setContentType();
-        String headerValue = "attachment; filename=Projects_List_Report_" + currentDateTime() + ".pdf";
-        response.setHeader(headerKey, headerValue);
-        List<Project> projects = projectService.getAllProjects();
-        AllProjectListReport generator = new AllProjectListReport();
-        generator.setProjects(projects);
-        generator.generateProjectList(response);
+//    @GetMapping()
+//    public ResponseEntity<Resource> getReportById(@PathVariable ReportType reportType, @RequestParam(required = false) String id, @RequestParam(required = false) String email) {
+//        File report = reportGenerationService.generateReport(reportType, id, email);
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_PDF)
+//                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
+//                .body(new FileSystemResource(report));
+//    }
+
+    private String prepareContentDispositionHeader(File report) {
+        return "attachment; filename=" + report.getName();
     }
 
-    @GetMapping(path = "/projects/{id}")
-    public void getReportProjectsTaskList(HttpServletResponse response, @PathVariable Long id) throws IOException {
-        String headerKey = setContentType();
-        String headerValue = "attachment; filename=Project_Details_List_Report_" + currentDateTime() + ".pdf";
-        response.setHeader(headerKey, headerValue);
-        Project projects = projectService.getProjectById(id);
-        List<Task> tasks = taskService.getTasksByProjectId(id);
-        ProjectDetailsReport generator = new ProjectDetailsReport();
-        generator.setProjects(projects);
-        generator.setTasks(tasks);
-        generator.generateProjectsTaskList(response);
-    }
-
-    @GetMapping(path = "/projects/search")
-    public void getReportProjectsTaskList(HttpServletResponse response, @RequestParam(defaultValue = "true") boolean done) throws IOException {
-        String headerKey = setContentType();
-        String headerValue = "attachment; filename=Projects_Done_List_Report_" + currentDateTime() + ".pdf";
-        response.setHeader(headerKey, headerValue);
-        List<Project> projects = projectService.getProjectByDone(done);
-        DoneProjectsListReport generator = new DoneProjectsListReport();
-        generator.setProjects(projects);
-        generator.generateDoneProjectList(response);
-    }
-
-    private String setContentType() {
-        return "Content-Disposition";
-    }
-
-    private String currentDateTime() {
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        return dateFormat.format(currentDateTime);
-    }
 }
