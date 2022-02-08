@@ -84,6 +84,7 @@ public class User {
 
 
     public static final class UserBuilder {
+        private Long id;
         private String firstName;
         private String lastName;
         private String email;
@@ -94,6 +95,11 @@ public class User {
 
         public static UserBuilder anUser() {
             return new UserBuilder();
+        }
+
+        public UserBuilder withId(Long id) {
+            this.id = id;
+            return this;
         }
 
         public UserBuilder withFirstName(String firstName) {
@@ -118,6 +124,7 @@ public class User {
 
         public User build() {
             User user = new User();
+            user.setId(id);
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setEmail(email);

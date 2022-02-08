@@ -30,97 +30,103 @@ class TaskServiceImplTest {
     @Test
     void createTaskShouldThrowIllegalActionExceptionWhenProjectIsDone() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(true);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(true)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, null, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), null, null))
                 .isInstanceOf(IllegalActionException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTasksNameIsNull() {
+    void createTaskShouldThrowIllegalInputExceptionWhenTaskNameIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn(null);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+        var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTasksNameIsEmpty() {
+    void createTaskShouldThrowIllegalInputExceptionWhenTaskNameIsEmpty() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("");
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+        var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTasksNameIsBlank() {
+    void createTaskShouldThrowIllegalInputExceptionWhenTaskNameIsBlank() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("   ");
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("   ")
+                .build();
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+        var mockProjectRepository = mock(ProjectRepository.class);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
+
+        var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTasksCommentIsNull() {
+    void createTaskShouldThrowIllegalInputExceptionWhenTaskCommentIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn(null);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+        var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -128,21 +134,22 @@ class TaskServiceImplTest {
     @Test
     void createTaskShouldThrowIllegalInputExceptionWhenTasksDeadlineIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn("Comment");
-        when(mockTaskRequestDto.getDeadline()).thenReturn(null);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
+        var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -154,21 +161,22 @@ class TaskServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(LocalDate.now(fixedClock))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockTaskRepository = mock(TaskRepository.class);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn("Comment");
-        when(mockTaskRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClock));
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
-        var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClockPlusDay);
+        var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, fixedClockPlusDay);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -180,23 +188,26 @@ class TaskServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var newTask = mock(Task.class);
+        Project project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(LocalDate.now(fixedClockPlusDay))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.save(any())).thenReturn(newTask);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn("Comment");
-        when(mockTaskRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClockPlusDay));
+        when(mockTaskRepository.save(any())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
 
         // when
         // then
-        assertThat(taskServiceImpl.createTask(22L, mockTaskRequestDto, null))
+        assertThat(taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isNotInstanceOfAny(
                         IllegalAccessException.class,
                         IllegalActionException.class,
@@ -207,21 +218,24 @@ class TaskServiceImplTest {
     @Test
     void updateTaskByIdShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser2);
+        var user1 = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var user2 = User.UserBuilder.anUser()
+                .withId(2L)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user2)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(null, 1L, null, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(null, anyLong(), null, user1))
                 .isInstanceOf(IllegalAccessException.class)
                 .hasMessageContaining("Access denied");
     }
@@ -229,46 +243,55 @@ class TaskServiceImplTest {
     @Test
     void updateTaskByIdShouldThrowIllegalActionExceptionWhenProjectIsDone() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(true);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(true)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, null, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, null, user))
                 .isInstanceOf(IllegalActionException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksTitleIsNull() {
+    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTaskNameIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn(null);
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -276,23 +299,28 @@ class TaskServiceImplTest {
     @Test
     void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksTitleIsEmpty() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("");
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -300,23 +328,28 @@ class TaskServiceImplTest {
     @Test
     void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksTitleIsBlank() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("   ");
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("   ")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -324,24 +357,29 @@ class TaskServiceImplTest {
     @Test
     void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksCommentIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn(null);
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -352,25 +390,30 @@ class TaskServiceImplTest {
         LocalDateTime now = LocalDateTime.of(2022, 01, 10, 0, 0);
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn("Ok");
-        when(mockTaskRequestDto.getDeadline()).thenReturn(null);
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
 
@@ -383,25 +426,30 @@ class TaskServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn("Ok");
-        when(mockTaskRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClock));
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(LocalDate.now(fixedClock))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClockPlusDay);
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -413,26 +461,31 @@ class TaskServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
-        var mockTaskRequestDto = mock(TaskRequestDto.class);
-        when(mockTaskRequestDto.getName()).thenReturn("Name");
-        when(mockTaskRequestDto.getComment()).thenReturn("Ok");
-        when(mockTaskRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClockPlusDay));
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask()
+                .withUser(user)
+                .build();
+        var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(LocalDate.now(fixedClockPlusDay))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
 
         // when
         // then
-        assertThat(taskServiceImpl.updateTaskById(22L, 22L, mockTaskRequestDto, mockUser1))
+        assertThat(taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isNotInstanceOfAny(
                         IllegalAccessException.class,
                         IllegalActionException.class,
@@ -441,23 +494,27 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void deleteTaskByIdShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
+    void deleteTaskByIdShouldThrowIllegalAccessExceptionWhenUserTryToDeleteNotOwnTask() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser2);
+        Long id = 1L;
+        var user1 = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var user2 = User.UserBuilder.anUser()
+                .withId(2L)
+                .build();
+        var task = Task.TaskBuilder.aTask().
+                withUser(user2)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(22L, 22L, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(id, id, user1))
                 .isInstanceOf(IllegalAccessException.class)
                 .hasMessageContaining("Access denied");
     }
@@ -465,22 +522,26 @@ class TaskServiceImplTest {
     @Test
     void deleteTaskByIdShouldThrowIllegalActionExceptionWhenProjectIsDone() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(true);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(true)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask().
+                withUser(user)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(22L, 22L, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(id, id, user))
                 .isInstanceOf(IllegalActionException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
@@ -488,34 +549,41 @@ class TaskServiceImplTest {
     @Test
     void deleteTaskByIdShouldBeSuccessful() {
         // given
-        var mockUser1 = mock(User.class);
+        Long id = 1L;
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
         var mockTaskServiceImpl = mock(TaskServiceImpl.class);
 
         // when
-        mockTaskServiceImpl.deleteTaskById(1L, 1L ,mockUser1);
+        mockTaskServiceImpl.deleteTaskById(id, id ,user);
 
         // then
-        verify(mockTaskServiceImpl, times(1)).deleteTaskById(1L, 1L ,mockUser1);
+        verify(mockTaskServiceImpl, times(1)).deleteTaskById(id, id ,user);
     }
 
     @Test
     void toggleTaskShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser2);
+        Long id = 1L;
+        var user1 = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var user2 = User.UserBuilder.anUser()
+                .withId(2L)
+                .build();
+        var task = Task.TaskBuilder.aTask().
+                withUser(user2)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.toggleTask(22L, 22L, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.toggleTask(id, id, user1))
                 .isInstanceOf(IllegalAccessException.class)
                 .hasMessageContaining("Access denied");
     }
@@ -523,22 +591,26 @@ class TaskServiceImplTest {
     @Test
     void toggleTaskShouldThrowIllegalActionExceptionWhenProjectIsDone() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(true);
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockTask = mock(Task.class);
-        when(mockTask.getUser()).thenReturn(mockUser1);
+        Long id = 1L;
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(true)
+                .build();
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
+        var task = Task.TaskBuilder.aTask().
+                withUser(user)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
         var mockTaskRepository = mock(TaskRepository.class);
-        when(mockTaskRepository.getById(anyLong())).thenReturn(mockTask);
+        when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
 
         // when
         // then
-        assertThatThrownBy(() -> taskServiceImpl.toggleTask(1L, 1L, mockUser1))
+        assertThatThrownBy(() -> taskServiceImpl.toggleTask(id, id, user))
                 .isInstanceOf(IllegalActionException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
@@ -546,14 +618,16 @@ class TaskServiceImplTest {
     @Test
     void toggleTaskByIdShouldBeSuccessful() {
         // given
-        var mockUser1 = mock(User.class);
+        Long id = 1L;
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
         var mockTaskServiceImpl = mock(TaskServiceImpl.class);
 
         // when
-        mockTaskServiceImpl.toggleTask(1L, 1L, mockUser1);
+        mockTaskServiceImpl.toggleTask(id, id, user);
 
         // then
-        verify(mockTaskServiceImpl, times(1)).toggleTask(1L, 1L, mockUser1);
+        verify(mockTaskServiceImpl, times(1)).toggleTask(id, id, user);
     }
-
 }

@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 
-import static com.lukaszplawiak.projectapp.report.ReportType.DETAILS_PROJECT;
-import static com.lukaszplawiak.projectapp.report.ReportType.DETAILS_USER;
-
 @Service
 public class ReportGenerationService {
     private final UserService userService;
@@ -22,8 +19,25 @@ public class ReportGenerationService {
         this.taskService = taskService;
     }
 
-    public File generateReport(ReportType reportType, boolean done, String email , String projectId) { //
-        Long parseId = Long.parseLong(projectId);
+//    public File generateReport(ReportType reportType, boolean done, String email , String projectId) { //
+//        Long parseId = Long.parseLong(projectId);
+//        switch (reportType) {
+//            case ALL_PROJECTS:
+//                return new AllProjectsReportGenerator(projectService.getAllProjects()).generate();
+//            case USERS:
+//                return new AllUsersReportGenerator(userService.getUsers()).generate();
+//            case DONE_PROJECTS:
+//                return new DoneProjectsReportGenerator(projectService.getProjectByDone(done)).generate();
+//            case DETAILS_PROJECT:
+//                return new DetailsProjectReportGenerator(projectService.getProjectById(parseId), taskService.getTasksByProjectId(parseId)).generate();
+//            case DETAILS_USER:
+//                return new DetailsUserReportGenerator(userService.getUser(email), projectService.getProjectById(parseId), projectService.getAllProjects(), taskService.getTasksByProjectId(parseId)).generate();
+//            default:
+//                throw new IllegalArgumentException();
+//        }
+//    }
+
+    public File generateReport(ReportType reportType, boolean done) {
         switch (reportType) {
             case ALL_PROJECTS:
                 return new AllProjectsReportGenerator(projectService.getAllProjects()).generate();
@@ -31,6 +45,14 @@ public class ReportGenerationService {
                 return new AllUsersReportGenerator(userService.getUsers()).generate();
             case DONE_PROJECTS:
                 return new DoneProjectsReportGenerator(projectService.getProjectByDone(done)).generate();
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    public File generateReport(ReportType reportType, String projectId, String email) {
+        Long parseId = Long.parseLong(projectId);
+        switch (reportType) {
             case DETAILS_PROJECT:
                 return new DetailsProjectReportGenerator(projectService.getProjectById(parseId), taskService.getTasksByProjectId(parseId)).generate();
             case DETAILS_USER:
@@ -39,18 +61,6 @@ public class ReportGenerationService {
                 throw new IllegalArgumentException();
         }
     }
-
-//    public File generateReport(ReportType reportType, String projectId, String email) {
-//        Long parseId = Long.parseLong(projectId);
-//        switch (reportType) {
-//            case DETAILS_PROJECT:
-//                return new DetailsProjectReportGenerator(projectService.getProjectById(parseId), taskService.getTasksByProjectId(parseId)).generate();
-//            case DETAILS_USER:
-//                return new DetailsUserReportGenerator(userService.getUser(email), projectService.getProjectById(parseId), projectService.getAllProjects(), taskService.getTasksByProjectId(parseId)).generate();
-//                default:
-//                throw new IllegalArgumentException();
-//        }
-//    }
 
     public static class Report {
 

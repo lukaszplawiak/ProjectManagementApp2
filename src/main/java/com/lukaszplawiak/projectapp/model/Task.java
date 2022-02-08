@@ -100,7 +100,7 @@ public class Task {
         return Objects.hash(id, name, comment, deadline, done, audit, project, user);
     }
 
-    public static final class Builder {
+    public static final class TaskBuilder {
         private Long id;
         private String name;
         private String comment;
@@ -109,44 +109,44 @@ public class Task {
         private Project project;
         private User user;
 
-        private Builder() {
+        private TaskBuilder() {
         }
 
-        public static Builder aTask() {
-            return new Builder();
+        public static TaskBuilder aTask() {
+            return new TaskBuilder();
         }
 
-        public Builder withId(Long id) {
+        public TaskBuilder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Builder withName(String name) {
+        public TaskBuilder withName(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder withComment(String comment) {
+        public TaskBuilder withComment(String comment) {
             this.comment = comment;
             return this;
         }
 
-        public Builder withDeadline(LocalDate deadline) {
+        public TaskBuilder withDeadline(LocalDate deadline) {
             this.deadline = deadline;
             return this;
         }
 
-        public Builder withDone(boolean done) {
+        public TaskBuilder withDone(boolean done) {
             this.done = done;
             return this;
         }
 
-        public Builder withProject(Project project) {
+        public TaskBuilder withProject(Project project) {
             this.project = project;
             return this;
         }
 
-        public Builder withUser(User user) {
+        public TaskBuilder withUser(User user) {
             this.user = user;
             return this;
         }

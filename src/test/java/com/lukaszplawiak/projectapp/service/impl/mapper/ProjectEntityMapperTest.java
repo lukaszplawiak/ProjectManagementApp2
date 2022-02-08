@@ -17,19 +17,19 @@ class ProjectEntityMapperTest {
     @Test
     void mapToProjectEntityShouldBeSuccessful() {
         // given
-        Task task1 = new Task();
-        Task task2 = new Task();
+        var task1 = new Task();
+        var task2 = new Task();
         Set<Task> tasks = new HashSet<>();
         tasks.add(task1);
         tasks.add(task2);
-        ProjectRequestDto buildProject = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+        var buildProject = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("Title")
                 .withDescription("Description")
                 .withDeadline(LocalDate.parse("2022-06-12"))
                 .build();
 
         // when
-        Project project = mapToProjectEntity(buildProject);
+        var project = mapToProjectEntity(buildProject);
 
         // then
         assertThat(project)

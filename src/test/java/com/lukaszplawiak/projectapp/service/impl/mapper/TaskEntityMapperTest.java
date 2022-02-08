@@ -15,16 +15,14 @@ class TaskEntityMapperTest {
     @Test
     void mapToTaskEntityShouldBeSuccessful() {
         // given
-        Project project = new Project();
-        project.setId(1L);
-        TaskRequestDto buildTask = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+        var buildTask = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName("Task Name")
                 .withComment("Task Comment")
                 .withDeadline(LocalDate.parse("2022-09-27"))
                 .build();
 
         // when
-        Task task = mapToTaskEntity(buildTask);
+        var task = mapToTaskEntity(buildTask);
 
         // then
         assertThat(task)

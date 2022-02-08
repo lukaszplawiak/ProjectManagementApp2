@@ -15,9 +15,7 @@ class TaskResponseDtoMapperTest {
     @Test
     void mapToTaskResponseDtoShouldBeSuccessful() {
         // given
-        Project project = new Project();
-        project.setId(1L);
-        Task buildTask = Task.Builder.aTask()
+        var task = Task.TaskBuilder.aTask()
                 .withId(2L)
                 .withName("Task Name")
                 .withComment("Task Comment")
@@ -26,15 +24,15 @@ class TaskResponseDtoMapperTest {
                 .build();
 
         // when
-        TaskResponseDto taskResponseDto = mapToTaskResponseDto(buildTask);
+        var taskResponseDto = mapToTaskResponseDto(task);
 
         // then
         assertThat(taskResponseDto)
                 .isNotNull()
-                .hasFieldOrPropertyWithValue("id", buildTask.getId())
-                .hasFieldOrPropertyWithValue("name", buildTask.getName())
-                .hasFieldOrPropertyWithValue("comment", buildTask.getComment())
-                .hasFieldOrPropertyWithValue("deadline", buildTask.getDeadline())
-                .hasFieldOrPropertyWithValue("done", buildTask.isDone());
+                .hasFieldOrPropertyWithValue("id", task.getId())
+                .hasFieldOrPropertyWithValue("name", task.getName())
+                .hasFieldOrPropertyWithValue("comment", task.getComment())
+                .hasFieldOrPropertyWithValue("deadline", task.getDeadline())
+                .hasFieldOrPropertyWithValue("done", task.isDone());
     }
 }

@@ -24,17 +24,16 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsTitleIsNull() {
         // given
-        var mockProject = mock(Project.class);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn(null);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThatThrownBy(() -> projectServiceImpl.createProject(projectRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -42,17 +41,16 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsTitleIsEmpty() {
         // given
-        var mockProject = mock(Project.class);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("");
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThatThrownBy(() -> projectServiceImpl.createProject(projectRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -60,18 +58,16 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsTitleIsBlank() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("   ")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("   ");
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThatThrownBy(() -> projectServiceImpl.createProject(projectRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -79,19 +75,17 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsDescriptionIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn(null);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThatThrownBy(() -> projectServiceImpl.createProject(projectRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -99,20 +93,18 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsDeadlineIsNull() {
         // given
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription("Description")
+                .withDeadline(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn("Description");
-        when(mockProjectRequestDto.getDeadline()).thenReturn(null);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThatThrownBy(() -> projectServiceImpl.createProject(projectRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -124,20 +116,18 @@ class ProjectServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription("Description")
+                .withDeadline(LocalDate.now(fixedClock))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn("Description");
-        when(mockProjectRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClock));
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClockPlusDay);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThatThrownBy(() -> projectServiceImpl.createProject(projectRequestDto, null))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -149,20 +139,18 @@ class ProjectServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockProject = mock(Project.class);
-        when(mockProject.isDone()).thenReturn(false);
+        var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription("Description")
+                .withDeadline(LocalDate.now(fixedClockPlusDay))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn("Description");
-        when(mockProjectRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClockPlusDay));
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClock);
 
         // when
         // then
-        assertThat(projectServiceImpl.createProject(mockProjectRequestDto, null))
+        assertThat(projectServiceImpl.createProject(projectRequestDto, null))
                 .isNotInstanceOfAny(
                         IllegalAccessException.class,
                         IllegalActionException.class,
@@ -173,20 +161,23 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnProject() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser2);
+        var user1 = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var user2 = User.UserBuilder.anUser()
+                .withId(2L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withUser(user2)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject( null , 1L , mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject( null , anyLong() , user1))
                 .isInstanceOf(IllegalAccessException.class)
                 .hasMessageContaining("Access denied");
     }
@@ -194,21 +185,21 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectIsDone() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(true);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(true)
+                .withUser(user)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(null, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(null, anyLong(), user))
                 .isInstanceOf(IllegalActionException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
@@ -216,23 +207,24 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectsTitleIsNull() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn(null);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(mockProjectRequestDto, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -240,23 +232,24 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectsTitleIsEmpty() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("");
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(mockProjectRequestDto, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -264,23 +257,24 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectsTitleIsBlank() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("   ")
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("   ");
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(mockProjectRequestDto, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -288,24 +282,25 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectsDescriptionIsNull() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn(null);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(mockProjectRequestDto, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -313,25 +308,26 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectsDeadlineIsNull() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription("Description")
+                .withDeadline(null)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn("Description");
-        when(mockProjectRequestDto.getDeadline()).thenReturn(null);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(mockProjectRequestDto, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -343,25 +339,26 @@ class ProjectServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription("Description")
+                .withDeadline(LocalDate.now(fixedClock))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn("Description");
-        when(mockProjectRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClock));
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClockPlusDay);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(mockProjectRequestDto, 1L, mockUser1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -373,25 +370,26 @@ class ProjectServiceImplTest {
         var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
         var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
 
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
-        when(mockProject.isDone()).thenReturn(false);
+        var user = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withDone(false)
+                .withUser(user)
+                .build();
+        ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title")
+                .withDescription("Description")
+                .withDeadline(LocalDate.now(fixedClockPlusDay))
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
-        var mockProjectRequestDto = mock(ProjectRequestDto.class);
-        when(mockProjectRequestDto.getTitle()).thenReturn("Title");
-        when(mockProjectRequestDto.getDescription()).thenReturn("Description");
-        when(mockProjectRequestDto.getDeadline()).thenReturn(LocalDate.now(fixedClockPlusDay));
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClock);
 
         // when
         // then
-        assertThat(projectServiceImpl.updateProject( mockProjectRequestDto , 1L , mockUser1))
+        assertThat(projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
                 .isNotInstanceOfAny(
                         IllegalAccessException.class,
                         IllegalActionException.class,
@@ -400,22 +398,25 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void deleteProjectByIdShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnProject() {
+    void deleteProjectByIdShouldThrowIllegalAccessExceptionWhenUserTryToDeleteNotOwnProject() {
         // given
-        var mockUser1 = mock(User.class);
-        when(mockUser1.getId()).thenReturn(1L);
-        var mockUser2 = mock(User.class);
-        when(mockUser2.getId()).thenReturn(2L);
-        var mockProject = mock(Project.class);
-        when(mockProject.getUser()).thenReturn(mockUser1);
+        var user1 = User.UserBuilder.anUser()
+                .withId(1L)
+                .build();
+        var user2 = User.UserBuilder.anUser()
+                .withId(2L)
+                .build();
+        var project = Project.ProjectBuilder.aProject()
+                .withUser(user2)
+                .build();
         var mockProjectRepository = mock(ProjectRepository.class);
-        when(mockProjectRepository.getById(anyLong())).thenReturn(mockProject);
+        when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.deleteProjectById(22L, mockUser2))
+        assertThatThrownBy(() -> projectServiceImpl.deleteProjectById(anyLong(), user1))
                 .isInstanceOf(IllegalAccessException.class)
                 .hasMessageContaining("Access denied");
     }
@@ -423,14 +424,17 @@ class ProjectServiceImplTest {
     @Test
     void deleteProjectByIdShouldBeSuccessful() {
         // given
-        var mockUser1 = mock(User.class);
+        Long id = 1L;
+        var user = User.UserBuilder.anUser()
+                .withId(id)
+                .build();
         var mockProjectServiceImpl = mock(ProjectServiceImpl.class);
 
         // when
-        mockProjectServiceImpl.deleteProjectById(1L ,mockUser1);
+        mockProjectServiceImpl.deleteProjectById(id ,user);
 
         // then
-        verify(mockProjectServiceImpl, times(1)).deleteProjectById(1L , mockUser1);
+        verify(mockProjectServiceImpl, times(1)).deleteProjectById(id, user);
     }
 
     @Test

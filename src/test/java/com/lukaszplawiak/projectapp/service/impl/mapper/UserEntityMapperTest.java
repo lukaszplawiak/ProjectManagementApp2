@@ -12,7 +12,7 @@ class UserEntityMapperTest {
     @Test
     void mapToUserEntityShouldBeSuccessful() {
         // given
-        UserRequestDto userRequestDto = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
+        var userRequestDto = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
                 .withFirstName("First Name")
                 .withLastName("Last Name")
                 .withEmail("email@email.com")
@@ -20,7 +20,7 @@ class UserEntityMapperTest {
                 .build();
 
         // when
-        User user = mapToUserEntity(userRequestDto);
+        var user = mapToUserEntity(userRequestDto);
 
         // then
         assertThat(user)

@@ -5,7 +5,7 @@ import com.lukaszplawiak.projectapp.model.Task;
 
 public class TaskEntityMapper {
     public static Task mapToTaskEntity(TaskRequestDto taskRequestDto) {
-        return Task.Builder.aTask()
+        return Task.TaskBuilder.aTask()
                 .withName(taskRequestDto.getName())
                 .withComment(taskRequestDto.getComment())
                 .withDeadline(taskRequestDto.getDeadline())

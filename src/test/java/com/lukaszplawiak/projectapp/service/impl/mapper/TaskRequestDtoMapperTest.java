@@ -15,9 +15,7 @@ class TaskRequestDtoMapperTest {
     @Test
     void mapToTaskRequestDtoShouldBeSuccessful() {
         // given
-        Project project = new Project();
-        project.setId(1L);
-        Task buildTask = Task.Builder.aTask()
+        var task = Task.TaskBuilder.aTask()
                 .withId(2L)
                 .withName("Task Name")
                 .withComment("Task Comment")
@@ -25,13 +23,13 @@ class TaskRequestDtoMapperTest {
                 .build();
 
         // when
-        TaskRequestDto taskRequestDto = mapToTaskRequestDto(buildTask);
+        var taskRequestDto = mapToTaskRequestDto(task);
 
         // then
         assertThat(taskRequestDto)
                 .isNotNull()
-                .hasFieldOrPropertyWithValue("name", buildTask.getName())
-                .hasFieldOrPropertyWithValue("comment", buildTask.getComment())
-                .hasFieldOrPropertyWithValue("deadline", buildTask.getDeadline());
+                .hasFieldOrPropertyWithValue("name", task.getName())
+                .hasFieldOrPropertyWithValue("comment", task.getComment())
+                .hasFieldOrPropertyWithValue("deadline", task.getDeadline());
     }
 }

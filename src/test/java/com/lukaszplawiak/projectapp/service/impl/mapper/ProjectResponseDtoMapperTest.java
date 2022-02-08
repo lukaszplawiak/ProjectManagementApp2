@@ -17,12 +17,12 @@ class ProjectResponseDtoMapperTest {
     @Test
     void mapToProjectResponseDtoShouldBeSuccessful() {
         // given
-        Task task1 = new Task();
-        Task task2 = new Task();
+        var task1 = new Task();
+        var task2 = new Task();
         Set<Task> tasks = new HashSet<>();
         tasks.add(task1);
         tasks.add(task2);
-        Project buildProject = Project.ProjectBuilder.aProject()
+        var buildProject = Project.ProjectBuilder.aProject()
                 .withId(1L)
                 .withTitle("Title")
                 .withDescription("Description")
@@ -32,7 +32,7 @@ class ProjectResponseDtoMapperTest {
                 .build();
 
         // when
-        ProjectResponseDto projectResponseDto = mapToProjectResponseDto(buildProject);
+        var projectResponseDto = mapToProjectResponseDto(buildProject);
 
         // then
         assertThat(projectResponseDto)

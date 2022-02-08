@@ -16,15 +16,15 @@ class UserResponseDtoMapperTest {
     @Test
     void mapToUserResponseDtoShouldBeSuccessful() {
         // given
-        Role role1 = new Role(1L, "ROLE_USER");
-        Role role2 = new Role(1L, "ROLE_ADMIN");
+        var role1 = new Role(1L, "ROLE_USER");
+        var role2 = new Role(1L, "ROLE_ADMIN");
         Collection<Role> roles = new ArrayList<>();
         roles.add(role1);
         roles.add(role2);
-        User user = new User(12L, "First Name", "Last Name", "email@email.com", "1234", roles);
+        var user = new User(12L, "First Name", "Last Name", "email@email.com", "1234", roles);
 
         // when
-        UserResponseDto userResponseDto = mapToUserResponseDto(user);
+        var userResponseDto = mapToUserResponseDto(user);
 
         // then
         assertThat(userResponseDto)
