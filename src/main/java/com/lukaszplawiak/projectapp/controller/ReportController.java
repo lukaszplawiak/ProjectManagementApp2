@@ -20,40 +20,41 @@ class ReportController {
         this.reportGenerationService = reportGenerationService;
     }
 
+    @GetMapping()
+    public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
+                                              @RequestParam(name = "done", required = false, defaultValue = "true") boolean done,
+                                              @RequestParam(name = "id", required = false) String id,
+                                              @RequestParam(name = "email", required = false) String email)
+    {
+        File report = reportGenerationService.generateReport(reportType, done, id , email); //
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
+                .body(new FileSystemResource(report));
+    }
+
 //    @GetMapping()
 //    public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
-//                                              @RequestParam(name = "done", required = false, defaultValue = "true") boolean done,
-//                                              @RequestParam(name = "id", required = false) String id,
-//                                              @RequestParam(name = "email", required = false) String email)
+//                                              @RequestParam(defaultValue = "true") boolean done)
 //    {
-//        File report = reportGenerationService.generateReport(reportType, done, id , email); //
+//        File report = reportGenerationService.generateReport(reportType, done); //
 //        return ResponseEntity.ok()
 //                .contentType(MediaType.APPLICATION_PDF)
 //                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
 //                .body(new FileSystemResource(report));
 //    }
-
-    @GetMapping()
-    public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
-                                              @RequestParam(defaultValue = "true") boolean done)
-    {
-        File report = reportGenerationService.generateReport(reportType, done); //
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
-                .body(new FileSystemResource(report));
-    }
-
-    @GetMapping()
-    public ResponseEntity<Resource> getReportById(@PathVariable ReportType reportType,
-                                                  @RequestParam(required = false) String id,
-                                                  @RequestParam(required = false) String email) {
-        File report = reportGenerationService.generateReport(reportType, id, email);
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
-                .body(new FileSystemResource(report));
-    }
+//
+//    @GetMapping()
+//    public ResponseEntity<Resource> getReportById(@PathVariable ReportType reportType,
+//                                                  @RequestParam(required = false) String id,
+//                                                  @RequestParam(required = false) String email)
+//    {
+//        File report = reportGenerationService.generateReport(reportType, id, email);
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.APPLICATION_PDF)
+//                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
+//                .body(new FileSystemResource(report));
+//    }
 
     private String prepareContentDispositionHeader(File report) {
         return "attachment; filename=" + report.getName();
