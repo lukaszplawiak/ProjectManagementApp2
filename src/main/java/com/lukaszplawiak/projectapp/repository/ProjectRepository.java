@@ -20,5 +20,4 @@ public interface ProjectRepository {
         return findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Project of id " + id + " not found"));
     }
-
 }

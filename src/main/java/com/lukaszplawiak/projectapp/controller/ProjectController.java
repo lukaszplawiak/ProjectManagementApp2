@@ -46,13 +46,13 @@ class ProjectController {
 
     @GetMapping(path = "/search")
     ResponseEntity<List<ProjectResponseDto>> readProjectByDone(@RequestParam(defaultValue = "true") boolean done,
-                                                               Pageable pageable) {
+                                                               @PageableDefault Pageable pageable) {
         return new ResponseEntity<>(projectService.getProjectsDtoByDone(done, pageable), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")
     ResponseEntity<ProjectResponseDto> updateProject(@RequestBody @Valid ProjectRequestDto projectRequestDto,
-                                                    @PathVariable Long id, Authentication authentication) {
+                                                     @PathVariable Long id, Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);
         return new ResponseEntity<>(projectService.updateProject(projectRequestDto, id, user), HttpStatus.OK);

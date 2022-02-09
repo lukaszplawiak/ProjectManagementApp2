@@ -68,5 +68,4 @@ public class AllProjectsReportGenerator extends ReportGenerator{
         }
         document.add(table);
     }
-
 }

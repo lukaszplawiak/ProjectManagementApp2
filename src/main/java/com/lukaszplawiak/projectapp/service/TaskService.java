@@ -24,5 +24,4 @@ public interface TaskService {
     void toggleTask(Long projectId, Long taskId, User user);
 
     void deleteTaskById(Long projectId, Long TaskId, User user);
-
 }

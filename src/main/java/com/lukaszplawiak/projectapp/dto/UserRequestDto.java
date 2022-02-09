@@ -1,9 +1,22 @@
 package com.lukaszplawiak.projectapp.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class UserRequestDto {
+    @NotBlank
+    @Size(min = 1, max = 50)
     private String firstName;
+    @NotBlank
+    @Size(min = 1, max = 50)
     private String lastName;
+    @Email
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String email;
+    @NotBlank
+    @Size(min = 1, max = 100)
     private String password;
 
     public String getFirstName() {

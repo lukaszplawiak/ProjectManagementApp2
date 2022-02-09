@@ -59,11 +59,9 @@ public abstract class ReportGenerator {
     }
 
     private void writeHeaderAndFooter(PdfDocument pdfDocument) {
-        HeaderEventHandler headerEventHandler = new HeaderEventHandler("Project Management App by Lukasz Plawiak");
+        HeaderEventHandler headerEventHandler = new HeaderEventHandler();
         FooterEventHandler footerEventHandler = new FooterEventHandler();
         pdfDocument.addEventHandler(PdfDocumentEvent.START_PAGE, headerEventHandler);
         pdfDocument.addEventHandler(PdfDocumentEvent.END_PAGE, footerEventHandler);
     }
-
 }
-

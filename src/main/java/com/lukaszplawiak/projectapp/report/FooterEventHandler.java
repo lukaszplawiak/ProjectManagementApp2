@@ -37,7 +37,7 @@ public class FooterEventHandler implements IEventHandler {
                 .add(" of ")
                 .add(String.valueOf(numberOfPages));
         canvas.showTextAligned(p,
-                pageSize.getWidth() / 2, pageSize.getBottom() + 20,
+                pageSize.getWidth() / 2, pageSize.getBottom() + side,
                 TextAlignment.CENTER);
         canvas.close();
         pdfCanvas.release();

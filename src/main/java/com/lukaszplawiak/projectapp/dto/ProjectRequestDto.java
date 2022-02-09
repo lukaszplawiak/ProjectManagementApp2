@@ -1,10 +1,18 @@
 package com.lukaszplawiak.projectapp.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 public class ProjectRequestDto {
+    @NotBlank
+    @Size(min = 1, max = 50)
     private String title;
+    @NotNull
+    @Size(max = 255)
     private String description;
+    @NotNull
     private LocalDate deadline;
 
     public String getTitle() {

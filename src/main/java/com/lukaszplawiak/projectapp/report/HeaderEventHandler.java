@@ -13,11 +13,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class HeaderEventHandler implements IEventHandler {
-    private String header;
+    private static final String HEADER = "Project Management App by Lukasz Plawiak";
 
-    public HeaderEventHandler(String header) {
-        this.header = header;
-    }
     @Override
     public void handleEvent(Event event) {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -28,7 +25,7 @@ public class HeaderEventHandler implements IEventHandler {
         Rectangle pageSize = page.getPageSize();
         Canvas canvas = new Canvas(new PdfCanvas(page), pageSize);
         canvas.setFontSize(8);
-        canvas.showTextAligned(header + "   " + formatDateTime,
+        canvas.showTextAligned(HEADER + "   " + formatDateTime,
                 pageSize.getWidth() / 2, pageSize.getTop() - 26,
                 TextAlignment.RIGHT);
         canvas.close();

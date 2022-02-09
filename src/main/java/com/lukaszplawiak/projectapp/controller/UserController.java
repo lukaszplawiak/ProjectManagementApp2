@@ -52,4 +52,3 @@ class UserController {
         return new ResponseEntity<>("Deleted user: " + form.getEmail(), HttpStatus.OK);
     }
 }
-

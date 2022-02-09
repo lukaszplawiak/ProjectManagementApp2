@@ -36,7 +36,6 @@ public class ReportGenerationService {
                 throw new IllegalArgumentException();
         }
     }
-
 //    public File generateReport(ReportType reportType, boolean done) {
 //        switch (reportType) {
 //            case ALL_PROJECTS:
@@ -61,26 +60,4 @@ public class ReportGenerationService {
 //                throw new IllegalArgumentException();
 //        }
 //    }
-
-    public static class Report {
-
-        private final String name;
-        private final File file;
-
-        public Report(String name, File file) {
-            this.name = name;
-            this.file = file;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public File getFile() {
-            return file;
-        }
-
-    }
-
 }
-

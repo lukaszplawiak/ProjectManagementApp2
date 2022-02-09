@@ -33,7 +33,7 @@ public class DetailsUserReportGenerator extends ReportGenerator {
 
     @Override
     protected PageSize getPageSize() {
-        return PageSize.A4;
+        return PageSize.A4.rotate();
     }
 
     @Override
@@ -68,7 +68,6 @@ public class DetailsUserReportGenerator extends ReportGenerator {
         paragraph2.setTextAlignment(TextAlignment.CENTER);
         document.add(paragraph2);
 
-//        float[] columnWidth = {1, 7, 3, 3, 3, 1, 2};
         float[] columnWidth = {1, 4, 5, 2, 3, 3, 1, 1};
         Table projectTable = new Table(UnitValue.createPercentArray(columnWidth));
         projectTable.setWidth(UnitValue.createPercentValue(100));
