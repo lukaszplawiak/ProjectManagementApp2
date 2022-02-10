@@ -1,11 +1,11 @@
 create table users
 (
-    id         BIGINT(20) primary key auto_increment,
+    id         BIGINT primary key auto_increment,
     first_name varchar(50)  not null,
     last_name  varchar(50)  not null,
     email      varchar(100) not null unique,
     password   varchar(100) not null,
     created_on DATETIME     not null,
     updated_on DATETIME,
-    enabled    boolean      not null
+    enabled    boolean
 )

@@ -1,6 +1,7 @@
 package com.lukaszplawiak.projectapp.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,13 +21,15 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
     private static final String TOKEN_PREFIX = "Bearer ";
     private final CustomUserDetailsService userDetailsService;
     private final String secret;
+    private final JWTVerifier verifier;
 
     public CustomAuthorizationFilter(AuthenticationManager authenticationManager,
-                                  CustomUserDetailsService userDetailsService,
-                                     @Value("${jwt.secret}") String secret) {
+                                     CustomUserDetailsService userDetailsService,
+                                     @Value("${jwt.secret}") String secret, JWTVerifier verifier) {
         super(authenticationManager);
         this.userDetailsService = userDetailsService;
         this.secret = secret;
+        this.verifier = verifier;
     }
 
     @Override

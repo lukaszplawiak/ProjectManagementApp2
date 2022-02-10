@@ -1,5 +1,6 @@
 package com.lukaszplawiak.projectapp.security;
 
+import com.auth0.jwt.JWTVerifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,32 +13,33 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
-    private final PasswordEncoder passwordEncoder;
+    //private final PasswordEncoder passwordEncoder;
     private final RestAuthenticationSuccessHandler successHandler;
     private final RestAuthenticationFailureHandler failureHandler;
     private final String secret;
+    private final JWTVerifier verifier;
 
     public SecurityConfig(CustomUserDetailsService customUserDetailsService,
                           PasswordEncoder passwordEncoder,
                           RestAuthenticationSuccessHandler successHandler,
                           RestAuthenticationFailureHandler failureHandler,
-                          @Value("${jwt.secret}") String secret) {
+                          @Value("${jwt.secret}") String secret, JWTVerifier verifier) {
         this.customUserDetailsService = customUserDetailsService;
-        this.passwordEncoder = passwordEncoder;
+       // this.passwordEncoder = passwordEncoder;
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
         this.secret = secret;
+        this.verifier = verifier;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -57,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(customAuthenticateFilter())
-                .addFilter(new CustomAuthorizationFilter(authenticationManager(), customUserDetailsService, secret))
+                .addFilter(new CustomAuthorizationFilter(authenticationManager(), customUserDetailsService, secret, verifier))
                 .headers().frameOptions().disable();
     }
 
@@ -76,8 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean(name = "BCrypt")
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    JWTVerifier jwtVerifier() {
+//        return JWT
+//    }
+
 }
