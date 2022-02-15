@@ -1,6 +1,5 @@
 package com.lukaszplawiak.projectapp.service.impl.mapper;
 
-import com.lukaszplawiak.projectapp.dto.UserResponseDto;
 import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.User;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserResponseDtoMapperTest {
 
     @Test
-    void mapToUserResponseDtoShouldBeSuccessful() {
+    void mapToUserResponseDto_WhenInputDataIsCorrect_ShouldBeMap() {
         // given
         var role1 = new Role(1L, "ROLE_USER");
         var role2 = new Role(1L, "ROLE_ADMIN");

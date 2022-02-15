@@ -11,14 +11,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
-    //private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final RestAuthenticationSuccessHandler successHandler;
     private final RestAuthenticationFailureHandler failureHandler;
     private final String secret;
@@ -28,9 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                           PasswordEncoder passwordEncoder,
                           RestAuthenticationSuccessHandler successHandler,
                           RestAuthenticationFailureHandler failureHandler,
-                          @Value("${jwt.secret}") String secret, JWTVerifier verifier) {
+                          @Value("${jwt.secret}") String secret,
+                          JWTVerifier verifier) {
         this.customUserDetailsService = customUserDetailsService;
-       // this.passwordEncoder = passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.successHandler = successHandler;
         this.failureHandler = failureHandler;
         this.secret = secret;
@@ -39,28 +42,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomAuthorizationFilter filter = new CustomAuthorizationFilter(authenticationManager(), customUserDetailsService, secret, verifier);
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .exceptionHandling()
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                })
+                .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/login", "/api/v1/token/refresh").permitAll()
-                .antMatchers("/api/v1/*"  ).hasAnyAuthority("ROLE_SUPER_ADMIN")
-                .antMatchers(HttpMethod.GET, "/api/v1/projects/*").hasAnyAuthority("ROLE_USER")
-                .antMatchers("/api/v1/users/*").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/api/v1/reports/*").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers("/api/v1/reports/*").hasAnyAuthority("ROLE_MANAGER")
-                .antMatchers("/api/v1/projects/*").hasAnyAuthority("ROLE_MANAGER")
-                .antMatchers( "/api/v1/projects/{id}/tasks/*").hasAnyAuthority("ROLE_USER")
+                .antMatchers("/login").permitAll()
+//                .antMatchers("/api/v1/*"  ).hasAnyAuthority("ROLE_SUPER_ADMIN")
+//                .antMatchers(HttpMethod.GET, "/api/v1/projects/*").hasAnyAuthority("ROLE_USER")
+//                .antMatchers("/api/v1/users/*").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/api/v1/roles/*").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/api/v1/reports/*").hasAnyAuthority("ROLE_ADMIN")
+//                .antMatchers("/api/v1/reports/*").hasAnyAuthority("ROLE_MANAGER")
+//                .antMatchers("/api/v1/projects/*").hasAnyAuthority("ROLE_MANAGER")
+//                .antMatchers( "/api/v1/projects/{id}/tasks/*").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(customAuthenticateFilter())
-                .addFilter(new CustomAuthorizationFilter(authenticationManager(), customUserDetailsService, secret, verifier))
-                .headers().frameOptions().disable();
+                .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
     }
 
     public CustomAuthenticationFilter customAuthenticateFilter() throws Exception {
@@ -76,11 +85,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws  Exception {
         return super.authenticationManagerBean();
     }
-
-
-//    @Bean
-//    JWTVerifier jwtVerifier() {
-//        return JWT
-//    }
-
 }

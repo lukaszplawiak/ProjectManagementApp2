@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TaskRequestDtoMapperTest {
 
     @Test
-    void mapToTaskRequestDtoShouldBeSuccessful() {
+    void mapToTaskRequestDto_WhenInputDataIsCorrect_ShouldBeMap() {
         // given
         var task = Task.TaskBuilder.aTask()
                 .withId(2L)

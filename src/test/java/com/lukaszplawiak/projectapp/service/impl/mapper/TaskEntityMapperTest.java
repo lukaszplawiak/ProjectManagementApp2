@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TaskEntityMapperTest {
 
     @Test
-    void mapToTaskEntityShouldBeSuccessful() {
+    void mapToTaskEntity_WhenInputDataIsCorrect_ShouldBeMap() {
         // given
         var buildTask = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName("Task Name")

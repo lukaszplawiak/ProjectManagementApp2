@@ -5,7 +5,7 @@ create table tasks
     comment    varchar(255) not null,
     deadline   DATE         not null,
     done       bit,
-    created_on DATETIME     not null,
+    created_on DATETIME,
     updated_on DATETIME,
     project_id BIGINT not null,
     user_id    BIGINT not null,

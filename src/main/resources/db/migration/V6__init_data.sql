@@ -15,15 +15,15 @@ insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 1, 2 );
 insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 1, 3 );
 insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 1, 4 );
 insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 2, 1 );
-insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 3, 2 );
-insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 4, 3 );
-insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 5, 1 );
-insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 5, 2 );
+insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 2, 2 );
+insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 3, 1 );
+insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 4, 2 );
+insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 5, 3 );
 insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 6, 4 );
 
 insert into PROJECTS (TITLE, DESCRIPTION, DEADLINE, DONE, CREATED_ON, UPDATED_ON, USER_ID) VALUES ('SOLID learn', 'Learn all 5 solid principles!', '2022-02-15', false, '2022-02-10 09:53:00.000000', null, 1);
 insert into PROJECTS (TITLE, DESCRIPTION, DEADLINE, DONE, CREATED_ON, UPDATED_ON, USER_ID) VALUES ('KISS and DRY', 'Remember what is all about!', '2022-02-15', false, '2022-02-10 09:53:00.000000', null, 1);
-insert into PROJECTS (TITLE, DESCRIPTION, DEADLINE, DONE, CREATED_ON, UPDATED_ON, USER_ID) VALUES ('TEST code', 'Always writes tests and run tests before commit!', '2022-02-15', false, '2022-02-10 09:53:00.000000', null, 2);
+insert into PROJECTS (TITLE, DESCRIPTION, DEADLINE, DONE, CREATED_ON, UPDATED_ON, USER_ID) VALUES ('TEST code', 'Always writes tests and run tests before commit!', '2022-02-15', false, '2022-02-10 09:53:00.000000', null, 4);
 insert into PROJECTS (TITLE, DESCRIPTION, DEADLINE, DONE, CREATED_ON, UPDATED_ON, USER_ID) VALUES ('SECURE yourself', 'Security is most important non business features!', '2022-02-15', false, '2022-02-10 09:53:00.000000', null, 2);
 insert into PROJECTS (TITLE, DESCRIPTION, DEADLINE, DONE, CREATED_ON, UPDATED_ON, USER_ID) VALUES ('CLIENT first', 'Focus on client needs, not coders wants!', '2022-02-15', false, '2022-02-10 09:53:00.000000', null, 5);
 

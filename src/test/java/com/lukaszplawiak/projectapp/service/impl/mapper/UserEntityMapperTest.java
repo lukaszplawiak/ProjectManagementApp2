@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UserEntityMapperTest {
 
     @Test
-    void mapToUserEntityShouldBeSuccessful() {
+    void mapToUserEntity_WhenInputDataIsCorrect_ShouldBeMap() {
         // given
         var userRequestDto = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
                 .withFirstName("First Name")

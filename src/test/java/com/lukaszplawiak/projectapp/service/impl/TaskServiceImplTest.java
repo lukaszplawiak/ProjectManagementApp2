@@ -27,13 +27,21 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
 class TaskServiceImplTest {
 
+    ProjectRepository mockProjectRepository = mock(ProjectRepository.class);
+    TaskRepository mockTaskRepository = mock(TaskRepository.class);
+
+    LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
+    Clock fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
+    Clock fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
+
+    Long id = 1L;
+
     @Test
-    void createTaskShouldThrowIllegalActionExceptionWhenProjectIsDone() {
+    void createTask_WhenProjectIsDone_ShouldThrowIllegalActionException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(true)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
@@ -46,7 +54,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTaskNameIsNull() {
+    void createTask_WhenTaskNameIsNull_ShouldThrowIllegalInputException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
@@ -54,7 +62,6 @@ class TaskServiceImplTest {
         var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
@@ -67,7 +74,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTaskNameIsEmpty() {
+    void createTask_WhenTaskNameIsEmpty_ShouldThrowIllegalInputException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
@@ -75,7 +82,6 @@ class TaskServiceImplTest {
         var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName("")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
@@ -88,7 +94,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTaskNameIsBlank() {
+    void createTask_WhenTaskNameIsBlank_ShouldThrowIllegalInputException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
@@ -97,7 +103,6 @@ class TaskServiceImplTest {
                 .withName("   ")
                 .build();
 
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
@@ -110,7 +115,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTaskCommentIsNull() {
+    void createTask_WhenTaskCommentIsNull_ShouldThrowIllegalInputException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
@@ -119,7 +124,6 @@ class TaskServiceImplTest {
                 .withName("Name")
                 .withComment(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
@@ -132,7 +136,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTasksDeadlineIsNull() {
+    void createTask_WhenTasksDeadlineIsNull_ShouldThrowIllegalInputException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
@@ -142,7 +146,6 @@ class TaskServiceImplTest {
                 .withComment("Comment")
                 .withDeadline(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, null);
@@ -155,12 +158,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldThrowIllegalInputExceptionWhenTasksDeadlineIsBeforeNow() {
+    void createTask_WhenTasksDeadlineIsBeforeNow_ShouldThrowIllegalInputException() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -169,7 +168,6 @@ class TaskServiceImplTest {
                 .withComment("Comment")
                 .withDeadline(LocalDate.now(fixedClock))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var taskServiceImpl = new TaskServiceImpl(null, mockProjectRepository, null, fixedClockPlusDay);
@@ -182,12 +180,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void createTaskShouldNotThrowAnyException() {
+    void createTask_WhenTaskIsCreatedWithCorrectData_ShouldBeCreate() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -198,9 +192,7 @@ class TaskServiceImplTest {
                 .withComment("Comment")
                 .withDeadline(LocalDate.now(fixedClockPlusDay))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.save(any())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
@@ -216,10 +208,10 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
+    void updateTaskById_WhenUserTryToUpdateNotOwnTask_ShouldThrowIllegalAccessException() {
         // given
         var user1 = User.UserBuilder.anUser()
-                .withId(1L)
+                .withId(id)
                 .build();
         var user2 = User.UserBuilder.anUser()
                 .withId(2L)
@@ -227,8 +219,6 @@ class TaskServiceImplTest {
         var task = Task.TaskBuilder.aTask()
                 .withUser(user2)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -241,9 +231,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalActionExceptionWhenProjectIsDone() {
+    void updateTaskById_WhenProjectIsDone_ShouldThrowIllegalActionException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(true)
                 .build();
@@ -253,9 +242,7 @@ class TaskServiceImplTest {
         var task = Task.TaskBuilder.aTask()
                 .withUser(user)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -268,9 +255,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTaskNameIsNull() {
+    void updateTaskById_WhenTaskNameIsNull_ShouldThrowIllegalInputException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -283,9 +269,7 @@ class TaskServiceImplTest {
         var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -297,9 +281,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksTitleIsEmpty() {
+    void updateTaskById_WhenTasksTitleIsEmpty_ShouldThrowIllegalInputException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -312,9 +295,7 @@ class TaskServiceImplTest {
         var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName("")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -326,9 +307,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksTitleIsBlank() {
+    void updateTaskById_WhenTasksTitleIsBlank_ShouldThrowIllegalInputException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -341,9 +321,7 @@ class TaskServiceImplTest {
         var taskRequestDto = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
                 .withName("   ")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -355,9 +333,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksCommentIsNull() {
+    void updateTaskById_WhenTasksCommentIsNull_ShouldThrowIllegalInputException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -371,9 +348,7 @@ class TaskServiceImplTest {
                 .withName("Name")
                 .withComment(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -385,12 +360,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksDeadlineIsNull() {
+    void updateTaskById_WhenTasksDeadlineIsNull_ShouldThrowIllegalInputException() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 10, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -405,9 +376,7 @@ class TaskServiceImplTest {
                 .withComment("Comment")
                 .withDeadline(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
@@ -420,13 +389,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldThrowIllegalInputExceptionWhenTasksDeadlineIsBeforeNow() {
+    void updateTaskById_WhenTasksDeadlineIsBeforeNow_ShouldThrowIllegalInputException() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -441,9 +405,7 @@ class TaskServiceImplTest {
                 .withComment("Comment")
                 .withDeadline(LocalDate.now(fixedClock))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClockPlusDay);
@@ -455,13 +417,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskByIdShouldNotThrowAnyException() {
+    void updateTaskById_WhenTaskIsWithCorrectData_ShouldBeUpdated() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(false)
                 .build();
@@ -476,9 +433,7 @@ class TaskServiceImplTest {
                 .withComment("Comment")
                 .withDeadline(LocalDate.now(fixedClockPlusDay))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, fixedClock);
@@ -494,9 +449,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void deleteTaskByIdShouldThrowIllegalAccessExceptionWhenUserTryToDeleteNotOwnTask() {
+    void deleteTaskById_WhenUserTryToDeleteNotOwnTask_ShouldThrowIllegalAccessException() {
         // given
-        Long id = 1L;
         var user1 = User.UserBuilder.anUser()
                 .withId(id)
                 .build();
@@ -506,8 +460,6 @@ class TaskServiceImplTest {
         var task = Task.TaskBuilder.aTask().
                 withUser(user2)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -520,9 +472,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void deleteTaskByIdShouldThrowIllegalActionExceptionWhenProjectIsDone() {
+    void deleteTaskById_WhenProjectIsDone_ShouldThrowIllegalActionException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(true)
                 .build();
@@ -532,9 +483,7 @@ class TaskServiceImplTest {
         var task = Task.TaskBuilder.aTask().
                 withUser(user)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -547,9 +496,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void deleteTaskByIdShouldBeSuccessful() {
+    void deleteTaskById_WhenTaskAndProjectAreUndone_ShouldBeDeleted() {
         // given
-        Long id = 1L;
         var user = User.UserBuilder.anUser()
                 .withId(id)
                 .build();
@@ -563,9 +511,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void toggleTaskShouldThrowIllegalAccessExceptionWhenUserTryToUpdateNotOwnTask() {
+    void toggleTask_WhenUserTryToUpdateNotOwnTask_ShouldThrowIllegalAccessException() {
         // given
-        Long id = 1L;
         var user1 = User.UserBuilder.anUser()
                 .withId(id)
                 .build();
@@ -575,8 +522,6 @@ class TaskServiceImplTest {
         var task = Task.TaskBuilder.aTask().
                 withUser(user2)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -589,9 +534,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void toggleTaskShouldThrowIllegalActionExceptionWhenProjectIsDone() {
+    void toggleTask_WhenProjectIsDone_ShouldThrowIllegalActionException() {
         // given
-        Long id = 1L;
         var project = Project.ProjectBuilder.aProject()
                 .withDone(true)
                 .build();
@@ -601,9 +545,7 @@ class TaskServiceImplTest {
         var task = Task.TaskBuilder.aTask().
                 withUser(user)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
-        var mockTaskRepository = mock(TaskRepository.class);
         when(mockTaskRepository.getById(anyLong())).thenReturn(task);
 
         var taskServiceImpl = new TaskServiceImpl(mockTaskRepository, mockProjectRepository, null, null);
@@ -616,9 +558,8 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void toggleTaskByIdShouldBeSuccessful() {
+    void toggleTaskById_WhenUserToggleOwnTask_ShouldBeToggle() {
         // given
-        Long id = 1L;
         var user = User.UserBuilder.anUser()
                 .withId(id)
                 .build();

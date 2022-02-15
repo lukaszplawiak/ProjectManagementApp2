@@ -21,13 +21,20 @@ import static org.mockito.Mockito.*;
 
 class ProjectServiceImplTest {
 
+    ProjectRepository mockProjectRepository = mock(ProjectRepository.class);
+
+    LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
+    Clock fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
+    Clock fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
+
+    Long id = 1L;
+
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsTitleIsNull() {
         // given
         var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
@@ -44,7 +51,6 @@ class ProjectServiceImplTest {
         var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
@@ -61,7 +67,6 @@ class ProjectServiceImplTest {
         var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("   ")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
@@ -79,7 +84,6 @@ class ProjectServiceImplTest {
                 .withTitle("Title")
                 .withDescription(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
@@ -98,7 +102,6 @@ class ProjectServiceImplTest {
                 .withDescription("Description")
                 .withDeadline(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
 
@@ -112,16 +115,11 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldThrowIllegalInputExceptionWhenProjectsDeadlineIsBeforeNow() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("Title")
                 .withDescription("Description")
                 .withDeadline(LocalDate.now(fixedClock))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClockPlusDay);
 
@@ -135,16 +133,11 @@ class ProjectServiceImplTest {
     @Test
     void createProjectShouldNotThrowAnyException() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         var projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("Title")
                 .withDescription("Description")
                 .withDeadline(LocalDate.now(fixedClockPlusDay))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClock);
 
@@ -170,7 +163,6 @@ class ProjectServiceImplTest {
         var project = Project.ProjectBuilder.aProject()
                 .withUser(user2)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -192,7 +184,6 @@ class ProjectServiceImplTest {
                 .withDone(true)
                 .withUser(user)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -217,7 +208,6 @@ class ProjectServiceImplTest {
         ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -242,7 +232,6 @@ class ProjectServiceImplTest {
         ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -267,7 +256,6 @@ class ProjectServiceImplTest {
         ProjectRequestDto projectRequestDto = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
                 .withTitle("   ")
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -293,7 +281,6 @@ class ProjectServiceImplTest {
                 .withTitle("Title")
                 .withDescription(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -320,7 +307,6 @@ class ProjectServiceImplTest {
                 .withDescription("Description")
                 .withDeadline(null)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -335,10 +321,6 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldThrowIllegalActionExceptionWhenProjectsDeadlineIsBeforeNow() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         var user = User.UserBuilder.anUser()
                 .withId(1L)
                 .build();
@@ -351,7 +333,6 @@ class ProjectServiceImplTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.now(fixedClock))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClockPlusDay);
@@ -366,10 +347,6 @@ class ProjectServiceImplTest {
     @Test
     void updateProjectShouldNotThrowAnyException() {
         // given
-        LocalDateTime now = LocalDateTime.of(2022, 01, 01, 0, 0);
-        var fixedClock = Clock.fixed(now.toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-        var fixedClockPlusDay = Clock.fixed(now.plusDays(1).toInstant(ZoneOffset.UTC), ZoneOffset.UTC);
-
         var user = User.UserBuilder.anUser()
                 .withId(1L)
                 .build();
@@ -382,7 +359,6 @@ class ProjectServiceImplTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.now(fixedClockPlusDay))
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, fixedClock);
@@ -409,7 +385,6 @@ class ProjectServiceImplTest {
         var project = Project.ProjectBuilder.aProject()
                 .withUser(user2)
                 .build();
-        var mockProjectRepository = mock(ProjectRepository.class);
         when(mockProjectRepository.getById(anyLong())).thenReturn(project);
 
         var projectServiceImpl = new ProjectServiceImpl(mockProjectRepository, null);
@@ -424,7 +399,6 @@ class ProjectServiceImplTest {
     @Test
     void deleteProjectByIdShouldBeSuccessful() {
         // given
-        Long id = 1L;
         var user = User.UserBuilder.anUser()
                 .withId(id)
                 .build();

@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ProjectEntityMapperTest {
 
     @Test
-    void mapToProjectEntityShouldBeSuccessful() {
+    void mapToProjectEntity_WhenInputDataIsCorrect_ShouldBeMap() {
         // given
         var task1 = new Task();
         var task2 = new Task();
