@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class JWTConfig {
-
     @Bean
     JWTVerifier jwtVerifier(@Value("${jwt.secret}") String secret) {
         return JWT.require(Algorithm.HMAC256(secret))

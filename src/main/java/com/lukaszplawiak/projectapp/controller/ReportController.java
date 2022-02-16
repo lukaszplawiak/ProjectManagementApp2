@@ -1,6 +1,7 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.lukaszplawiak.projectapp.report.*;
+import com.lukaszplawiak.projectapp.report.ReportGenerationService;
+import com.lukaszplawiak.projectapp.report.ReportType;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -13,7 +14,7 @@ import java.io.File;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 
 @RestController
-@RequestMapping("/api/v1/reports/{reportType}")
+@RequestMapping(path = "/api/v1/reports/{reportType}")
 class ReportController {
     private final ReportGenerationService reportGenerationService;
 
@@ -21,45 +22,31 @@ class ReportController {
         this.reportGenerationService = reportGenerationService;
     }
 
-    @Secured({"ROLE_USER", "ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
-    @GetMapping()
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @GetMapping
     public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
-                                              @RequestParam(name = "done", required = false, defaultValue = "true") boolean done,
-                                              @RequestParam(name = "id", required = false) String id,
-                                              @RequestParam(name = "email", required = false) String email)
+                                              @RequestParam(defaultValue = "true") boolean done)
     {
-        File report = reportGenerationService.generateReport(reportType, done, id , email); //
+        File report = reportGenerationService.generateReport(reportType, done); //
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
                 .body(new FileSystemResource(report));
     }
 
-//    @GetMapping()
-//    public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
-//                                              @RequestParam(defaultValue = "true") boolean done)
-//    {
-//        File report = reportGenerationService.generateReport(reportType, done); //
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_PDF)
-//                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
-//                .body(new FileSystemResource(report));
-//    }
-//
-//    @GetMapping()
-//    public ResponseEntity<Resource> getReportById(@PathVariable ReportType reportType,
-//                                                  @RequestParam(required = false) String id,
-//                                                  @RequestParam(required = false) String email)
-//    {
-//        File report = reportGenerationService.generateReport(reportType, id, email);
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_PDF)
-//                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
-//                .body(new FileSystemResource(report));
-//    }
+    @Secured({"ROLE_MANAGER", "ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
+                                                  @PathVariable(required = false) String id)
+    {
+        File report = reportGenerationService.generateReport(reportType, id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))
+                .body(new FileSystemResource(report));
+    }
 
     private String prepareContentDispositionHeader(File report) {
         return "attachment; filename=" + report.getName();
     }
-
 }

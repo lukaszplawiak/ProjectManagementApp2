@@ -4,7 +4,6 @@ import com.auth0.jwt.JWTVerifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final RestAuthenticationSuccessHandler successHandler;
@@ -26,12 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String secret;
     private final JWTVerifier verifier;
 
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService,
-                          PasswordEncoder passwordEncoder,
-                          RestAuthenticationSuccessHandler successHandler,
-                          RestAuthenticationFailureHandler failureHandler,
-                          @Value("${jwt.secret}") String secret,
-                          JWTVerifier verifier) {
+    public SecurityConfigAdapter(CustomUserDetailsService customUserDetailsService,
+                                 PasswordEncoder passwordEncoder,
+                                 RestAuthenticationSuccessHandler successHandler,
+                                 RestAuthenticationFailureHandler failureHandler,
+                                 @Value("${jwt.secret}") String secret,
+                                 JWTVerifier verifier) {
         this.customUserDetailsService = customUserDetailsService;
         this.passwordEncoder = passwordEncoder;
         this.successHandler = successHandler;
@@ -58,14 +57,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/login").permitAll()
-//                .antMatchers("/api/v1/*"  ).hasAnyAuthority("ROLE_SUPER_ADMIN")
-//                .antMatchers(HttpMethod.GET, "/api/v1/projects/*").hasAnyAuthority("ROLE_USER")
-//                .antMatchers("/api/v1/users/*").hasAnyAuthority("ROLE_ADMIN")
-//                .antMatchers("/api/v1/roles/*").hasAnyAuthority("ROLE_ADMIN")
-//                .antMatchers("/api/v1/reports/*").hasAnyAuthority("ROLE_ADMIN")
-//                .antMatchers("/api/v1/reports/*").hasAnyAuthority("ROLE_MANAGER")
-//                .antMatchers("/api/v1/projects/*").hasAnyAuthority("ROLE_MANAGER")
-//                .antMatchers( "/api/v1/projects/{id}/tasks/*").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(customAuthenticateFilter())

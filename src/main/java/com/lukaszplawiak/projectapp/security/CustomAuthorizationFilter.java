@@ -34,7 +34,8 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
                                     FilterChain filterChain) {
         getAuthentication(request).ifPresentOrElse(auth -> {
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -51,7 +52,6 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
             }
         });
     }
-
 
     private Optional<UsernamePasswordAuthenticationToken> getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(TOKEN_HEADER);
@@ -80,34 +80,4 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
 //    }
 
 
-
-
-
-
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-//                                    FilterChain filterChain) throws IOException, ServletException {
-//        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-//        if (authentication == null) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        filterChain.doFilter(request, response);
-//    }
-//
-//    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-//        String token = request.getHeader(TOKEN_HEADER);
-//        if (token != null && token.startsWith(TOKEN_PREFIX)) {
-//            String userName = JWT.require(Algorithm.HMAC256(secret))
-//                    .build()
-//                    .verify(token.replace(TOKEN_PREFIX, ""))
-//                    .getSubject();
-//            if (userName != null) {
-//                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-//                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
-//            }
-//        }
-//        return null;
-//    }
 }

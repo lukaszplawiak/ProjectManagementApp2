@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TokensSample {
+public class TokenSample {
 
     @Bean
     public String validTokenWithRole_User() {

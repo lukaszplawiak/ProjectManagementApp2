@@ -3,7 +3,7 @@ package com.lukaszplawiak.projectapp.controller;
 import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.dto.UserResponseDto;
 import com.lukaszplawiak.projectapp.model.Role;
-import com.lukaszplawiak.projectapp.security.RoleAndUserForm;
+import com.lukaszplawiak.projectapp.model.RoleAndUserForm;
 import com.lukaszplawiak.projectapp.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

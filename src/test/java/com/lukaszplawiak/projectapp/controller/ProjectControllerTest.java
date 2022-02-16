@@ -5,7 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Clock;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lukaszplawiak.projectapp.controller.config.TokensSample;
+import com.lukaszplawiak.projectapp.controller.config.TokenSample;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.service.UserService;
 import org.hamcrest.core.Is;
@@ -61,7 +61,7 @@ class ProjectControllerTest {
     Clock clock;
 
     @Autowired
-    TokensSample tokensSample;
+    TokenSample tokenSample;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -95,7 +95,7 @@ class ProjectControllerTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.parse("2022-03-18"))
                 .build();
-        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_User())
+        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
                         .content(asJsonString(project))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -109,7 +109,7 @@ class ProjectControllerTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.parse("2022-03-18"))
                 .build();
-        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_Manager())
+        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
                         .content(asJsonString(project))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -123,7 +123,7 @@ class ProjectControllerTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.parse("2022-03-18"))
                 .build();
-        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_Admin())
+        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
                         .content(asJsonString(project))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -137,7 +137,7 @@ class ProjectControllerTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.parse("2022-03-18"))
                 .build();
-        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
                         .content(asJsonString(project))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -146,7 +146,7 @@ class ProjectControllerTest {
 
     @Test
     void readProjectById_WhenUserWithRoleUser_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokensSample.validTokenWithRole_User())
+        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -158,7 +158,7 @@ class ProjectControllerTest {
 
     @Test
     void readProjectById_WhenUserWithRoleManager_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokensSample.validTokenWithRole_Manager())
+        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -170,7 +170,7 @@ class ProjectControllerTest {
 
     @Test
     void readProjectById_WhenUserWithRoleAdmin_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokensSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -182,7 +182,7 @@ class ProjectControllerTest {
 
     @Test
     void readProjectById_WhenUserWithRoleSuperAdmin_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokensSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/projects/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -194,14 +194,14 @@ class ProjectControllerTest {
 
     @Test
     void readAllProjects_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_User())
+        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
     }
 
     @Test
     void readAllProjects_WhenUserWithRoleManager_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_Manager())
+        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -214,7 +214,7 @@ class ProjectControllerTest {
 
     @Test
     void readAllProjects_WhenUserWithRoleAdmin_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -227,7 +227,7 @@ class ProjectControllerTest {
 
     @Test
     void readAllProjects_WhenUserWithRoleSuperAdmin_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokensSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/projects").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -240,14 +240,14 @@ class ProjectControllerTest {
 
     @Test
     void readProjectsByDone_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/search").header(AUTHORIZATION, tokensSample.validTokenWithRole_User())
+        mockMvc.perform(get("/api/v1/projects/search").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
     }
 
     @Test
     void readProjectsByDone_WhenUserWithRoleManager_ShouldReturnedEmptyArray() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/search").header(AUTHORIZATION, tokensSample.validTokenWithRole_Manager())
+        mockMvc.perform(get("/api/v1/projects/search").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -256,7 +256,7 @@ class ProjectControllerTest {
 
     @Test
     void readProjectsByDone_WhenUserWithRoleAdmin_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/search?done=false").header(AUTHORIZATION, tokensSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/projects/search?done=false").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -269,7 +269,7 @@ class ProjectControllerTest {
 
     @Test
     void readProjectsByDone_WhenUserWithRoleSuperAdmin_ShouldReturnedData() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/search?done=false").header(AUTHORIZATION, tokensSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/projects/search?done=false").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -287,7 +287,7 @@ class ProjectControllerTest {
                 .withDescription("Description")
                 .withDeadline(LocalDate.parse("2022-03-18"))
                 .build();
-        mockMvc.perform(put("/api/v1/projects/2").header(AUTHORIZATION, tokensSample.validTokenWithRole_User())
+        mockMvc.perform(put("/api/v1/projects/2").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
                         .content(asJsonString(project))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -302,10 +302,7 @@ class ProjectControllerTest {
 //                .withDeadline(LocalDate.parse("2022-03-18"))
 //                .build();
 //        mockMvc.perform(put("/api/v1/projects/2")
-////                        .param("[0].title","title")
-////                        .param("[0].description","description")
-////                        .param("[0].deadline","2022-12-12")
-////                        .param("[0].user_id","1")
+//
 //                        .header(AUTHORIZATION, tokensSample.validTokenWithRole_Manager())
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .accept(MediaType.APPLICATION_JSON))
@@ -316,7 +313,7 @@ class ProjectControllerTest {
     void deleteProject_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
         mockMvc.perform(delete("/api/v1/projects/3")
                         .param("id","3")
-                        .header(AUTHORIZATION, tokensSample.validTokenWithRole_User())
+                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
@@ -324,9 +321,9 @@ class ProjectControllerTest {
 
     @Test
     void deleteProject_WhenUserWithRoleManager_ShouldDeleted() throws Exception {
-        mockMvc.perform(delete("/api/v1/projects/3")
-                        .param("id","3")
-                        .header(AUTHORIZATION, tokensSample.validTokenWithRole_Manager())
+        mockMvc.perform(delete("/api/v1/projects/6")
+                        .param("id","6")
+                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(204));

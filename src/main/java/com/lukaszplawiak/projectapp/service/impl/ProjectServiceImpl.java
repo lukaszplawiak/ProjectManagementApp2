@@ -39,10 +39,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto, User user) {
-        Project project = mapToProjectEntity(projectRequestDto);
         projectTitleValidation(projectRequestDto);
         projectDescriptionValidation(projectRequestDto);
         projectDeadlineValidation(projectRequestDto);
+        Project project = mapToProjectEntity(projectRequestDto);
         project.setUser(user);
         projectRepository.save(project);
         logger.info("Created project of id: " + project.getId());
@@ -93,12 +93,12 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponseDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user) {
-        Project project = projectRepository.getById(id);
-        userAccessCheck(user, project);
-        projectIsDoneCheck(id, project);
         projectTitleValidation(projectRequestDto);
         projectDescriptionValidation(projectRequestDto);
         projectDeadlineValidation(projectRequestDto);
+        Project project = projectRepository.getById(id);
+        userAccessCheck(user, project);
+        projectIsDoneCheck(id, project);
         project.setId(id);
         project.setTitle(projectRequestDto.getTitle());
         project.setDescription(projectRequestDto.getDescription());
