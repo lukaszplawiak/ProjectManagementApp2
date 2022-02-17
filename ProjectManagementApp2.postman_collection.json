@@ -6,7 +6,73 @@
 	},
 	"item": [
 		{
-			"name": "login and get JWT",
+			"name": "login with ALL roles",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "lukpla@gmail.com",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login with USER role",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "jankowalski@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login with MANAGER",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -16,29 +82,22 @@
 						{
 							"key": "username",
 							"value": "mickeymouse@gmail.com",
-							"type": "default"
+							"type": "text"
 						},
 						{
 							"key": "password",
 							"value": "1234",
-							"type": "default"
+							"type": "text"
 						}
-					],
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					]
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/login",
+					"raw": "localhost:8080/login",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"api",
-						"v1",
 						"login"
 					]
 				}
@@ -46,18 +105,93 @@
 			"response": []
 		},
 		{
-			"name": "get refresh token",
+			"name": "login with ADMIN role",
 			"request": {
-				"method": "GET",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "geraltrivi@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login with SUPER_ADMIN role",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "monaliza@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new project",
+			"request": {
+				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZGFtYWxhQGdtYWlsLmNvbSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpc3MiOiIvYXBpL3YxL2xvZ2luIiwiZXhwIjoxNjQyNDkxODg0fQ.JM2wiAAUcvM8VHRpfNHf-INBs98a3y-7aYJzMMUSYW8",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
 						"type": "default"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"SOLID learn NEW PROJECT\",\n    \"description\": \"Learn all 5 solid principles!\",\n    \"deadline\": \"2022-02-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "localhost:8080/api/v1/token/refresh",
+					"raw": "localhost:8080/api/v1/projects",
 					"host": [
 						"localhost"
 					],
@@ -65,8 +199,152 @@
 					"path": [
 						"api",
 						"v1",
-						"token",
-						"refresh"
+						"projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new task related to project",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Task 2 NEW TASK\",\n    \"comment\": \"Task 2 of project 1\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/projects/1/tasks",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"projects",
+						"1",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukplas@gmail.com\",\n        \"password\": \"$2a\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users/save",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new role",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"name\": \"Lukasz_ROLE\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/roles/save",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add role to user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"email\": \"johnsmith@gmail.com\",\n        \"roleName\": \"ROLE_ADMIN\" \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/roles/addtouser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles",
+						"addtouser"
 					]
 				}
 			},
@@ -82,7 +360,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNTY0fQ.vpB_DbULA-wuELUpi8YEOaDUg-G0AQ36JGtCHPrEicI",
 						"type": "default"
 					}
 				],
@@ -96,7 +374,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/report/projects",
+					"raw": "localhost:8080/api/v1/reports/ALL_PROJECTS",
 					"host": [
 						"localhost"
 					],
@@ -104,8 +382,8 @@
 					"path": [
 						"api",
 						"v1",
-						"report",
-						"projects"
+						"reports",
+						"ALL_PROJECTS"
 					]
 				}
 			},
@@ -121,7 +399,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzMzM5fQ.QVvHl831-Rt5cX1xTVixnF_RlpEKAHX4-UmC7BAb5eA",
 						"type": "default"
 					}
 				],
@@ -135,7 +413,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/report/projects/3",
+					"raw": "localhost:8080/api/v1/reports/DETAILS_PROJECT/5",
 					"host": [
 						"localhost"
 					],
@@ -143,16 +421,16 @@
 					"path": [
 						"api",
 						"v1",
-						"report",
-						"projects",
-						"3"
+						"reports",
+						"DETAILS_PROJECT",
+						"5"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "report get projects by done=true/false",
+			"name": "report get projects by done",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -161,7 +439,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzMzM5fQ.QVvHl831-Rt5cX1xTVixnF_RlpEKAHX4-UmC7BAb5eA",
 						"type": "default"
 					}
 				],
@@ -175,7 +453,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/report/projects/search?done=true",
+					"raw": "localhost:8080/api/v1/reports/DONE_PROJECTS?done=false",
 					"host": [
 						"localhost"
 					],
@@ -183,14 +461,13 @@
 					"path": [
 						"api",
 						"v1",
-						"report",
-						"projects",
-						"search"
+						"reports",
+						"DONE_PROJECTS"
 					],
 					"query": [
 						{
 							"key": "done",
-							"value": "true"
+							"value": "false"
 						}
 					]
 				}
@@ -207,7 +484,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJyb2xlcyI6WyJST0xFX0FETUlOIl0sImlzcyI6Ii9hcGkvdjEvbG9naW4iLCJleHAiOjE2NDMwMzU3MzN9.hmoF8DNiBZfl_OaCa5AVwRxN4lmgKiI53I48LrJarb4",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNjgzfQ.py5qUfjdIXcf5QznjVICW2kTD_rISd8H32byPkxi0q4",
 						"type": "default"
 					}
 				],
@@ -221,7 +498,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/report/users",
+					"raw": "localhost:8080/api/v1/reports/ALL_USERS",
 					"host": [
 						"localhost"
 					],
@@ -229,8 +506,8 @@
 					"path": [
 						"api",
 						"v1",
-						"report",
-						"users"
+						"reports",
+						"ALL_USERS"
 					]
 				}
 			},
@@ -480,7 +757,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNjgzfQ.py5qUfjdIXcf5QznjVICW2kTD_rISd8H32byPkxi0q4",
 						"type": "default"
 					}
 				],
@@ -494,7 +771,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/projects/search?done=true",
+					"raw": "localhost:8080/api/v1/projects/search?done=false",
 					"host": [
 						"localhost"
 					],
@@ -508,7 +785,7 @@
 					"query": [
 						{
 							"key": "done",
-							"value": "true"
+							"value": "false"
 						}
 					]
 				}
@@ -525,7 +802,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNjgzfQ.py5qUfjdIXcf5QznjVICW2kTD_rISd8H32byPkxi0q4",
 						"type": "default"
 					}
 				],
@@ -539,7 +816,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/projects/2/tasks/search?done=true",
+					"raw": "localhost:8080/api/v1/projects/2/tasks/search?done=false",
 					"host": [
 						"localhost"
 					],
@@ -555,188 +832,8 @@
 					"query": [
 						{
 							"key": "done",
-							"value": "true"
+							"value": "false"
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create new project",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"SOLID learn NEW PROJECT\",\n    \"description\": \"Learn all 5 solid principles!\",\n    \"deadline\": \"2022-02-15\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/projects",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"projects"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create new task related to project",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 NEW TASK\",\n    \"comment\": \"Task 2 of project 1\",\n    \"deadline\": \"2022-03-15\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/projects/1/tasks",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"projects",
-						"1",
-						"tasks"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create new user",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n        \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukplas@gmail.com\",\n        \"password\": \"$2a\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/users/save",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"users",
-						"save"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create new role",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n        \"name\": \"Lukasz_ROLE\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/roles/save",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"roles",
-						"save"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add role to user",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n        \"email\": \"johnsmith@gmail.com\",\n        \"roleName\": \"ROLE_ADMIN\" \n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/roles/addtouser",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"roles",
-						"addtouser"
 					]
 				}
 			},
@@ -823,7 +920,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTE0MDE4fQ.vlCQmMVM_UayUHtOI1xavzGn8teNBtI_kTI4dxUYZzY",
 						"type": "default"
 					}
 				],
@@ -861,7 +958,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTE0MDE4fQ.vlCQmMVM_UayUHtOI1xavzGn8teNBtI_kTI4dxUYZzY",
 						"type": "default"
 					}
 				],
@@ -875,7 +972,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/api/v1/projects/2/",
+					"raw": "localhost:8080/api/v1/projects/2",
 					"host": [
 						"localhost"
 					],
@@ -884,8 +981,7 @@
 						"api",
 						"v1",
 						"projects",
-						"2",
-						""
+						"2"
 					]
 				}
 			},
@@ -924,6 +1020,42 @@
 						"2",
 						"tasks",
 						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user by email",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb25hbGl6YUBnbWFpbC5jb20iLCJleHAiOjE2NDUxMTQ0Nzh9.iahSltoFFpJcu5xVodSc0R1qHkywQwWna9Jzd0HKV7g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"email\": \"monaliza3@gmail.com\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users/delete",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"delete"
 					]
 				}
 			},

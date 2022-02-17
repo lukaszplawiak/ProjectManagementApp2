@@ -204,7 +204,7 @@ class ProjectServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, 12L, user))
                 .isInstanceOf(IllegalActionException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
@@ -229,7 +229,7 @@ class ProjectServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, 12L, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -278,7 +278,7 @@ class ProjectServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, 12L, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -303,7 +303,7 @@ class ProjectServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, 12L, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }
@@ -330,7 +330,7 @@ class ProjectServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, anyLong(), user))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, 12L, user))
                 .isInstanceOf(IllegalInputException.class)
                 .hasMessageContaining("Illegal input data");
     }

@@ -54,8 +54,8 @@ class UserController {
 
     @Secured({"ROLE_SUPER_ADMIN"})
     @DeleteMapping(path = "/users/delete")
-    ResponseEntity<String> deleteUser(@RequestBody RoleAndUserForm form) {
+    ResponseEntity<?> deleteUser(@RequestBody RoleAndUserForm form) {
         userService.deleteUser(form.getEmail());
-        return new ResponseEntity<>("Deleted user: " + form.getEmail(), HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

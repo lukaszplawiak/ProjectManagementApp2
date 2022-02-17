@@ -95,8 +95,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(String email) {
         userNotFoundInDatabase(email);
+        try {
         userRepository.deleteUserByEmail(email);
         logger.info("Deleted user: " + email);
+        } catch (Exception e) {
+            logger.info("There are other users' projects or tasks that are based on projects or tasks of user: " + email);
+            throw new RuntimeException(e);
+        }
     }
 
     private void userFirstNameValidation(UserRequestDto userRequestDto) {

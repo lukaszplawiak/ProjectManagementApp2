@@ -10,6 +10,7 @@ insert into USERS (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CREATED_ON, UPDATED_O
 insert into USERS (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CREATED_ON, UPDATED_ON, ENABLED) VALUES ('Geralt', 'Rivia', 'geraltrivi@gmail.com', '$2a$10$UseEyYEdNZDTLhkmAVaPueR7CPSWLorI8bU24yfiybui7BZ5qPP2G', '2022-02-10 09:37:00.000000', null, null);
 insert into USERS (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CREATED_ON, UPDATED_ON, ENABLED) VALUES ('Mona', 'Liza', 'monaliza@gmail.com', '$2a$10$0c.3DjUrHcgvwGd/Hym4tuRsj.SgMtpj1c7tTgYkGKLObtOeYAk32', '2022-02-10 09:37:00.000000', null, null);
 insert into USERS (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CREATED_ON, UPDATED_ON, ENABLED) VALUES ('Mona2', 'Liza2', 'monaliza2@gmail.com', '$2a$10$0c.3DjUrHcgvwGd/Hym4tuRsj.SgMtpj1c7tTgYkGKLObtOeYAk32', '2022-02-10 09:37:00.000000', null, null);
+insert into USERS (FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, CREATED_ON, UPDATED_ON, ENABLED) VALUES ('Mona2', 'Liza2', 'monaliza3@gmail.com', '$2a$10$0c.3DjUrHcgvwGd/Hym4tuRsj.SgMtpj1c7tTgYkGKLObtOeYAk32', '2022-02-10 09:37:00.000000', null, null);
 
 insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 1, 1 );
 insert into USERS_ROLES (USER_ID, ROLES_ID) VALUES ( 1, 2 );
@@ -42,3 +43,4 @@ insert into TASKS (NAME, COMMENT, DEADLINE, DONE, CREATED_ON, UPDATED_ON, PROJEC
 insert into TASKS (NAME, COMMENT, DEADLINE, DONE, CREATED_ON, UPDATED_ON, PROJECT_ID, USER_ID) VALUES ('Task 1', 'Task 1 of project 5', '2022-03-15', false, '2022-02-10 10:01:00.000000', null, 5, 5);
 insert into TASKS (NAME, COMMENT, DEADLINE, DONE, CREATED_ON, UPDATED_ON, PROJECT_ID, USER_ID) VALUES ('Task 2', 'Task 2 of project 5', '2022-03-15', false, '2022-02-10 10:01:00.000000', null, 5, 2);
 insert into TASKS (NAME, COMMENT, DEADLINE, DONE, CREATED_ON, UPDATED_ON, PROJECT_ID, USER_ID) VALUES ('Task 3', 'Task 3 of project 5', '2022-03-15', false, '2022-02-10 10:01:00.000000', null, 5, 3);
+insert into TASKS (NAME, COMMENT, DEADLINE, DONE, CREATED_ON, UPDATED_ON, PROJECT_ID, USER_ID) VALUES ('Task 4', 'Task 4 of project 5', '2022-03-15', false, '2022-02-10 10:01:00.000000', null, 5, 3);

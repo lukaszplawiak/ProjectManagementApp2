@@ -33,24 +33,44 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         this.verifier = verifier;
     }
 
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request,
+//                                    HttpServletResponse response,
+//                                    FilterChain filterChain) {
+//        getAuthentication(request).ifPresentOrElse(auth -> {
+//            SecurityContextHolder.getContext().setAuthentication(auth);
+//            try {
+//                filterChain.doFilter(request, response);
+//            } catch (IOException | ServletException e) {
+//                throw new RuntimeException(e);
+//            }
+//        },() -> {
+//            try {
+//                filterChain.doFilter(request, response);
+//            } catch (IOException | ServletException e) {
+//                throw new RuntimeException(e);
+//            }
+//        });
+//    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) {
         getAuthentication(request).ifPresentOrElse(auth -> {
             SecurityContextHolder.getContext().setAuthentication(auth);
-            try {
-                filterChain.doFilter(request, response);
-            } catch (IOException | ServletException e) {
-                throw new RuntimeException(e);
-            }
-        },() -> {
-            try {
-                filterChain.doFilter(request, response);
-            } catch (IOException | ServletException e) {
-                throw new RuntimeException(e);
-            }
-        });
+            filterChainDoFilter(request, response, filterChain);
+        }, () -> filterChainDoFilter(request, response, filterChain));
+    }
+
+    private void filterChainDoFilter(HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     FilterChain filterChain) {
+        try {
+            filterChain.doFilter(request, response);
+        } catch (IOException | ServletException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Optional<UsernamePasswordAuthenticationToken> getAuthentication(HttpServletRequest request) {
@@ -74,10 +94,4 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
             return Optional.empty();
         }
     }
-
-//    private boolean varyfyToken(String token) {
-//
-//    }
-
-
 }

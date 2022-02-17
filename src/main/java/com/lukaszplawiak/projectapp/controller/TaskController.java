@@ -75,11 +75,11 @@ class TaskController {
 
     @Secured({"ROLE_USER", "ROLE_MANAGER"})
     @DeleteMapping(path = "/{taskId}")
-    ResponseEntity<String> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId,
+    ResponseEntity<?> deleteTaskById(@PathVariable Long projectId, @PathVariable Long taskId,
                                           Authentication authentication) {
         String userEmail = authentication.getName();
         User user = userService.getUser(userEmail);
         taskService.deleteTaskById(projectId, taskId, user);
-        return new ResponseEntity<>("Task of id: " + taskId + " deleted", HttpStatus.OK);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }
