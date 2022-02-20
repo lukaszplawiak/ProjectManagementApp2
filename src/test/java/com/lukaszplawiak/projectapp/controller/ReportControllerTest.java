@@ -35,10 +35,26 @@ class ReportControllerTest extends ControllerTestBase {
     }
 
     @Test
+    void getReport_WhenUserWithRoleAdminHaveExpiredToken_ShouldNotReturnedPdf() throws Exception {
+        mockMvc.perform(get("/api/v1/reports/ALL_PROJECTS")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_ADMIN)
+                        .contentType(MediaType.APPLICATION_PDF))
+                .andExpect(status().is(401));
+    }
+
+    @Test
     void getReport_WhenUserWithRoleSuperAdmin_ShouldReturnedPdf() throws Exception {
         mockMvc.perform(get("/api/v1/reports/DONE_PROJECTS")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .contentType(MediaType.APPLICATION_PDF))
                 .andExpect(status().is(200));
+    }
+
+    @Test
+    void getReport_WhenUserWithRoleSuperAdminHaveExpiredToken_ShouldNotReturnedPdf() throws Exception {
+        mockMvc.perform(get("/api/v1/reports/DONE_PROJECTS")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_SUPER_ADMIN)
+                        .contentType(MediaType.APPLICATION_PDF))
+                .andExpect(status().is(401));
     }
 }

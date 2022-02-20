@@ -57,6 +57,16 @@ class ProjectControllerTest extends ControllerTestBase {
     }
 
     @Test
+    void createProject_WhenUserWithRoleManagerHaveExpiredToken_ShouldNotSaveProject() throws Exception {
+        mockMvc.perform(post("/api/v1/projects")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_MANAGER)
+                        .content(asJsonString(getProject()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(401));
+    }
+
+    @Test
     void createProject_WhenUserWithRoleAdmin_ShouldReturnForbidden() throws Exception {
         mockMvc.perform(post("/api/v1/projects")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
@@ -253,6 +263,22 @@ class ProjectControllerTest extends ControllerTestBase {
         assertThat(project.getTitle()).isEqualTo("Title2");
         assertThat(project.getDescription()).isEqualTo("Description2");
         assertThat(project.getDeadline()).isEqualTo(LocalDate.parse("2022-09-19"));
+    }
+
+    @Test
+    void updateProject_WhenUserWithRoleManagerHaveExpiredToken_ShouldNotUpdateProject() throws Exception {
+        ProjectRequestDto project = ProjectRequestDto.ProjectRequestDtoBuilder.aProjectRequestDto()
+                .withTitle("Title2")
+                .withDescription("Description2")
+                .withDeadline(LocalDate.parse("2022-09-19"))
+                .withUser(userService.getUser("mickeymouse@gmail.com"))
+                .build();
+        mockMvc.perform(put("/api/v1/projects/3")
+                        .content(asJsonString(project))
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_MANAGER)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(401));
     }
 
     @Test

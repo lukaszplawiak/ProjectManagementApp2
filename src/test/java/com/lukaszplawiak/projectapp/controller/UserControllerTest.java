@@ -4,7 +4,7 @@ import com.lukaszplawiak.projectapp.controller.config.TokenSample;
 import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.RoleAndUserForm;
-import com.lukaszplawiak.projectapp.model.User;
+import com.lukaszplawiak.projectapp.model.UserEmail;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
@@ -57,6 +57,16 @@ class UserControllerTest extends ControllerTestBase {
         assertThat(getUser().getFirstName()).isEqualTo("First");
         assertThat(getUser().getLastName()).isEqualTo("Last");
         assertThat(getUser().getEmail()).isEqualTo("emailis@gmail.com");
+    }
+
+    @Test
+    void saveUser_WhenUserWithRoleAdminHaveExpiredToken_ShouldNotCreateUser() throws Exception {
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_ADMIN)
+                        .content(asJsonString(getUser()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(401));
     }
 
     @Test
@@ -344,8 +354,14 @@ class UserControllerTest extends ControllerTestBase {
                 .andExpect(status().is(200));
     }
 
-
-
-
-
+    @Test
+    void deleteUser_WhenUserWithRoleSuperAdminHaveExpiredToken_ShouldNotDeleteUser() throws Exception {
+        UserEmail userEmail = new UserEmail("monaliza2@gmail.com");
+        mockMvc.perform(delete("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_SUPER_ADMIN)
+                        .content(asJsonString(userEmail.getEmail()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(401));
+    }
 }

@@ -46,6 +46,16 @@ class TaskControllerTest extends ControllerTestBase {
     }
 
     @Test
+    void createTask_WhenUserWithRoleUserHaveExpiredToken_ShouldNotCreateTask() throws Exception {
+        mockMvc.perform(post("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_USER)
+                        .content(asJsonString(getTask()))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(401));
+    }
+
+    @Test
     void createTask_WhenUserWithRoleManager_ShouldCreateTask() throws Exception {
         mockMvc.perform(post("/api/v1/projects/1/tasks")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
@@ -248,6 +258,22 @@ class TaskControllerTest extends ControllerTestBase {
         assertThat(task2.getName()).isEqualTo("Name4");
         assertThat(task2.getComment()).isEqualTo("Comment3");
         assertThat(task2.getDeadline()).isEqualTo(LocalDate.parse("2022-12-12"));
+    }
+
+    @Test
+    void updateTaskById_WhenUserIsOwnerOfTaskHaveExpiredToken_ShouldNotUpdateTask() throws Exception {
+        TaskRequestDto task2 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name4")
+                .withComment("Comment3")
+                .withDeadline(LocalDate.parse("2022-12-12"))
+                .withUser(userService.getUser("mickeymouse@gmail.com"))
+                .build();
+        mockMvc.perform(put("/api/v1/projects/1/tasks/3")
+                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_MANAGER)
+                        .content(asJsonString(task2))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(401));
     }
 
     @Test

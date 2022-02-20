@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.controller;
+package com.lukaszplawiak.projectapp.model;
 
 public class UserEmail {
     private String email;
