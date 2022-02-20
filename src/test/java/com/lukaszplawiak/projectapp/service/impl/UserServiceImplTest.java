@@ -14,72 +14,6 @@ import static org.mockito.Mockito.*;
 class UserServiceImplTest {
 
     @Test
-    void saveUser_WhenFirstNameIsLessThanOneCharacter_ShouldThrowIllegalInputException() {
-        // given
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("")
-                .build();
-        var userServiceImpl = new UserServiceImpl(null, null, null);
-
-        // when
-        // then
-        assertThatThrownBy(() -> userServiceImpl.saveUser(user))
-                .isInstanceOf(IllegalInputException.class)
-                .hasMessageContaining("Illegal input data");
-    }
-
-    @Test
-    void saveUser_WhenLastNameIsLessThanOneCharacter_ShouldThrowIllegalInputException() {
-        // given
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("FirstName")
-                .withLastName("")
-                .build();
-        var userServiceImpl = new UserServiceImpl(null, null, null);
-
-        // when
-        // then
-        assertThatThrownBy(() -> userServiceImpl.saveUser(user))
-                .isInstanceOf(IllegalInputException.class)
-                .hasMessageContaining("Illegal input data");
-    }
-
-    @Test
-    void saveUser_WhenEmailIsNotProperFormatted_ShouldThrowIllegalInputException() {
-        // given
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("FirstName")
-                .withLastName("LastName")
-                .withEmail("emailmail.com")
-                .build();
-        var userServiceImpl = new UserServiceImpl(null, null, null);
-
-        // when
-        // then
-        assertThatThrownBy(() -> userServiceImpl.saveUser(user))
-                .isInstanceOf(IllegalInputException.class)
-                .hasMessageContaining("Illegal input data");
-    }
-
-    @Test
-    void saveUser_WhenPasswordIsLessThanFourCharacters_ShouldThrowIllegalInputException() {
-        // given
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("FirstName")
-                .withLastName("LastName")
-                .withEmail("email@mail.com")
-                .withPassword("123")
-                .build();
-        var userServiceImpl = new UserServiceImpl(null, null, null);
-
-        // when
-        // then
-        assertThatThrownBy(() -> userServiceImpl.saveUser(user))
-                .isInstanceOf(IllegalInputException.class)
-                .hasMessageContaining("Illegal input data");
-    }
-
-    @Test
     void saveUser_WhenUserIsProperFormatted_ShouldCreateUser() {
         // given
         UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
@@ -148,7 +82,7 @@ class UserServiceImplTest {
         Role role = new Role(12L, "ROLE_NO");
 
         UserRepository mockUserRepository = mock(UserRepository.class);
-        when(mockUserRepository.findByEmail(email)).thenReturn(user);
+        when(mockUserRepository.getByEmail(email)).thenReturn(user);
         RoleRepository mockRoleRepository = mock(RoleRepository.class);
         when(mockRoleRepository.findByName(roleName)).thenReturn(role);
 
@@ -158,6 +92,19 @@ class UserServiceImplTest {
         // then
         assertThatThrownBy(() -> userServiceImpl.addRoleToUser(email, roleName))
                 .isNotInstanceOf(IllegalInputException.class);
+    }
+
+    @Test
+    void deleteUser_WhenUserIsNotInDatabase_ShouldNotDeleteUser() {  /// to poprawic !!!!
+        // given
+        String email = "email@lala.com";
+
+        var mockUserServiceImpl = mock(UserServiceImpl.class);
+        mockUserServiceImpl.deleteUser(email);
+
+        // when
+        // then
+        verify(mockUserServiceImpl, times(1)).deleteUser(email);
     }
 
     @Test

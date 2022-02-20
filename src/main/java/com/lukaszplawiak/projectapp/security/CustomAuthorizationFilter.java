@@ -33,39 +33,19 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         this.verifier = verifier;
     }
 
-//    @Override
-//    protected void doFilterInternal(HttpServletRequest request,
-//                                    HttpServletResponse response,
-//                                    FilterChain filterChain) {
-//        getAuthentication(request).ifPresentOrElse(auth -> {
-//            SecurityContextHolder.getContext().setAuthentication(auth);
-//            try {
-//                filterChain.doFilter(request, response);
-//            } catch (IOException | ServletException e) {
-//                throw new RuntimeException(e);
-//            }
-//        },() -> {
-//            try {
-//                filterChain.doFilter(request, response);
-//            } catch (IOException | ServletException e) {
-//                throw new RuntimeException(e);
-//            }
-//        });
-//    }
-
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) {
         getAuthentication(request).ifPresentOrElse(auth -> {
             SecurityContextHolder.getContext().setAuthentication(auth);
-            filterChainDoFilter(request, response, filterChain);
-        }, () -> filterChainDoFilter(request, response, filterChain));
+            filter(request, response, filterChain);
+        }, () -> filter(request, response, filterChain));
     }
 
-    private void filterChainDoFilter(HttpServletRequest request,
-                                     HttpServletResponse response,
-                                     FilterChain filterChain) {
+    private void filter(HttpServletRequest request,
+                        HttpServletResponse response,
+                        FilterChain filterChain) {
         try {
             filterChain.doFilter(request, response);
         } catch (IOException | ServletException e) {
@@ -90,7 +70,6 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
             return Optional.ofNullable(verifier.verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject());
         } catch (JWTVerificationException e) {
-//            throw new BadCredentialsException("Exception occurred when verifying token!", e);
             return Optional.empty();
         }
     }

@@ -27,7 +27,7 @@ class ReportController {
     public ResponseEntity<Resource> getReport(@PathVariable ReportType reportType,
                                               @RequestParam(defaultValue = "true") boolean done)
     {
-        File report = reportGenerationService.generateReport(reportType, done); //
+        File report = reportGenerationService.generateReport(reportType, done); /////////
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .header(CONTENT_DISPOSITION, prepareContentDispositionHeader(report))

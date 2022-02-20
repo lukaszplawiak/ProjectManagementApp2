@@ -1,5 +1,7 @@
 package com.lukaszplawiak.projectapp.dto;
 
+import com.lukaszplawiak.projectapp.model.User;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,6 +16,7 @@ public class TaskRequestDto {
     private String comment;
     @NotNull
     private LocalDate deadline;
+    private User user;
 
     public String getName() {
         return name;
@@ -27,10 +30,15 @@ public class TaskRequestDto {
         return deadline;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public static final class TaskRequestDtoBuilder {
         private String name;
         private String comment;
         private LocalDate deadline;
+        private User user;
 
         private TaskRequestDtoBuilder() {
         }
@@ -54,11 +62,17 @@ public class TaskRequestDto {
             return this;
         }
 
+        public TaskRequestDtoBuilder withUser(User user) {
+            this.user = user;
+            return this;
+        }
+
         public TaskRequestDto build() {
             TaskRequestDto taskRequestDto = new TaskRequestDto();
             taskRequestDto.deadline = this.deadline;
             taskRequestDto.name = this.name;
             taskRequestDto.comment = this.comment;
+            taskRequestDto.user = this.user;
             return taskRequestDto;
         }
     }

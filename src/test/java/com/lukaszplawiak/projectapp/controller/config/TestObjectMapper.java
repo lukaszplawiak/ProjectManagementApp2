@@ -3,7 +3,7 @@ package com.lukaszplawiak.projectapp.controller.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
-public class ObjectMapperConfig {
+public class TestObjectMapper {
     public static String asJsonString(final Object obj) {
         ObjectMapper mapper = JsonMapper.builder()
                 .findAndAddModules()

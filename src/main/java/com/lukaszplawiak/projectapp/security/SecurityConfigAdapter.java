@@ -63,11 +63,12 @@ public class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
     }
 
+
     public CustomAuthenticationFilter customAuthenticateFilter() throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter();
         customAuthenticationFilter.setAuthenticationSuccessHandler(successHandler);
         customAuthenticationFilter.setAuthenticationFailureHandler(failureHandler);
-        customAuthenticationFilter.setAuthenticationManager(authenticationManagerBean()); // super.authenticationManager()
+        customAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
         return customAuthenticationFilter;
     }
 

@@ -16,7 +16,7 @@ public class UserRequestDto {
     @Size(min = 1, max = 100)
     private String email;
     @NotBlank
-    @Size(min = 1, max = 100)
+    @Size(min = 4, max = 100)
     private String password;
 
     public String getFirstName() {

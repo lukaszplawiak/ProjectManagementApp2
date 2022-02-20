@@ -2,7 +2,7 @@ package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalActionException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
@@ -49,7 +49,7 @@ class TaskServiceImplTest {
         // when
         // then
         assertThatThrownBy(() -> taskServiceImpl.createTask(anyLong(), null, null))
-                .isInstanceOf(IllegalActionException.class)
+                .isInstanceOf(IllegalModificationException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
 
@@ -202,7 +202,7 @@ class TaskServiceImplTest {
         assertThat(taskServiceImpl.createTask(anyLong(), taskRequestDto, null))
                 .isNotInstanceOfAny(
                         IllegalAccessException.class,
-                        IllegalActionException.class,
+                        IllegalModificationException.class,
                         IllegalInputException.class
                 );
     }
@@ -250,7 +250,7 @@ class TaskServiceImplTest {
         // when
         // then
         assertThatThrownBy(() -> taskServiceImpl.updateTaskById(id, id, null, user))
-                .isInstanceOf(IllegalActionException.class)
+                .isInstanceOf(IllegalModificationException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
 
@@ -443,7 +443,7 @@ class TaskServiceImplTest {
         assertThat(taskServiceImpl.updateTaskById(id, id, taskRequestDto, user))
                 .isNotInstanceOfAny(
                         IllegalAccessException.class,
-                        IllegalActionException.class,
+                        IllegalModificationException.class,
                         IllegalInputException.class
                 );
     }
@@ -491,7 +491,7 @@ class TaskServiceImplTest {
         // when
         // then
         assertThatThrownBy(() -> taskServiceImpl.deleteTaskById(id, id, user))
-                .isInstanceOf(IllegalActionException.class)
+                .isInstanceOf(IllegalModificationException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
 
@@ -553,7 +553,7 @@ class TaskServiceImplTest {
         // when
         // then
         assertThatThrownBy(() -> taskServiceImpl.toggleTask(id, id, user))
-                .isInstanceOf(IllegalActionException.class)
+                .isInstanceOf(IllegalModificationException.class)
                 .hasMessageContaining("The action is impossible to execute");
     }
 

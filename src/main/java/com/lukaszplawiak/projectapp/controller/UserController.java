@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,19 +23,19 @@ class UserController {
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
-    @PostMapping(path = "/users/save")
-    ResponseEntity<UserResponseDto> saveUser(@RequestBody UserRequestDto user) {
+    @PostMapping(path = "/users")
+    ResponseEntity<UserResponseDto> saveUser(@RequestBody @Valid UserRequestDto user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_SUPER_ADMIN"})
-    @PostMapping(path = "/roles/save")
+    @PostMapping(path = "/roles")
     ResponseEntity<Role> saveRole(@RequestBody Role role) {
         return new ResponseEntity<>(userService.saveRole(role), HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
-    @PostMapping(path = "/roles/addtouser")
+    @PostMapping(path = "/users/addtouser")
     ResponseEntity<?> addRoleToUser(@RequestBody RoleAndUserForm form) {
         userService.addRoleToUser(form.getEmail(), form.getRoleName());
         return new ResponseEntity<>(HttpStatus.OK);
@@ -53,9 +54,9 @@ class UserController {
     }
 
     @Secured({"ROLE_SUPER_ADMIN"})
-    @DeleteMapping(path = "/users/delete")
-    ResponseEntity<?> deleteUser(@RequestBody RoleAndUserForm form) {
-        userService.deleteUser(form.getEmail());
+    @DeleteMapping(path = "/users")
+    ResponseEntity<?> deleteUser(@RequestBody UserEmail userEmail) {
+        userService.deleteUser(userEmail.getEmail());
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

@@ -4,7 +4,7 @@ package com.lukaszplawiak.projectapp.service.impl;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalActionException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
@@ -62,7 +62,6 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskResponseDto getTaskById(Long projectId, Long taskId) {
         Task task = taskRepository.getById(taskId);
-        logger.info("Fetch task of id: " + taskId);
         return mapToTaskResponseDto(task);
     }
 
@@ -77,7 +76,6 @@ public class TaskServiceImpl implements TaskService {
         List<TaskResponseDto> collect = tasks.stream()
                 .map(task -> mapToTaskResponseDto(task))
                 .collect(Collectors.toList());
-        logger.info("Fetch all the tasks of project of id: " + projectId);
         return collect;
     }
 
@@ -87,7 +85,6 @@ public class TaskServiceImpl implements TaskService {
         List<TaskResponseDto> taskResponseDtoList = byDoneAndProjectId.stream()
                 .map(task -> mapToTaskResponseDto(task))
                 .collect(Collectors.toList());
-        logger.info("Fetch all the tasks by 'done' state of project id: " + projectId);
         return taskResponseDtoList;
     }
 
@@ -105,7 +102,7 @@ public class TaskServiceImpl implements TaskService {
         task.setComment(taskRequestDto.getComment());
         task.setDeadline(taskRequestDto.getDeadline());
         task.setUser(user);
-        logger.info("Updated task of id: " + taskId);
+        logger.trace("Updated task of id: " + taskId);
         return mapToTaskResponseDto(task);
     }
 
@@ -116,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
         userAccessCheck(user, task);
         projectIsDoneCheck(projectId, project);
         taskRepository.delete(task);
-        logger.info("Deleted task of id: " + taskId);
+        logger.trace("Deleted task of id: " + taskId);
     }
 
     public void toggleTask(Long projectId, Long taskId, User user) {
@@ -125,41 +122,41 @@ public class TaskServiceImpl implements TaskService {
         userAccessCheck(user, task);
         projectIsDoneCheck(projectId, project);
         task.setDone(!task.isDone());
-        logger.info("Toggled task of id: " + taskId);
+        logger.trace("Toggled task of id: " + taskId);
         projectServiceImpl.toggleProject(projectId);
     }
 
     private void projectIsDoneCheck(Long projectId, Project project) {
         if (project.isDone()) {
-            logger.info("Project of id: " + projectId + " is done. The action is impossible to execute");
-            throw new IllegalActionException(projectId);
+            logger.trace("Project of id: " + projectId + " is done. The action is impossible to execute");
+            throw new IllegalModificationException(projectId);
         }
     }
 
     private void userAccessCheck(User user, Task task) {
         if (!(Objects.equals(task.getUser().getId(), user.getId()))) {
-            logger.info("Access denied");
+            logger.trace("Access denied");
             throw new IllegalAccessException();
         }
     }
 
     private void taskNameValidation(TaskRequestDto taskRequestDto) {
         if (taskRequestDto.getName() == null || taskRequestDto.getName().isBlank()) {
-            logger.info("Task's name must not be blank");
+            logger.trace("Task's name must not be blank");
             throw new IllegalInputException();
         }
     }
 
     private void taskCommentValidation(TaskRequestDto taskRequestDto) {
         if (taskRequestDto.getComment() == null) {
-            logger.info("Task's comment must not be null");
+            logger.trace("Task's comment must not be null");
             throw new IllegalInputException();
         }
     }
 
     private void taskDeadlineValidation(TaskRequestDto taskRequestDto) {
         if (taskRequestDto.getDeadline() == null || taskRequestDto.getDeadline().isBefore(ChronoLocalDate.from(LocalDateTime.now(clock)))) {
-            logger.info("Task's deadline must be set after now");
+            logger.trace("Task's deadline must be set after now");
             throw new IllegalInputException();
         }
     }

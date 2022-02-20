@@ -1,4 +1,4 @@
-package com.lukaszplawiak.projectapp.config;
+package com.lukaszplawiak.projectapp.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

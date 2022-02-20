@@ -1,93 +1,35 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Clock;
 import com.lukaszplawiak.projectapp.controller.config.TokenSample;
 import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.RoleAndUserForm;
-import com.lukaszplawiak.projectapp.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
+import com.lukaszplawiak.projectapp.model.User;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.security.web.FilterChainProxy;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
-import static com.lukaszplawiak.projectapp.controller.config.ObjectMapperConfig.asJsonString;
-import static org.mockito.Mockito.when;
+import static com.lukaszplawiak.projectapp.controller.config.TestObjectMapper.asJsonString;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-class UserControllerTest {
+class UserControllerTest extends ControllerTestBase {
 
-    @Autowired
-    WebApplicationContext webApplicationContext;
-
-    @Autowired
-    FilterChainProxy filterChainProxy;
-
-    MockMvc mockMvc;
-
-    @Autowired
-    UserService userService;
-
-    @MockBean
-    Clock clock;
-
-    @Autowired
-    TokenSample tokenSample;
-
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .apply(SecurityMockMvcConfigurers.springSecurity(filterChainProxy))
-                .build();
-        when(clock.getToday()).thenReturn(Date.from(LocalDateTime.of(2022, 2, 15, 16, 13).toInstant(ZoneOffset.UTC)));
-    }
-
-    @Configuration
-    @EnableAutoConfiguration
-    @ComponentScan("com.lukaszplawiak.projectapp")
-    static class TestSecurityConfig {
-        @Primary
-        @Bean
-        JWTVerifier jwtVerifier(Clock clock, @Value("${jwt.secret}") String secret) {
-            JWTVerifier.BaseVerification verification = (JWTVerifier.BaseVerification) JWT.require(Algorithm.HMAC256(secret));
-            return verification.build(clock);
-        }
-    }
-
-    @Test
-    void saveUser_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("Name")
+    private UserRequestDto getUser() {
+        return UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
+                .withFirstName("First")
                 .withLastName("Last")
                 .withEmail("emailis@gmail.com")
                 .withPassword("1234")
                 .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
-                        .content(asJsonString(user))
+    }
+
+    @Test
+    void saveUser_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
+                        .content(asJsonString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
@@ -95,14 +37,9 @@ class UserControllerTest {
 
     @Test
     void saveUser_WhenUserWithRoleManager_ShouldReturnedForbidden() throws Exception {
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("Name")
-                .withLastName("Last")
-                .withEmail("emailis@gmail.com")
-                .withPassword("1234")
-                .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
-                        .content(asJsonString(user))
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
+                        .content(asJsonString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
@@ -110,32 +47,36 @@ class UserControllerTest {
 
     @Test
     void saveUser_WhenUserWithRoleAdmin_ShouldCreateUser() throws Exception {
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("Name")
-                .withLastName("Last")
-                .withEmail("emailis@gmail.com")
-                .withPassword("1234")
-                .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
-                        .content(asJsonString(user))
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
+                        .content(asJsonString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(201));
+
+        assertThat(getUser().getFirstName()).isEqualTo("First");
+        assertThat(getUser().getLastName()).isEqualTo("Last");
+        assertThat(getUser().getEmail()).isEqualTo("emailis@gmail.com");
     }
 
     @Test
     void saveUser_WhenUserWithRoleSuperAdmin_ShouldCreateUser() throws Exception {
         UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("First")
-                .withLastName("Last")
+                .withFirstName("First2")
+                .withLastName("Last2")
                 .withEmail("emailis2@gmail.com")
                 .withPassword("1234")
                 .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(201));
+
+        assertThat(getUser().getFirstName()).isEqualTo("First");
+        assertThat(getUser().getLastName()).isEqualTo("Last");
+        assertThat(getUser().getEmail()).isEqualTo("emailis@gmail.com");
     }
 
     @Test
@@ -146,7 +87,8 @@ class UserControllerTest {
                 .withEmail("emailis2@gmail.com")
                 .withPassword("1234")
                 .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -161,7 +103,8 @@ class UserControllerTest {
                 .withEmail("emailis2@gmail.com")
                 .withPassword("1234")
                 .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -176,7 +119,8 @@ class UserControllerTest {
                 .withEmail("emailis2gmail.com")
                 .withPassword("1234")
                 .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -191,7 +135,8 @@ class UserControllerTest {
                 .withEmail("emailis@2gmail.com")
                 .withPassword("123")
                 .build();
-        mockMvc.perform(post("/api/v1/users/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -201,7 +146,8 @@ class UserControllerTest {
     @Test
     void saveRole_WhenUserWithRoleUser_ShouldNotCreateRole() throws Exception {
         Role role = new Role(null, "ROLE_READER");
-        mockMvc.perform(post("/api/v1/roles/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(post("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .content(asJsonString(role))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -211,7 +157,8 @@ class UserControllerTest {
     @Test
     void saveRole_WhenUserWithRoleManager_ShouldNotCreateRole() throws Exception {
         Role role = new Role(null, "ROLE_READER");
-        mockMvc.perform(post("/api/v1/roles/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+        mockMvc.perform(post("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .content(asJsonString(role))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -221,7 +168,8 @@ class UserControllerTest {
     @Test
     void saveRole_WhenUserWithRoleAdmin_ShouldNotCreateRole() throws Exception {
         Role role = new Role(null, "ROLE_READER");
-        mockMvc.perform(post("/api/v1/roles/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(post("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .content(asJsonString(role))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -231,7 +179,8 @@ class UserControllerTest {
     @Test
     void saveRole_WhenUserWithRoleSuperAdmin_ShouldNotCreateRole() throws Exception {
         Role role = new Role(null, "ROLE_READER");
-        mockMvc.perform(post("/api/v1/roles/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(role))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -241,7 +190,8 @@ class UserControllerTest {
     @Test
     void saveRole_WhenRoleNameIsEmpty_ShouldNotCreateRole() throws Exception {
         Role role = new Role(null, "");
-        mockMvc.perform(post("/api/v1/roles/save").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(role))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -251,7 +201,8 @@ class UserControllerTest {
     @Test
     void addRoleToUser_WhenUserRoleIsUser_ShouldNotAddRoleToUser() throws Exception {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_ADMIN");
-        mockMvc.perform(post("/api/v1/roles/addtouser").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(post("/api/v1/users/addtouser")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                 .content(asJsonString(form))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -261,7 +212,8 @@ class UserControllerTest {
     @Test
     void addRoleToUser_WhenUserRoleIsManager_ShouldNotAddRoleToUser() throws Exception {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_ADMIN");
-        mockMvc.perform(post("/api/v1/roles/addtouser").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+        mockMvc.perform(post("/api/v1/users/addtouser")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .content(asJsonString(form))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -271,7 +223,8 @@ class UserControllerTest {
     @Test
     void addRoleToUser_WhenUserRoleIsAdmin_ShouldAddRoleToUser() throws Exception {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_ADMIN");
-        mockMvc.perform(post("/api/v1/roles/addtouser").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(post("/api/v1/users/addtouser")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .content(asJsonString(form))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -281,7 +234,8 @@ class UserControllerTest {
     @Test
     void addRoleToUser_WhenUserRoleIsSuperAdmin_ShouldAddRoleToUser() throws Exception {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_USER");
-        mockMvc.perform(post("/api/v1/roles/addtouser").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(post("/api/v1/users/addtouser")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .content(asJsonString(form))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -290,19 +244,22 @@ class UserControllerTest {
 
     @Test
     void readAllUsers_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/users").header(AUTHORIZATION, tokenSample.validTokenWithRole_User()))
+        mockMvc.perform(get("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER))
                 .andExpect(status().is(403));
     }
 
     @Test
     void readAllUsers_WhenUserWithRoleManager_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/users").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager()))
+        mockMvc.perform(get("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER))
                 .andExpect(status().is(403));
     }
 
     @Test
     void readAllUsers_WhenUserWithRoleAdmin_ShouldReturnedUsers() throws Exception {
-        mockMvc.perform(get("/api/v1/users").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
@@ -310,7 +267,8 @@ class UserControllerTest {
 
     @Test
     void readAllUsers_WhenUserWithRoleSuperAdmin_ShouldReturnedUsers() throws Exception {
-        mockMvc.perform(get("/api/v1/users").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
@@ -318,19 +276,22 @@ class UserControllerTest {
 
     @Test
     void readAllRoles_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/roles").header(AUTHORIZATION, tokenSample.validTokenWithRole_User()))
+        mockMvc.perform(get("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER))
                 .andExpect(status().is(403));
     }
 
     @Test
     void readAllRoles_WhenUserWithRoleManager_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(get("/api/v1/roles").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager()))
+        mockMvc.perform(get("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER))
                 .andExpect(status().is(403));
     }
 
     @Test
     void readAllRoles_WhenUserWithRoleAdmin_ShouldReturnedRoles() throws Exception {
-        mockMvc.perform(get("/api/v1/roles").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
@@ -338,7 +299,8 @@ class UserControllerTest {
 
     @Test
     void readAllRoles_WhenUserWithRoleSuperAdmin_ShouldReturnedRoles() throws Exception {
-        mockMvc.perform(get("/api/v1/roles").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/roles")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
@@ -346,8 +308,8 @@ class UserControllerTest {
 
     @Test
     void deleteUser_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(delete("/api/v1//users/delete")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(delete("/api/v1//users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400));
@@ -355,8 +317,8 @@ class UserControllerTest {
 
     @Test
     void deleteUser_WhenUserWithRoleManager_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(delete("/api/v1//users/delete")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+        mockMvc.perform(delete("/api/v1//users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400));
@@ -364,8 +326,8 @@ class UserControllerTest {
 
     @Test
     void deleteUser_WhenUserWithRoleAdmin_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(delete("/api/v1//users/delete")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(delete("/api/v1//users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400));
@@ -373,9 +335,10 @@ class UserControllerTest {
 
     @Test
     void deleteUser_WhenUserWithRoleSuperAdmin_ShouldDeleteUser() throws Exception {
-        RoleAndUserForm form = new RoleAndUserForm("monaliza2@gmail.com", null);
-        mockMvc.perform(delete("/api/v1//users/delete").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
-                        .content(asJsonString(form))
+        UserEmail userEmail = new UserEmail("monaliza2@gmail.com");
+        mockMvc.perform(delete("/api/v1/users")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
+                        .content(asJsonString(userEmail.getEmail()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));

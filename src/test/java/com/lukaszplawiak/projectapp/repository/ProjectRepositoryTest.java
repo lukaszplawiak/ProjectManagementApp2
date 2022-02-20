@@ -1,26 +1,26 @@
 package com.lukaszplawiak.projectapp.repository;
 
 import com.lukaszplawiak.projectapp.controller.ControllerTestBase;
-import com.lukaszplawiak.projectapp.model.User;
+import com.lukaszplawiak.projectapp.model.Project;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class UserRepositoryTest extends ControllerTestBase {
+class ProjectRepositoryTest extends ControllerTestBase {
 
     @Autowired
-    UserRepository userRepository;
+    ProjectRepository projectRepository;
 
     @Test
-    void getByEmail_WhenUserIsInDatabase_ShouldGetUser() {
+    void getById_WhenProjectIsinDatabase_ShouldGetProject() {
         // given
         // when
-        User user = userRepository.getByEmail("johnsmith@gmail.com");
+        Project project = projectRepository.getById(4L);
 
         // then
-        assertThat(user).isNotNull();
-        assertThat(user.getEmail()).isEqualTo("johnsmith@gmail.com");
+        assertThat(project).isNotNull();
+        assertThat(project.getId()).isEqualTo(4);
     }
 }

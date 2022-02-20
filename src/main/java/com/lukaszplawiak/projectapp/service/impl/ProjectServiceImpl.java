@@ -3,7 +3,7 @@ package com.lukaszplawiak.projectapp.service.impl;
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.dto.ProjectResponseDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalActionException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.User;
@@ -39,25 +39,22 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto, User user) {
-        projectTitleValidation(projectRequestDto);
-        projectDescriptionValidation(projectRequestDto);
         projectDeadlineValidation(projectRequestDto);
         Project project = mapToProjectEntity(projectRequestDto);
         project.setUser(user);
         projectRepository.save(project);
-        logger.info("Created project of id: " + project.getId());
+        logger.trace("Created project of id: " + project.getId());
         return mapToProjectResponseDto(project);
     }
 
     @Override
     public Project getProjectById(Long id) {
-        return projectRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Project of id: " + id + " not found"));
+        return projectRepository.getById(id);
     }
 
     @Override
     public ProjectResponseDto getProjectDtoById(Long id) {
         Project project = projectRepository.getById(id);
-        logger.info("Fetch project of id: " + id);
         return mapToProjectResponseDto(project);
     }
 
@@ -72,7 +69,6 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectResponseDto(project))
                 .collect(Collectors.toList());
-        logger.warn("Fetch all the projects");
         return projectWriteDtoList;
     }
 
@@ -87,32 +83,29 @@ public class ProjectServiceImpl implements ProjectService {
         List<ProjectResponseDto> projectWriteDtoList = projectList.stream()
                 .map(project -> mapToProjectResponseDto(project))
                 .collect(Collectors.toList());
-        logger.info("Fetch all the projects by 'done' state");
         return projectWriteDtoList;
     }
 
     @Override
     public ProjectResponseDto updateProject(ProjectRequestDto projectRequestDto, Long id, User user) {
-        projectTitleValidation(projectRequestDto);
-        projectDescriptionValidation(projectRequestDto);
         projectDeadlineValidation(projectRequestDto);
         Project project = projectRepository.getById(id);
-        userAccessCheck(user, project);
+        checkUserAccess(user, project);
         projectIsDoneCheck(id, project);
         project.setId(id);
         project.setTitle(projectRequestDto.getTitle());
         project.setDescription(projectRequestDto.getDescription());
         project.setDeadline(projectRequestDto.getDeadline());
-        logger.info("Updated project of id: " + id);
+        logger.trace("Updated project of id: " + id);
         return mapToProjectResponseDto(project);
     }
 
     @Override
     public void deleteProjectById(Long id, User user) {
         Project project = projectRepository.getById(id);
-        userAccessCheck(user, project);
+        checkUserAccess(user, project);
         projectRepository.delete(project);
-        logger.info("Deleted project of id: " + id);
+        logger.trace("Deleted project of id: " + id);
     }
 
 
@@ -121,40 +114,26 @@ public class ProjectServiceImpl implements ProjectService {
         if (project.getTasks().stream().allMatch(b -> b.isDone())) {
             project.setDone(!project.isDone());
             //projectRepository.save(project);
-            logger.info("Toggled project of id: " + projectId);
+            logger.trace("Toggled project of id: " + projectId);
         }
     }
 
-    private void userAccessCheck(User user, Project project) {
+    private void checkUserAccess(User user, Project project) {
         if (!(Objects.equals(project.getUser().getId(), user.getId()))) {
-            logger.info("Access denied");
+            logger.trace("Access denied");
             throw new IllegalAccessException();
         }
     }
 
     private void projectIsDoneCheck(Long projectId, Project project) {
         if (project.isDone()) {
-            logger.info("Project of id: " + projectId + " is done. The action is impossible to execute");
-            throw new IllegalActionException(projectId);
-        }
-    }
-
-    private void projectTitleValidation(ProjectRequestDto projectRequestDto) {
-        if (projectRequestDto.getTitle() == null || projectRequestDto.getTitle().isBlank()) {
-            logger.info("Project's title must be at least one character");
-            throw new IllegalInputException();
-        }
-    }
-
-    private void projectDescriptionValidation(ProjectRequestDto projectRequestDto) {
-        if (projectRequestDto.getDescription() == null) {
-            logger.info("Project's description must not be null");
-            throw new IllegalInputException();
+            logger.trace("Project of id: " + projectId + " is done. The action is impossible to execute");
+            throw new IllegalModificationException(projectId);
         }
     }
 
     private void projectDeadlineValidation(ProjectRequestDto projectRequestDto) {
-        if (projectRequestDto.getDeadline() == null || projectRequestDto.getDeadline().isBefore(ChronoLocalDate.from(LocalDateTime.now(clock)))) {
+        if (projectRequestDto.getDeadline().isBefore(ChronoLocalDate.from(LocalDateTime.now(clock)))) {
             logger.info("Project's deadline must be set after now");
             throw new IllegalInputException();
         }

@@ -1,152 +1,78 @@
 package com.lukaszplawiak.projectapp.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.interfaces.Clock;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lukaszplawiak.projectapp.controller.config.TokenSample;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
-import com.lukaszplawiak.projectapp.service.UserService;
+import com.lukaszplawiak.projectapp.service.impl.UserServiceImpl;
 import org.hamcrest.core.Is;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
-import org.springframework.security.web.FilterChainProxy;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
-import static com.lukaszplawiak.projectapp.controller.config.ObjectMapperConfig.asJsonString;
-import static org.mockito.Mockito.when;
+import static com.lukaszplawiak.projectapp.controller.config.TestObjectMapper.asJsonString;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class TaskControllerTest {
+class TaskControllerTest extends ControllerTestBase {
 
     @Autowired
-    WebApplicationContext webApplicationContext;
+    UserServiceImpl userService;
 
-    @Autowired
-    FilterChainProxy filterChainProxy;
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    UserService userService;
-
-    @MockBean
-    Clock clock;
-
-    @Autowired
-    TokenSample tokenSample;
-
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .apply(SecurityMockMvcConfigurers.springSecurity(filterChainProxy))
+    private TaskRequestDto getTask() {
+        return TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name")
+                .withComment("Comment")
+                .withDeadline(LocalDate.parse("2022-12-12"))
                 .build();
-        when(clock.getToday()).thenReturn(Date.from(LocalDateTime.of(2022, 2, 15, 16, 13)
-                .toInstant(ZoneOffset.UTC)));
-    }
-
-    @Configuration
-    @EnableAutoConfiguration
-    @ComponentScan("com.lukaszplawiak.projectapp")
-    static class TestSecurityConfig {
-        @Primary
-        @Bean
-        JWTVerifier jwtVerifier(Clock clock, @Value("${jwt.secret}") String secret) {
-            JWTVerifier.BaseVerification verification = (JWTVerifier.BaseVerification) JWT.require(Algorithm.HMAC256(secret));
-            return verification.build(clock);
-        }
     }
 
     @Test
     void createTask_WhenUserWithRoleUser_ShouldCreateTask() throws Exception {
-        TaskRequestDto task1 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
-                .withName("Name1")
-                .withComment("Comm1")
-                .withDeadline(LocalDate.parse("2022-12-12"))
-                .build();
-        mockMvc.perform(post("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
-                        .content(asJsonString(task1))
+        mockMvc.perform(post("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
+                        .content(asJsonString(getTask()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(201));
+
+        assertThat(getTask().getName()).isEqualTo("Name");
+        assertThat(getTask().getComment()).isEqualTo("Comment");
+        assertThat(getTask().getDeadline()).isEqualTo(LocalDate.parse("2022-12-12"));
     }
 
     @Test
     void createTask_WhenUserWithRoleManager_ShouldCreateTask() throws Exception {
-        TaskRequestDto task1 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
-                .withName("Name2")
-                .withComment("Comm2")
-                .withDeadline(LocalDate.parse("2022-12-12"))
-                .build();
-        mockMvc.perform(post("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
-                        .content(asJsonString(task1))
+        mockMvc.perform(post("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
+                        .content(asJsonString(getTask()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(201));
+
+        assertThat(getTask().getName()).isEqualTo("Name");
+        assertThat(getTask().getComment()).isEqualTo("Comment");
+        assertThat(getTask().getDeadline()).isEqualTo(LocalDate.parse("2022-12-12"));
     }
 
     @Test
     void createTask_WhenUserWithRoleAdmin_ShouldNotCreateTask() throws Exception {
-        TaskRequestDto task1 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
-                .withName("Name2")
-                .withComment("Comm2")
-                .withDeadline(LocalDate.parse("2022-12-12"))
-                .build();
-        mockMvc.perform(post("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
-                        .content(asJsonString(task1))
+        mockMvc.perform(post("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
+                        .content(asJsonString(getTask()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
     }
 
-//    @Test
-//    void createTask_WhenUserWithRoleSuperAdmin_ShouldNotCreateTask() throws Exception {
-//        TaskRequestDto task1 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
-//                .withName("Name2")
-//                .withComment("Comm2")
-//                .withDeadline(LocalDate.parse("2022-12-12"))
-//                .build();
-//        mockMvc.perform(post("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
-//                        .content(asJsonString(task1))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().is(403));
-//    }
-
     @Test
     void readTasksByProjectId_WhenUserWithRoleUser_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(get("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -158,7 +84,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByProjectId_WhenUserWithRoleManager_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+        mockMvc.perform(get("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -170,7 +97,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByProjectId_WhenUserWithRoleAdmin_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -182,7 +110,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByProjectId_WhenUserWithRoleSuperAdmin_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/projects/1/tasks")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -194,7 +123,8 @@ class TaskControllerTest {
 
     @Test
     void readTaskById_WhenUserWithRoleUser_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/1")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -206,7 +136,9 @@ class TaskControllerTest {
 
     @Test
     void readTaskById_WhenUserWithRoleManager_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/1")
+
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -218,7 +150,8 @@ class TaskControllerTest {
 
     @Test
     void readTaskById_WhenUserWithRoleAdmin_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/1")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -230,7 +163,8 @@ class TaskControllerTest {
 
     @Test
     void readTaskById_WhenUserWithRoleSuperAdmin_ShouldReturnedTasks() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/1").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/1")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -242,7 +176,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByDoneIsFalseAndProjectId_WhenUserRoleIsUser_ShouldReturnedArray() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/search").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/search")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -251,7 +186,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByDoneIsFalseAndProjectId_WhenUserRoleIsManager_ShouldReturnedArray() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/search").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/search")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -260,7 +196,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByDoneIsFalseAndProjectId_WhenUserRoleIsAdmin_ShouldReturnedArray() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/search").header(AUTHORIZATION, tokenSample.validTokenWithRole_Admin())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/search")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -269,7 +206,8 @@ class TaskControllerTest {
 
     @Test
     void readTasksByDoneIsFalseAndProjectId_WhenUserRoleIsSuperAdmin_ShouldReturnedArray() throws Exception {
-        mockMvc.perform(get("/api/v1/projects/1/tasks/search").header(AUTHORIZATION, tokenSample.validTokenWithRole_Super_Admin())
+        mockMvc.perform(get("/api/v1/projects/1/tasks/search")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(200))
@@ -283,33 +221,41 @@ class TaskControllerTest {
                 .withComment("Comment3")
                 .withDeadline(LocalDate.parse("2022-12-12"))
                 .build();
-        mockMvc.perform(put("/api/v1/projects/1/tasks/2").header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+        mockMvc.perform(put("/api/v1/projects/1/tasks/2")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .content(asJsonString(task2))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
     }
 
-//    @Test
-//    void updateTaskById_WhenUserIsOwnerOfTask_ShouldUpdateTask() throws Exception {
-//        TaskRequestDto task2 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
-//                .withName("Name4")
-//                .withComment("Comment3")
-//                .withDeadline(LocalDate.parse("2022-12-12"))
-//                .build();
-//        mockMvc.perform(put("/api/v1/projects/1/tasks/3").header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
-//                        .content(asJsonString(task2))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().is(204));
-//    }
+    @Test
+    void updateTaskById_WhenUserIsOwnerOfTask_ShouldUpdateTask() throws Exception {
+        TaskRequestDto task2 = TaskRequestDto.TaskRequestDtoBuilder.aTaskRequestDto()
+                .withName("Name4")
+                .withComment("Comment3")
+                .withDeadline(LocalDate.parse("2022-12-12"))
+                .withUser(userService.getUser("mickeymouse@gmail.com"))
+                .build();
+        mockMvc.perform(put("/api/v1/projects/1/tasks/3")
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
+                        .content(asJsonString(task2))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is(200));
+
+        assertThat(task2).isNotNull();
+        assertThat(task2.getName()).isEqualTo("Name4");
+        assertThat(task2.getComment()).isEqualTo("Comment3");
+        assertThat(task2.getDeadline()).isEqualTo(LocalDate.parse("2022-12-12"));
+    }
 
     @Test
     void toggleTask_WhenUserIsNotOwnerOfTask_ShouldReturnedForbidden() throws Exception {
         mockMvc.perform(patch("/api/v1/projects/5/tasks/13")
                         .param("projectId","5")
                         .param("taskId","13")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_Manager())
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
@@ -320,7 +266,7 @@ class TaskControllerTest {
         mockMvc.perform(patch("/api/v1/projects/5/tasks/13")
                         .param("projectId","5")
                         .param("taskId","13")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(204));
@@ -331,7 +277,7 @@ class TaskControllerTest {
         mockMvc.perform(delete("/api/v1/projects/3/tasks/6")
                         .param("projectId","3")
                         .param("taskId","6")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
@@ -342,7 +288,7 @@ class TaskControllerTest {
         mockMvc.perform(delete("/api/v1/projects/4/tasks/9")
                         .param("projectId","4")
                         .param("taskId","9")
-                        .header(AUTHORIZATION, tokenSample.validTokenWithRole_User())
+                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));

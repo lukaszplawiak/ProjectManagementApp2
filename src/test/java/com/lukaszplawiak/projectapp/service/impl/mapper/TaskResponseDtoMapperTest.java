@@ -1,7 +1,5 @@
 package com.lukaszplawiak.projectapp.service.impl.mapper;
 
-import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
-import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TaskResponseDtoMapperTest {
 
     @Test
-    void mapToTaskResponseDto_WhenInputDataIsCorrect_ShouldBeMap() {
+    void mapToTaskResponseDto_ShouldBeMap() {
         // given
         var task = Task.TaskBuilder.aTask()
                 .withId(2L)
@@ -27,12 +25,11 @@ class TaskResponseDtoMapperTest {
         var taskResponseDto = mapToTaskResponseDto(task);
 
         // then
-        assertThat(taskResponseDto)
-                .isNotNull()
-                .hasFieldOrPropertyWithValue("id", task.getId())
-                .hasFieldOrPropertyWithValue("name", task.getName())
-                .hasFieldOrPropertyWithValue("comment", task.getComment())
-                .hasFieldOrPropertyWithValue("deadline", task.getDeadline())
-                .hasFieldOrPropertyWithValue("done", task.isDone());
+        assertThat(taskResponseDto).isNotNull();
+        assertThat(taskResponseDto.getId()).isEqualTo(2L);
+        assertThat(taskResponseDto.getName()).isEqualTo("Task Name");
+        assertThat(taskResponseDto.getComment()).isEqualTo("Task Comment");
+        assertThat(taskResponseDto.getDeadline()).isEqualTo(LocalDate.parse("2022-09-27"));
+        assertThat(taskResponseDto.isDone()).isFalse();
     }
 }

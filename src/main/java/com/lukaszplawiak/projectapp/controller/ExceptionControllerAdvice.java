@@ -1,9 +1,10 @@
 package com.lukaszplawiak.projectapp.controller;
 
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalActionException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,8 +14,8 @@ class ExceptionControllerAdvice {
     ResponseEntity<?> handleIllegalAccessException(IllegalAccessException e) {
         return ResponseEntity.status(403).build();
     }
-    @ExceptionHandler(IllegalActionException.class)
-    ResponseEntity<?> handleIllegalActionTaskException(IllegalActionException e) {
+    @ExceptionHandler(IllegalModificationException.class)
+    ResponseEntity<?> handleIllegalActionTaskException(IllegalModificationException e) {
         return ResponseEntity.status(409).build();
     }
     @ExceptionHandler(IllegalArgumentException.class)
