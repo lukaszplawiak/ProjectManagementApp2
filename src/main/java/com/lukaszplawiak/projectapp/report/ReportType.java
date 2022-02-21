@@ -5,4 +5,5 @@ public enum ReportType {
     ALL_PROJECTS,
     DONE_PROJECTS,
     DETAILS_PROJECT,
+    DETAILS_USER,
 }
