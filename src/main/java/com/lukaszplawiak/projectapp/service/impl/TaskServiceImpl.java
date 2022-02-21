@@ -4,8 +4,8 @@ package com.lukaszplawiak.projectapp.service.impl;
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.dto.TaskResponseDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
@@ -57,6 +57,11 @@ public class TaskServiceImpl implements TaskService {
         Task newTask = taskRepository.save(task);
         logger.info("Created task of id: " + newTask.getId());
         return mapToTaskResponseDto(newTask);
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
     }
 
     @Override

@@ -15,13 +15,11 @@ import java.util.List;
 
 public class DetailsUserReportGenerator extends ReportGenerator {
     private final User user;
-    private final Project project;
     private final List<Project> projects;
     private final List<Task> tasks;
 
-    public DetailsUserReportGenerator(User user, Project project, List<Project> projects, List<Task> tasks) {
+    public DetailsUserReportGenerator(User user, List<Project> projects, List<Task> tasks) {
         this.user = user;
-        this.project = project;
         this.projects = projects;
         this.tasks = tasks;
     }
@@ -126,7 +124,7 @@ public class DetailsUserReportGenerator extends ReportGenerator {
                 taskTable.addCell(task.getComment());
                 taskTable.addCell(task.getDeadline().toString());
                 taskTable.addCell(task.getAudit().getCreatedOn().withSecond(0).toString());
-                if (project.getAudit().getUpdatedOn() == null) {
+                if (task.getAudit().getUpdatedOn() == null) {
                     taskTable.addCell(none);
                 } else {
                     taskTable.addCell(task.getAudit().getUpdatedOn().withSecond(0).toString());

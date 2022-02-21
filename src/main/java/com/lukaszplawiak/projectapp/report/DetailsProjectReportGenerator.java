@@ -95,7 +95,7 @@ public class DetailsProjectReportGenerator extends ReportGenerator {
             taskTable.addCell(task.getComment());
             taskTable.addCell(task.getDeadline().toString());
             taskTable.addCell(task.getAudit().getCreatedOn().withSecond(0).toString());
-            if (project.getAudit().getUpdatedOn() == null) {
+            if (task.getAudit().getUpdatedOn() == null) {
                 taskTable.addCell(none);
             } else {
                 taskTable.addCell(task.getAudit().getUpdatedOn().withSecond(0).toString());

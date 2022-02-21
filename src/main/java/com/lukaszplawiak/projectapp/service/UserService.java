@@ -21,6 +21,4 @@ public interface UserService {
     List<Role> getRoles();
 
     void addRoleToUser(String email, String roleName);
-
-    void deleteUser(String email);
 }

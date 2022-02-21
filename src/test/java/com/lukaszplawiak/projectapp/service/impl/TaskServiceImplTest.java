@@ -2,8 +2,8 @@ package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.TaskRequestDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.Task;
 import com.lukaszplawiak.projectapp.model.User;
@@ -504,10 +504,10 @@ class TaskServiceImplTest {
         var mockTaskServiceImpl = mock(TaskServiceImpl.class);
 
         // when
-        mockTaskServiceImpl.deleteTaskById(id, id ,user);
+        mockTaskServiceImpl.deleteTaskById(id, id, user);
 
         // then
-        verify(mockTaskServiceImpl, times(1)).deleteTaskById(id, id ,user);
+        verify(mockTaskServiceImpl, times(1)).deleteTaskById(id, id, user);
     }
 
     @Test

@@ -284,7 +284,7 @@ class ProjectControllerTest extends ControllerTestBase {
     @Test
     void deleteProject_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
         mockMvc.perform(delete("/api/v1/projects/3")
-                        .param("id","3")
+                        .param("id", "3")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -294,7 +294,7 @@ class ProjectControllerTest extends ControllerTestBase {
     @Test
     void deleteProject_WhenUserWithRoleManager_ShouldDeleted() throws Exception {
         mockMvc.perform(delete("/api/v1/projects/6")
-                        .param("id","6")
+                        .param("id", "6")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

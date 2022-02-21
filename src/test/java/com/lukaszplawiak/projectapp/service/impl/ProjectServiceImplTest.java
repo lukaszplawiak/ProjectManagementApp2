@@ -2,8 +2,8 @@ package com.lukaszplawiak.projectapp.service.impl;
 
 import com.lukaszplawiak.projectapp.dto.ProjectRequestDto;
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.model.Project;
 import com.lukaszplawiak.projectapp.model.User;
 import com.lukaszplawiak.projectapp.repository.ProjectRepository;
@@ -99,7 +99,7 @@ class ProjectServiceImplTest {
 
         // when
         // then
-        assertThatThrownBy(() -> projectServiceImpl.updateProject( projectRequestDto , 3L , user1))
+        assertThatThrownBy(() -> projectServiceImpl.updateProject(projectRequestDto, 3L, user1))
                 .isInstanceOf(IllegalAccessException.class)
                 .hasMessageContaining("Access denied");
     }
@@ -219,7 +219,7 @@ class ProjectServiceImplTest {
         var mockProjectServiceImpl = mock(ProjectServiceImpl.class);
 
         // when
-        mockProjectServiceImpl.deleteProjectById(id ,user);
+        mockProjectServiceImpl.deleteProjectById(id, user);
 
         // then
         verify(mockProjectServiceImpl, times(1)).deleteProjectById(id, user);

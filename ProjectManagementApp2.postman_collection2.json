@@ -177,13 +177,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ4MDI4fQ.CKDVFcVOO648zZqB-l-rhRUhLB7zyBYSdig2KrAn-FI",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"SOLID learn NEW PROJECT\",\n    \"description\": \"Learn all 5 solid principles!\",\n    \"deadline\": \"2022-02-15\"\n}",
+					"raw": "{\n    \"title\": \"SOLID learn NEW PROJECT\",\n    \"description\": \"Learn all 5 solid principles!\",\n    \"deadline\": \"2022-05-15\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -212,13 +212,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzODg0MH0.wX3uEFW9adqavVrMjknJCqR5M7F8eCm62zm08Lrctzk",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ4MDI4fQ.CKDVFcVOO648zZqB-l-rhRUhLB7zyBYSdig2KrAn-FI",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 NEW TASK\",\n    \"comment\": \"Task 2 of project 1\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"raw": "{\n    \"name\": \"Task 2 NEW TASK\",\n    \"comment\": \"Task 2 of project 1\",\n    \"deadline\": \"2022-05-15\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -249,287 +249,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n        \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukplas@gmail.com\",\n        \"password\": \"$2a\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/users/save",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"users",
-						"save"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create new role",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n        \"name\": \"Lukasz_ROLE\"\n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/roles/save",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"roles",
-						"save"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "add role to user",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n        \"email\": \"johnsmith@gmail.com\",\n        \"roleName\": \"ROLE_ADMIN\" \n\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/roles/addtouser",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"roles",
-						"addtouser"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "report get all projects",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNTY0fQ.vpB_DbULA-wuELUpi8YEOaDUg-G0AQ36JGtCHPrEicI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/reports/ALL_PROJECTS",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"reports",
-						"ALL_PROJECTS"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "report get project with tasks",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzMzM5fQ.QVvHl831-Rt5cX1xTVixnF_RlpEKAHX4-UmC7BAb5eA",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/reports/DETAILS_PROJECT/5",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"reports",
-						"DETAILS_PROJECT",
-						"5"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "report get projects by done",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzMzM5fQ.QVvHl831-Rt5cX1xTVixnF_RlpEKAHX4-UmC7BAb5eA",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/reports/DONE_PROJECTS?done=false",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"reports",
-						"DONE_PROJECTS"
-					],
-					"query": [
-						{
-							"key": "done",
-							"value": "false"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "report get all employees",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNjgzfQ.py5qUfjdIXcf5QznjVICW2kTD_rISd8H32byPkxi0q4",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"title\": \"Project 4\",\n    \"description\": \"Project 1\",\n    \"deadline\": \"2022-01-15T16:30:00\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/reports/ALL_USERS",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"reports",
-						"ALL_USERS"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get all users",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"raw": "{\n        \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukplas@gmail.com\",\n        \"password\": \"$2aee\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -552,22 +278,19 @@
 			"response": []
 		},
 		{
-			"name": "get all users roles",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
+			"name": "create new role",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzA3MjE5Mn0.KjmDTYIvktpGEUHC6IfPuSIHax6idv01gC5WqySuEyI",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"raw": "{\n        \"name\": \"Lukasz_ROLE\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -590,10 +313,270 @@
 			"response": []
 		},
 		{
-			"name": "get all projects with tasks",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
+			"name": "add role to user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"email\": \"johnsmith@gmail.com\",\n        \"roleName\": \"ROLE_ADMIN\" \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users/addtouser",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"addtouser"
+					]
+				}
 			},
+			"response": []
+		},
+		{
+			"name": "report get all projects",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reportType\": \"ALL_PROJECTS\",\n    \"done\": \"\",\n    \"id\": \"\",\n    \"email\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/reports",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get project with tasks",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reportType\": \"DETAILS_PROJECT\",\n    \"done\": \"\",\n    \"id\": 3,\n    \"email\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/reports",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get projects by done",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reportType\": \"DONE_PROJECTS\",\n    \"done\": \"false\",\n    \"id\": \"\",\n    \"email\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/reports",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get all employees",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reportType\": \"ALL_USERS\",\n    \"done\": \"\",\n    \"id\": \"\",\n    \"email\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/reports",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "report get details user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"reportType\": \"DETAILS_USER\",\n    \"done\": \"\",\n    \"id\": \"\",\n    \"email\": \"geraltrivi@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/reports",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"reports"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/v1/users",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all users roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api/v1/roles",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"roles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all projects with tasks",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -603,15 +586,6 @@
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects",
 					"host": [
@@ -629,27 +603,15 @@
 		},
 		{
 			"name": "get project by id with tasks",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJleHAiOjE2NDU0NDk5MDB9.Ri1si7WwMYFalL2GEXXrE-HkkEgTc_t7eTQUFRhmd_I",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2",
 					"host": [
@@ -668,27 +630,15 @@
 		},
 		{
 			"name": "get all tasks by project id",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJleHAiOjE2NDU0NDk5MDB9.Ri1si7WwMYFalL2GEXXrE-HkkEgTc_t7eTQUFRhmd_I",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2/tasks",
 					"host": [
@@ -708,27 +658,15 @@
 		},
 		{
 			"name": "get task by project and task id",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJleHAiOjE2NDU0NDk5MDB9.Ri1si7WwMYFalL2GEXXrE-HkkEgTc_t7eTQUFRhmd_I",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
 					"host": [
@@ -749,27 +687,15 @@
 		},
 		{
 			"name": "get all project by done=true/false",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNjgzfQ.py5qUfjdIXcf5QznjVICW2kTD_rISd8H32byPkxi0q4",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJleHAiOjE2NDU0NDk5MDB9.Ri1si7WwMYFalL2GEXXrE-HkkEgTc_t7eTQUFRhmd_I",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/search?done=false",
 					"host": [
@@ -794,27 +720,15 @@
 		},
 		{
 			"name": "get all tasks by done=true/false and project id",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTEzNjgzfQ.py5qUfjdIXcf5QznjVICW2kTD_rISd8H32byPkxi0q4",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaWNrZXltb3VzZUBnbWFpbC5jb20iLCJleHAiOjE2NDU0NDk5MDB9.Ri1si7WwMYFalL2GEXXrE-HkkEgTc_t7eTQUFRhmd_I",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Lukasz\",\n        \"lastName\": \"Plawiak\",\n        \"email\": \"lukpla4s@gmail.com\",\n        \"password\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2/tasks/search?done=false",
 					"host": [
@@ -846,13 +760,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n \"title\": \"KISS and DRY ; UPDATE\",\n    \"description\": \"Remember what is all about!\",\n    \"deadline\": \"2022-02-15\"\n}",
+					"raw": "{\n    \"title\": \"KISS and DRY ; UPDATE\",\n    \"description\": \"Remember what is all about!\",\n    \"deadline\": \"2022-06-15\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -882,13 +796,13 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfTUFOQUdFUiIsIlJPTEVfU1VQRVJfQURNSU4iLCJST0xFX1VTRVIiXSwiaXNzIjoiL2FwaS92MS9sb2dpbiIsImV4cCI6MTY0MzAzNzA5Mn0.lMmMB_SXnBt5LPkwT0WmOXlQ7Oom7DgQoFOqpWNiCkY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
 						"type": "default"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
+					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-06-15\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -920,19 +834,10 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTE0MDE4fQ.vlCQmMVM_UayUHtOI1xavzGn8teNBtI_kTI4dxUYZzY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
 					"host": [
@@ -958,19 +863,10 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1MTE0MDE4fQ.vlCQmMVM_UayUHtOI1xavzGn8teNBtI_kTI4dxUYZzY",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsdWtwbGFAZ21haWwuY29tIiwiZXhwIjoxNjQ1NDQ5MTE2fQ.fhuNedREspm_jyBsUbY55XpbnQNi9gpjEVI1sKD_XUk",
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2",
 					"host": [
@@ -998,15 +894,6 @@
 						"type": "default"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Task 2 ; UPDATE\",\n    \"comment\": \"Task 2 of project 2\",\n    \"deadline\": \"2022-03-15\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "localhost:8080/api/v1/projects/2/tasks/5",
 					"host": [
@@ -1020,42 +907,6 @@
 						"2",
 						"tasks",
 						"5"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "delete user by email",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtb25hbGl6YUBnbWFpbC5jb20iLCJleHAiOjE2NDUxMTQ0Nzh9.iahSltoFFpJcu5xVodSc0R1qHkywQwWna9Jzd0HKV7g",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "    {\n        \"email\": \"monaliza3@gmail.com\"\n    }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "localhost:8080/api/v1/users/delete",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v1",
-						"users",
-						"delete"
 					]
 				}
 			},

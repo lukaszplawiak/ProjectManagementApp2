@@ -1,10 +1,9 @@
 package com.lukaszplawiak.projectapp.controller;
 
 import com.lukaszplawiak.projectapp.exception.IllegalAccessException;
-import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
+import com.lukaszplawiak.projectapp.exception.IllegalModificationException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

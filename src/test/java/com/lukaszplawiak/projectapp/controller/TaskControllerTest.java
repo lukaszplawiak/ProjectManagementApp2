@@ -279,8 +279,8 @@ class TaskControllerTest extends ControllerTestBase {
     @Test
     void toggleTask_WhenUserIsNotOwnerOfTask_ShouldReturnedForbidden() throws Exception {
         mockMvc.perform(patch("/api/v1/projects/5/tasks/13")
-                        .param("projectId","5")
-                        .param("taskId","13")
+                        .param("projectId", "5")
+                        .param("taskId", "13")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -290,8 +290,8 @@ class TaskControllerTest extends ControllerTestBase {
     @Test
     void toggleTask_WhenUserIsOwnerOfTask_ShouldToggleTask() throws Exception {
         mockMvc.perform(patch("/api/v1/projects/5/tasks/13")
-                        .param("projectId","5")
-                        .param("taskId","13")
+                        .param("projectId", "5")
+                        .param("taskId", "13")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -301,8 +301,8 @@ class TaskControllerTest extends ControllerTestBase {
     @Test
     void deleteTaskById_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
         mockMvc.perform(delete("/api/v1/projects/3/tasks/6")
-                        .param("projectId","3")
-                        .param("taskId","6")
+                        .param("projectId", "3")
+                        .param("taskId", "6")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -312,8 +312,8 @@ class TaskControllerTest extends ControllerTestBase {
     @Test
     void deleteTaskById_WhenUserWithRoleManager_ShouldDeleted() throws Exception {
         mockMvc.perform(delete("/api/v1/projects/4/tasks/9")
-                        .param("projectId","4")
-                        .param("taskId","9")
+                        .param("projectId", "4")
+                        .param("taskId", "9")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

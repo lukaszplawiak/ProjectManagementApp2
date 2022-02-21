@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static com.lukaszplawiak.projectapp.service.impl.mapper.UserEntityMapper.mapToUserEntity;
@@ -84,18 +82,6 @@ public class UserServiceImpl implements UserService {
         logger.trace("Add new role " + roleName + " to user " + email);
     }
 
-    @Override
-    public void deleteUser(String email) {
-        userNotFoundInDatabase(email);
-        try {
-        userRepository.deleteUserByEmail(email);
-        logger.trace("Deleted user: " + email);
-        } catch (Exception e) {
-            logger.trace("Deleted impossible. There are other users' projects or tasks that are based on projects or tasks of user: " + email);
-            throw new RuntimeException(e);
-        }
-    }
-
     private void roleNameValidation(Role role) {
         if (role.getName() == null || role.getName().length() < 1) {
             logger.trace("Role must be 1 or more characters");
@@ -106,13 +92,6 @@ public class UserServiceImpl implements UserService {
     private void recordNotFoundInDatabase(String email, String roleName) {
         if (userRepository.findByEmail(email) == null || roleRepository.findByName(roleName) == null) {
             logger.trace("Record not found in database");
-            throw new IllegalInputException();
-        }
-    }
-
-    private void userNotFoundInDatabase(String email) {
-        if (userRepository.findByEmail(email) == null) {
-            logger.trace("User not found in database");
             throw new IllegalInputException();
         }
     }

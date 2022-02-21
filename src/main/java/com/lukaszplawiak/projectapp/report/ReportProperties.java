@@ -6,6 +6,13 @@ public class ReportProperties {
     private Long id;
     private String email;
 
+    public ReportProperties(ReportType reportType, boolean done, Long id, String email) {
+        this.reportType = reportType;
+        this.done = done;
+        this.id = id;
+        this.email = email;
+    }
+
     public ReportType getReportType() {
         return reportType;
     }

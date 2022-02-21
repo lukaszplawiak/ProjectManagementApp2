@@ -36,9 +36,8 @@ public class ReportGenerationService {
                         .generate();
             case DETAILS_USER:
                 return new DetailsUserReportGenerator(userService.getUser(reportProperties.getEmail()),
-                        projectService.getProjectById(reportProperties.getId()),
                         projectService.getAllProjects(),
-                        taskService.getTasksByProjectId(reportProperties.getId()))
+                        taskService.getAllTasks())
                         .generate();
             default:
                 throw new IllegalArgumentException();

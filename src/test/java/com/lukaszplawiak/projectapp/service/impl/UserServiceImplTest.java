@@ -9,7 +9,8 @@ import com.lukaszplawiak.projectapp.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class UserServiceImplTest {
 
@@ -92,30 +93,5 @@ class UserServiceImplTest {
         // then
         assertThatThrownBy(() -> userServiceImpl.addRoleToUser(email, roleName))
                 .isNotInstanceOf(IllegalInputException.class);
-    }
-
-    @Test
-    void deleteUser_WhenUserIsNotInDatabase_ShouldNotDeleteUser() {  /// to poprawic !!!!
-        // given
-        String email = "email@lala.com";
-
-        var mockUserServiceImpl = mock(UserServiceImpl.class);
-        mockUserServiceImpl.deleteUser(email);
-
-        // when
-        // then
-        verify(mockUserServiceImpl, times(1)).deleteUser(email);
-    }
-
-    @Test
-    void deleteUser_WhenUserIsInDatabase_ShouldDeleteUser() {
-        // given
-        String email = "email@lala.com";
-
-        var mockUserServiceImpl = mock(UserServiceImpl.class);
-        mockUserServiceImpl.deleteUser(email);
-        // when
-        // then
-        verify(mockUserServiceImpl, times(1)).deleteUser(email);
     }
 }

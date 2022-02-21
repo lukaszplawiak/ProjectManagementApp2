@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface TaskRepository {
     List<Task> findByProjectId(Long projectId);
+    List<Task> findAll();
     Optional<Task> findById(Long id);
     Task save(Task entity);
     List<Task> findByDoneAndProjectId(@Param("done") boolean done, Long projectId);

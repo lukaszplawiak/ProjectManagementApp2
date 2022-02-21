@@ -4,14 +4,14 @@ import com.lukaszplawiak.projectapp.controller.config.TokenSample;
 import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.RoleAndUserForm;
-import com.lukaszplawiak.projectapp.model.UserEmail;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import static com.lukaszplawiak.projectapp.controller.config.TestObjectMapper.asJsonString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserControllerTest extends ControllerTestBase {
@@ -187,7 +187,7 @@ class UserControllerTest extends ControllerTestBase {
     }
 
     @Test
-    void saveRole_WhenUserWithRoleSuperAdmin_ShouldNotCreateRole() throws Exception {
+    void saveRole_WhenUserWithRoleSuperAdmin_ShouldCreateRole() throws Exception {
         Role role = new Role(null, "ROLE_READER");
         mockMvc.perform(post("/api/v1/roles")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
@@ -213,9 +213,9 @@ class UserControllerTest extends ControllerTestBase {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_ADMIN");
         mockMvc.perform(post("/api/v1/users/addtouser")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
-                .content(asJsonString(form))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                        .content(asJsonString(form))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(403));
     }
 
@@ -314,54 +314,5 @@ class UserControllerTest extends ControllerTestBase {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
-    }
-
-    @Test
-    void deleteUser_WhenUserWithRoleUser_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(delete("/api/v1//users")
-                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_USER)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void deleteUser_WhenUserWithRoleManager_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(delete("/api/v1//users")
-                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_MANAGER)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void deleteUser_WhenUserWithRoleAdmin_ShouldReturnedForbidden() throws Exception {
-        mockMvc.perform(delete("/api/v1//users")
-                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void deleteUser_WhenUserWithRoleSuperAdmin_ShouldDeleteUser() throws Exception {
-        UserEmail userEmail = new UserEmail("monaliza2@gmail.com");
-        mockMvc.perform(delete("/api/v1/users")
-                        .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_SUPER_ADMIN)
-                        .content(asJsonString(userEmail.getEmail()))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200));
-    }
-
-    @Test
-    void deleteUser_WhenUserWithRoleSuperAdminHaveExpiredToken_ShouldNotDeleteUser() throws Exception {
-        UserEmail userEmail = new UserEmail("monaliza2@gmail.com");
-        mockMvc.perform(delete("/api/v1/users")
-                        .header(AUTHORIZATION, TokenSample.EXPIRED_TOKEN_ROLE_SUPER_ADMIN)
-                        .content(asJsonString(userEmail.getEmail()))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(401));
     }
 }

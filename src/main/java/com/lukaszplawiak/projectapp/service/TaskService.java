@@ -11,6 +11,8 @@ import java.util.List;
 public interface TaskService {
     TaskResponseDto createTask(Long projectId, TaskRequestDto taskRequestDto, User user);
 
+    List<Task> getAllTasks();
+
     TaskResponseDto getTaskById(Long projectId, Long taskId);
 
     List<Task> getTasksByProjectId(Long id);
