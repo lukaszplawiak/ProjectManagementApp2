@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @Component
-public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final long expirationTime;
     private final String secret;
 

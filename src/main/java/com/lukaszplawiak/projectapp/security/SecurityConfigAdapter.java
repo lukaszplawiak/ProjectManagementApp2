@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
+class SecurityConfigAdapter extends WebSecurityConfigurerAdapter {
     private final CustomUserDetailsService customUserDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final RestAuthenticationSuccessHandler successHandler;

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
+class CustomAuthorizationFilter extends BasicAuthenticationFilter {
     private static final String TOKEN_HEADER = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
     private final CustomUserDetailsService userDetailsService;

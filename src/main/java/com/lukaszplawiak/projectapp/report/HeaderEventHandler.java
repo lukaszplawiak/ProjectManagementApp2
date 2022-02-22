@@ -12,7 +12,7 @@ import com.itextpdf.layout.properties.TextAlignment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class HeaderEventHandler implements IEventHandler {
+class HeaderEventHandler implements IEventHandler {
     private static final String HEADER = "Project Management App by Lukasz Plawiak";
 
     @Override

@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public abstract class ReportGenerator {
+abstract class ReportGenerator {
 
     public final File generate() {
         Path reportTempFilePath = allocateTempFile();
