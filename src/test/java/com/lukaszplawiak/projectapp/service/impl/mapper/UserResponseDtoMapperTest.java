@@ -37,7 +37,7 @@ class UserResponseDtoMapperTest {
     }
 
     @Test
-    void mapToUserResponseDto_WhenUserDoNotHaveRoles_ShouldBeMap() {
+    void mapToUserResponseDto_WhenUserHaveNullRoles_ShouldBeMap() {
         // given
         var user = new User(12L, "First Name", "Last Name", "email@email.com", "1234", null);
 
@@ -52,5 +52,23 @@ class UserResponseDtoMapperTest {
         assertThat(userResponseDto.getEmail()).isEqualTo("email@email.com");
         assertThat(userResponseDto.getPassword()).isEqualTo("1234");
         assertThat(userResponseDto.getRoles()).isNull();
+    }
+
+    @Test
+    void mapToUserResponseDto_WhenUserDoNotHaveRoles_ShouldBeMap() {
+        // given
+        var user = new User(12L, "First Name", "Last Name", "email@email.com", "1234", new ArrayList<>());
+
+        // when
+        var userResponseDto = mapToUserResponseDto(user);
+
+        // then
+        assertThat(userResponseDto).isNotNull();
+        assertThat(userResponseDto.getId()).isEqualTo(12L);
+        assertThat(userResponseDto.getFirstName()).isEqualTo("First Name");
+        assertThat(userResponseDto.getLastName()).isEqualTo("Last Name");
+        assertThat(userResponseDto.getEmail()).isEqualTo("email@email.com");
+        assertThat(userResponseDto.getPassword()).isEqualTo("1234");
+        assertThat(userResponseDto.getRoles()).hasSize(0);
     }
 }

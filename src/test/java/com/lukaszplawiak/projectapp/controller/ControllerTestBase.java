@@ -35,7 +35,7 @@ public class ControllerTestBase {
     @Autowired
     FilterChainProxy filterChainProxy;
 
-    protected MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
     Clock clock;

@@ -46,13 +46,13 @@ class UserControllerTest extends ControllerTestBase {
     }
 
     @Test
-    void saveUser_WhenUserWithRoleAdmin_ShouldCreateUser() throws Exception {
+    void saveUser_WhenUserWithRoleAdmin_ShouldReturnedForbidden() throws Exception {
         mockMvc.perform(post("/api/v1/users")
                         .header(AUTHORIZATION, TokenSample.VALID_TOKEN_ROLE_ADMIN)
                         .content(asJsonString(getUser()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(201));
+                .andExpect(status().is(403));
 
         assertThat(getUser().getFirstName()).isEqualTo("First");
         assertThat(getUser().getLastName()).isEqualTo("Last");

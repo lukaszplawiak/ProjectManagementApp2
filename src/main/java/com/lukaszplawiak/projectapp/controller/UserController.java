@@ -22,7 +22,7 @@ class UserController {
         this.userService = userService;
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_SUPER_ADMIN"})
+    @Secured({"ROLE_SUPER_ADMIN"})
     @PostMapping(path = "/users")
     ResponseEntity<UserResponseDto> saveUser(@RequestBody @Valid UserRequestDto user) {
         return new ResponseEntity<>(userService.saveUser(user), HttpStatus.CREATED);
