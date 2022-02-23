@@ -79,20 +79,20 @@ With ROLE_SUPER_ADMIN:
 Required to run:
 * JDK
 * IntelliJ
-* Postman (for testing features)
+* Postman (for testing api purpose)
 
-To dawnload a project please copy this path: https://github.com/lukaszplawiak/ProjectManagementApp2.git 
+To download a project please copy this path: https://github.com/lukaszplawiak/ProjectManagementApp2.git 
 Next please open IntelliJ and go to: File -> New -> Project from Version Control...
 Next please paste link above to "URL: " filed
 Next please choose directory path and click button "Clone"
 After clonning please use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
 
-To import Postamn collection, please open Postman 
+To import Postman collection, please open Postman 
 Next go to your Workspace, click "Import" button, click "Upload Files"
 Next find directory from step above and there choose "ProjectManagementApp2.postman_collection2.json"
 Next click "Open" button
 
-With the running application, you can test the api using the Postaman collection.
+With the running application, you can test the api using the Postman collection.
 
 
 ## Contact
