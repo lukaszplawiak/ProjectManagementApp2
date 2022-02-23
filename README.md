@@ -48,5 +48,30 @@ the state of that project will automatically change to true.
 * User with appropriate role can generate pdf report
 
 
+## Details app's features:
+With ROLE_USER:
+* Task: create, read task by Id, read tasks by done, read tasks by project Id, update, toggle, delete 
+* Project: Read project by Id
+* Report: none
+* User: none
+
+With ROLE_MANAGER:
+* Task: create, read task by Id, read tasks by done, read tasks by project Id, update, toggle, delete 
+* Project: create, read project by Id, read all projects, read projects by done, update, delete
+* Report: generate given pdf report
+* User: none
+
+With ROLE_ADMIN:
+* Task: read task by Id, read tasks by done, read tasks by project Id
+* Project: read project by Id, read all projects, read projects by done
+* Report: generate given pdf report
+* User: add role to user, read all users, read all roles
+
+With ROLE_SUPER_ADMIN:
+* Task: read task by Id, read tasks by done, read tasks by project Id
+* Project: read project by Id, read all projects, read projects by done
+* Report: generate given pdf report
+* User: save user, save role, add role to user, read all users, read all roles
+
 ## Contact
 Created by Lukasz Plawiak lukasz.b.plawiak@gmail.com - feel free to contact me!
