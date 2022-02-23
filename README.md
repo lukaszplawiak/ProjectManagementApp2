@@ -30,20 +30,17 @@ The main goals of this project were to practice the acquired knowledge in the fi
 * Mac OS
 
 
-## Status
-Ready to use
-
-
 ## General app's features:
-* Create User,
+* Create User
 * Create Role, assain role to user
 * Create, update, delete Project 
-* Create task and assain to a previously created project, update, delete, 
-* Toggle task: change state of task's attribute 'done' to true;
-* Modification of any project or task can only be done by the user who previously created that project or task.
+* Create task and assain to a previously created project, update, delete
+* Toggle task: change state of task's attribute 'done' to true
+* Modification of any project or task can only be done by the user who previously created that project or task
+* Project or Task can be created only with date set after current date
 * User can only toggle his own taks.
-* When all tasks assigned to a given project change state to true, 
-the state of that project will automatically change to true.
+* When all tasks assigned to a given project change state to true,
+the state of that project will automatically change to true
 * When a project has state set to true, any modification of that project and related tasks is impossible 
 * User with appropriate role can generate pdf report
 
@@ -77,11 +74,25 @@ With ROLE_SUPER_ADMIN:
 ## Start up instruction:
 Required to run:
 * JDK
-* IntelliJ or Eclipse
+* IntelliJ
+* Postman (for testing api purpose)
 
-To dawnload a project please copy this path: https://github.com/lukaszplawiak/ProjectManagementApp2.git 
-Next please open intelliJ and go to: File -> New -> Project from Version Control...
-Next please paste link above to "URL: " filed
+To download a project please copy this path: https://github.com/lukaszplawiak/ProjectManagementApp2.git 
+* Next please open IntelliJ and go to: File -> New -> Project from Version Control...
+* Next please paste link above to "URL: " filed
+* Next please choose directory path and click button "Clone"
+* After clonning please use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
+
+To import Postman collection, please open Postman 
+* Next go to your Workspace, click "Import" button, click "Upload Files"
+* Next find directory from step above and there choose "ProjectManagementApp2.postman_collection2.json"
+* Next click "Open" button
+
+With the running application, you can test the api using the Postman collection.
+
+
+## Status
+Ready to use
 
 
 ## Contact
