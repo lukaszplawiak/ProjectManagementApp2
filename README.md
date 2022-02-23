@@ -79,6 +79,9 @@ Required to run:
 * JDK
 * IntelliJ or Eclipse
 
+To dawnload a project please copy this path: https://github.com/lukaszplawiak/ProjectManagementApp2.git 
+Next please open intelliJ and go to: File -> New -> Project from Version Control...
+Next please paste link above to "URL: " filed
 
 
 ## Contact
