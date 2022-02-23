@@ -30,10 +30,6 @@ The main goals of this project were to practice the acquired knowledge in the fi
 * Mac OS
 
 
-## Status
-Ready to use
-
-
 ## General app's features:
 * Create User
 * Create Role, assain role to user
@@ -93,6 +89,10 @@ To import Postman collection, please open Postman
 * Next click "Open" button
 
 With the running application, you can test the api using the Postman collection.
+
+
+## Status
+Ready to use
 
 
 ## Contact
