@@ -38,12 +38,14 @@ Ready to use
 * Create User,
 * Create Role, assain role to user
 * Create, update, delete Project 
-* Create task and assain to a previously created project; update, delete, 
-* Toggle task: change state of task's attribute 'done' to true; 
-When all tasks assigned to a given project change state to true, 
-the state of the project will automatically change to true.
-When a project has state set to true, you cannot assign a new task to it, 
-nor edit an existing task.
+* Create task and assain to a previously created project, update, delete, 
+* Toggle task: change state of task's attribute 'done' to true;
+* Modification of any project or task can only be done by the user who previously created that project or task.
+* User can only toggle his own taks.
+* When all tasks assigned to a given project change state to true, 
+the state of that project will automatically change to true.
+* When a project has state set to true, any modification of that project and related tasks is impossible 
+* User with appropriate role can generate pdf report
 
 
 ## Contact
