@@ -1,35 +1,44 @@
 # ProjectManagementApp2
-Backend for project management application
+Backend of web service with REST architecture, secure with JWT. 
+
+
+## Project's aim
+The main goals of this project were to practice the acquired knowledge in the field of java, spring boot and sql. In addition, I wrote this project in order to include it as a demonstration project in my resume.
+
 
 ## General info
-A simple application that is an extension of the popular ToDoApp-style application, 
-that allows you to create, edit and delete projects, then create tasks assigned 
-to a given project, edit, delete and toggle previously created tasks. 
-After completing all tasks assigned to the project, the project automatically 
-changes its state to the finished one.
+The app is a “todo-app” style with CRUD extended features and PDF report generator feature and secure with JWT.
+Users with appropriate permissions can add new users to the web service.
+Depending on the assigned role, the user can create, edit and delete a project. Then user can create a task assigned to the project. Tasks can also be edited, deleted and toggled.
+After completing all tasks assigned to the project, the project automatically changes its state to the finished one.
+Users with appropriate permissions can generate summary pdf reports.
+
 
 ## Technologies
 * Java 11
-* Spring Boot 2.6.2
+* Spring (Boot, Security, JPA, WEB)
+* JWT
+* JUnit
+* Mockito
+* IText7
+* MySql, H2
+* FlyWay
 * Maven
 * Hibernate
-* FlyWay
-* H2 db
+* IntelliJ Idea
+* Mac OS
 
 
 ## Status
-Work in progress...
+Ready to use
 
 
-## App's functions:
-* Create Project with fields: title, description, deadline
-* Update project
-* Delete project
-* Create task with fields: name, comment, deadline; 
-assigned to a previously created project
-* Update task
-* Delete task
-* Toggle task: change state 'done' to true; 
+## App's features:
+* Create User,
+* Create Role, assain role to user
+* Create, update, delete Project 
+* Create task and assain to a previously created project; update, delete, 
+* Toggle task: change state of task's attribute 'done' to true; 
 When all tasks assigned to a given project change state to true, 
 the state of the project will automatically change to true.
 When a project has state set to true, you cannot assign a new task to it, 
@@ -37,4 +46,4 @@ nor edit an existing task.
 
 
 ## Contact
-Created by Lukasz Plawiak lukaszplawiakzero1@gmail.com - feel free to contact me!
+Created by Lukasz Plawiak lukasz.b.plawiak@gmail.com - feel free to contact me!
