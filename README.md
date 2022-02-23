@@ -34,7 +34,7 @@ The main goals of this project were to practice the acquired knowledge in the fi
 Ready to use
 
 
-## App's features:
+## General app's features:
 * Create User,
 * Create Role, assain role to user
 * Create, update, delete Project 
@@ -72,6 +72,14 @@ With ROLE_SUPER_ADMIN:
 * Project: read project by Id, read all projects, read projects by done
 * Report: generate given pdf report
 * User: save user, save role, add role to user, read all users, read all roles
+
+
+## Start up instruction:
+Required to run:
+* JDK
+* IntelliJ or Eclipse
+
+
 
 ## Contact
 Created by Lukasz Plawiak lukasz.b.plawiak@gmail.com - feel free to contact me!
