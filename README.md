@@ -74,6 +74,7 @@ With ROLE_SUPER_ADMIN:
 ## Start up instruction:
 Required to run:
 * JDK
+* PostgreSQL server
 * IntelliJ
 * Postman (for testing api purpose)
 
@@ -81,7 +82,15 @@ To download a project please copy this path: https://github.com/lukaszplawiak/Pr
 * Next please open IntelliJ and go to: File -> New -> Project from Version Control...
 * Next please paste link above to "URL: " filed
 * Next please choose directory path and click button "Clone"
-* After clonning please use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
+* After clonning please repository, please sure that you postgreSQL server running
+* Next please please connect to the server and and execute following statement:
+* 'create database project_management_app2;' - for prod profile
+* 'create database project_management_app2local;' - for local profile
+* 'create database project_management_app2test;' - for test profile
+* Next please back to IntelliJ, in 'application-prod.properties' file please configure 'spring.datasource.username' and 'spring.datasource.password' with the correct data for your database
+* Same step with 'application-local.properties' and 'application-test.properties'
+* Then please select a profile in application.properties file
+* Use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
 
 To import Postman collection, please open Postman 
 * Next go to your Workspace, click "Import" button, click "Upload Files"
