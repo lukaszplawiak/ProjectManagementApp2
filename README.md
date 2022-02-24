@@ -106,7 +106,7 @@ With the running application, you can test the api using the Postman collection.
 * Next please click 'Headers', find 'Authorization' key and paste in 'Value' field previously copied string
 * Then please send request
 
-For proper api testing, please check the earlier section "Details apps features"
+For proper api testing, please check the earlier section "General app's features" and "Details app's features".
 
 
 ## Status
