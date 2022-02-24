@@ -22,7 +22,11 @@ The main goals of this project were to practice the acquired knowledge in the fi
 * JUnit
 * Mockito
 * IText7
+<<<<<<< HEAD
 * MySql, H2
+=======
+* PostgreSQL
+>>>>>>> 04b53447eb5b918dc98d33813f811017abfe3b4f
 * FlyWay
 * Maven
 * Hibernate
@@ -74,6 +78,10 @@ With ROLE_SUPER_ADMIN:
 ## Start up instruction:
 Required to run:
 * JDK
+<<<<<<< HEAD
+=======
+* PostgreSQL server
+>>>>>>> 04b53447eb5b918dc98d33813f811017abfe3b4f
 * IntelliJ
 * Postman (for testing api purpose)
 
@@ -81,7 +89,19 @@ To download a project please copy this path: https://github.com/lukaszplawiak/Pr
 * Next please open IntelliJ and go to: File -> New -> Project from Version Control...
 * Next please paste link above to "URL: " filed
 * Next please choose directory path and click button "Clone"
+<<<<<<< HEAD
 * After clonning please use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
+=======
+* After clonning please repository, please sure that you postgreSQL server running
+* Next please please connect to the server and and execute following statement:
+* 'create database project_management_app2;' - for prod profile
+* 'create database project_management_app2local;' - for local profile
+* 'create database project_management_app2test;' - for test profile
+* Next please back to IntelliJ, in 'application-prod.properties' file please configure 'spring.datasource.username' and 'spring.datasource.password' with the correct datasource for your database
+* Same step with 'application-local.properties' and 'application-test.properties'
+* Then please select a profile in application.properties file
+* Use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
+>>>>>>> 04b53447eb5b918dc98d33813f811017abfe3b4f
 
 To import Postman collection, please open Postman 
 * Next go to your Workspace, click "Import" button, click "Upload Files"
@@ -89,6 +109,18 @@ To import Postman collection, please open Postman
 * Next click "Open" button
 
 With the running application, you can test the api using the Postman collection.
+<<<<<<< HEAD
+=======
+
+* Please select one of the requests starting with name 'login with ...'
+* Next please click 'Send" button
+* Next please choose 'Headers' from response then please copy the 'Value' for the key 'Authorization'
+* Next please choose one of the requests from the same list as before
+* Next please click 'Headers', find 'Authorization' key and paste in 'Value' field previously copied string
+* Then please send request
+
+For proper api testing, please check the earlier section "General app's features" and "Details app's features".
+>>>>>>> 04b53447eb5b918dc98d33813f811017abfe3b4f
 
 
 ## Status
