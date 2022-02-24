@@ -15,7 +15,6 @@ public class Project {
     private String title;
     private String description;
     private LocalDate deadline;
-    @Column(columnDefinition = "BIT", length = 1)
     private boolean done;
     @Embedded
     private Audit audit = new Audit();

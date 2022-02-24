@@ -7,6 +7,7 @@ import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
@@ -291,6 +292,7 @@ class ProjectControllerTest extends ControllerTestBase {
                 .andExpect(status().is(403));
     }
 
+    @Transactional
     @Test
     void deleteProject_WhenUserWithRoleManager_ShouldDeleted() throws Exception {
         mockMvc.perform(delete("/api/v1/projects/6")

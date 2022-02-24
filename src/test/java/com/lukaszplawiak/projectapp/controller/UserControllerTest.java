@@ -6,6 +6,7 @@ import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.RoleAndUserForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.lukaszplawiak.projectapp.controller.config.TestObjectMapper.asJsonString;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -69,6 +70,7 @@ class UserControllerTest extends ControllerTestBase {
                 .andExpect(status().is(401));
     }
 
+    @Transactional
     @Test
     void saveUser_WhenUserWithRoleSuperAdmin_ShouldCreateUser() throws Exception {
         UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
@@ -230,6 +232,7 @@ class UserControllerTest extends ControllerTestBase {
                 .andExpect(status().is(403));
     }
 
+    @Transactional
     @Test
     void addRoleToUser_WhenUserRoleIsAdmin_ShouldAddRoleToUser() throws Exception {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_ADMIN");
@@ -241,6 +244,7 @@ class UserControllerTest extends ControllerTestBase {
                 .andExpect(status().is(200));
     }
 
+    @Transactional
     @Test
     void addRoleToUser_WhenUserRoleIsSuperAdmin_ShouldAddRoleToUser() throws Exception {
         RoleAndUserForm form = new RoleAndUserForm("monaliza@gmail.com", "ROLE_USER");

@@ -13,7 +13,6 @@ public class Task {
     private String name;
     private String comment;
     private LocalDate deadline;
-    @Column(columnDefinition = "BIT", length = 1)
     private boolean done;
     @Embedded
     private Audit audit = new Audit();

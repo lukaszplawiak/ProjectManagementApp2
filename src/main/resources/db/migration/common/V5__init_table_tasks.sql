@@ -1,14 +1,14 @@
 create table tasks
 (
-    id         BIGINT primary key auto_increment,
+    id         BIGSERIAL primary key,
     name       varchar(50)  not null,
     comment    varchar(255) not null,
     deadline   DATE         not null,
-    done       bit,
-    created_on DATETIME,
-    updated_on DATETIME,
-    project_id BIGINT not null,
-    user_id    BIGINT not null,
+    done       boolean,
+    created_on timestamp,
+    updated_on timestamp,
+    project_id BIGSERIAL not null,
+    user_id    BIGSERIAL not null,
     foreign key (project_id) references projects (id),
     foreign key (user_id) references users (id)
 )

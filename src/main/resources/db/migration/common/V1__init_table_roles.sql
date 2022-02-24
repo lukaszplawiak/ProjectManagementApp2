@@ -1,5 +1,5 @@
 create table roles
 (
-    id   BIGINT primary key auto_increment,
+    id   BIGSERIAL primary key,
     name varchar(50) not null
 );
