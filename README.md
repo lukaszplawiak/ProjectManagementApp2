@@ -7,7 +7,7 @@ The main goals of this project were to practice the acquired knowledge in the fi
 
 
 ## General info
-* The app is a “todo-app” style with CRUD extended features and PDF report generator feature, secure with JWT.
+The app is a “todo-app” style with CRUD extended features and PDF report generator feature, secure with JWT.
 * Users with appropriate permissions can add new users to the web service.
 * Depending on the assigned role, the user can create, edit and delete a project. 
 * Then user can create a task assigned to the project. Tasks can also be edited, deleted and toggled.
