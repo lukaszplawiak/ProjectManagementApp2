@@ -82,18 +82,20 @@ To download a project please copy this path: https://github.com/lukaszplawiak/Pr
 * Next please open IntelliJ and go to: File -> New -> Project from Version Control...
 * Next please paste link above to "URL: " filed
 * Next please choose directory path and click button "Clone"
-* After clonning please use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
-* After clonning please repository, please sure that you postgreSQL server running
+* After clonning repository, please sure that you PostgreSQL server is running
 * Next please connect to the server and execute following statement:
 * 'create database project_management_app2;' - for prod profile
 * 'create database project_management_app2local;' - for local profile
 * 'create database project_management_app2test;' - for test profile
-* Next please back to IntelliJ, in 'application-prod.properties' file please configure 'spring.datasource.username' and 'spring.datasource.password' with the correct datasource for your database
+* Next please back to IntelliJ, in 'application-prod.properties' file, please configure 'spring.datasource.username' and 'spring.datasource.password' with the correct datasource for your database
 * Same step with 'application-local.properties' and 'application-test.properties'
 * Then please select a profile in application.properties file
+* If you want to run tests, please set up a profile like this: 'spring.profiles.active=test'
+* If you want to run local profile, please set up a profile like this: 'spring.profiles.active=local'
+* If you want to run prod profile, please set up a profile like this: 'spring.profiles.active=prod'
 * Use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
 
-To import Postman collection, please open Postman 
+To import Postman collection, please open Postman app
 * Next go to your Workspace, click "Import" button, click "Upload Files"
 * Next find directory from step above and there choose "ProjectManagementApp2.postman_collection2.json"
 * Next click "Open" button
