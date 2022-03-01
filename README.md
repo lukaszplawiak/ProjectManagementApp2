@@ -27,7 +27,6 @@ The app is a “todo-app” style with CRUD extended features and PDF report gen
 * Maven
 * Hibernate
 * IntelliJ Idea
-* Mac OS
 
 
 ## General app's features:
