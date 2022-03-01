@@ -22,7 +22,7 @@ The app is a “todo-app” style with CRUD extended features and PDF report gen
 * JUnit
 * Mockito
 * IText7
-* PostgreSQL
+* PostgreSQL, H2
 * FlyWay
 * Maven
 * Hibernate
@@ -85,10 +85,7 @@ To download a project please copy this path: https://github.com/lukaszplawiak/Pr
 * After clonning repository, please sure that you PostgreSQL server is running
 * Next please connect to the server and execute following statement:
 * 'create database project_management_app2;' - for prod profile
-* 'create database project_management_app2local;' - for local profile
-* 'create database project_management_app2test;' - for test profile
 * Next please back to IntelliJ, in 'application-prod.properties' file, please configure 'spring.datasource.username' and 'spring.datasource.password' with the correct datasource for your database
-* Same step with 'application-local.properties' and 'application-test.properties'
 * Then please select a profile in application.properties file
 * If you want to run tests, please set up a profile like this: 'spring.profiles.active=test'
 * If you want to run local profile, please set up a profile like this: 'spring.profiles.active=local'
