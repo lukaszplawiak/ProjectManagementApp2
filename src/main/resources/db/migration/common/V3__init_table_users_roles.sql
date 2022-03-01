@@ -1,8 +1,8 @@
 create table users_roles
 (
-    user_id  BIGSERIAL not null,
-    roles_id BIGSERIAL not null,
-    primary key (user_id, roles_id),
+    id       BIGSERIAL primary key,
+    user_id  BIGINT not null,
+    roles_id BIGINT not null,
     foreign key (user_id) references users (id),
     foreign key (roles_id) references roles (id)
 )

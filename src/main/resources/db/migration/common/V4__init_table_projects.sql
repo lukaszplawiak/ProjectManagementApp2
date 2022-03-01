@@ -7,6 +7,6 @@ create table projects
     done        boolean,
     created_on  timestamp,
     updated_on  timestamp,
-    user_id     BIGSERIAL not null,
+    user_id     BIGINT       not null,
     foreign key (user_id) references users (id)
 )
