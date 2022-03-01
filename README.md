@@ -32,7 +32,7 @@ The app is a “todo-app” style with CRUD extended features and PDF report gen
 ## General app's features:
 * Create User: 
   - user's email must be unique to save new user
-  - user's first name and last name must be at least one character
+  - user's first name and also last name must be at least one character
   - user's password must be at least 4 characters
 * Create Role, assain role to user
 * Create (update, delete) Project
@@ -49,7 +49,7 @@ The app is a “todo-app” style with CRUD extended features and PDF report gen
 the state of that project will automatically change to true
 * When a project has state set to true, any modification of that project and related tasks is impossible 
 * User with appropriate role can generate pdf report
-  - app projects report
+  - all projects report
   - all users report
   - details project report
   - details user report
