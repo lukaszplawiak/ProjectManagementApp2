@@ -22,27 +22,38 @@ The app is a “todo-app” style with CRUD extended features and PDF report gen
 * JUnit
 * Mockito
 * IText7
-* PostgreSQL
+* PostgreSQL, H2
 * FlyWay
 * Maven
 * Hibernate
 * IntelliJ Idea
-* Mac OS
 
 
 ## General app's features:
-* Create User
+* Create User: 
+  - user's email must be unique to save new user
+  - user's first name and also last name must be at least one character
+  - user's password must be at least 4 characters
 * Create Role, assain role to user
-* Create, update, delete Project 
-* Create task and assain to a previously created project, update, delete
-* Toggle task: change state of task's attribute 'done' to true
-* Modification of any project or task can only be done by the user who previously created that project or task
-* Project or Task can be created only with date set after current date
-* User can only toggle his own taks.
+* Create (update, delete) Project
+  - project can only be created with a date after the current date
+  - only the user who created the project can modify the project
+  - when a project is done, it cannot be modified or deleted
+* Create (update, delete) Task and assain to a previously created project
+  - task can only be created with a date after the current date
+  - only the user who created the task can modify the task
+  - when task's attribute 'done' is true, it cannot be modified or deleted
+  - user can toggle the task: change state of task's attribute 'done' to true
+  - user can toggle and untoggle the task until the project is undone
 * When all tasks assigned to a given project change state to true,
 the state of that project will automatically change to true
 * When a project has state set to true, any modification of that project and related tasks is impossible 
 * User with appropriate role can generate pdf report
+  - all projects report
+  - all users report
+  - details project report
+  - details user report
+  - done/undone projects report
 
 
 ## Details app's features:
@@ -74,9 +85,21 @@ With ROLE_SUPER_ADMIN:
 ## Start up instruction:
 Required to run:
 * JDK
-* PostgreSQL server
-* IntelliJ
-* Postman (for testing api purpose)
+
+Required to testing api:
+* Postman
+
+
+To run with command line:
+* Please dawnload project by click on green button 'Code' at the top of this website, then click 'Download ZIP'
+* Next please open command line and go to the project's folder
+* Next please type 'mvn clean spring-boot:run'
+* Application is running, you can go to "Testing api" section down below
+
+
+To run with IntelliJ:
+* IntelliJ 
+* PostgreSQL server (for 'prod' app-profile only)
 
 To download a project please copy this path: https://github.com/lukaszplawiak/ProjectManagementApp2.git 
 * Next please open IntelliJ and go to: File -> New -> Project from Version Control...
@@ -85,19 +108,19 @@ To download a project please copy this path: https://github.com/lukaszplawiak/Pr
 * After clonning repository, please sure that you PostgreSQL server is running
 * Next please connect to the server and execute following statement:
 * 'create database project_management_app2;' - for prod profile
-* 'create database project_management_app2local;' - for local profile
-* 'create database project_management_app2test;' - for test profile
 * Next please back to IntelliJ, in 'application-prod.properties' file, please configure 'spring.datasource.username' and 'spring.datasource.password' with the correct datasource for your database
-* Same step with 'application-local.properties' and 'application-test.properties'
-* Then please select a profile in application.properties file
+* Then please select a profile in application.properties file(default is 'local'):
 * If you want to run tests, please set up a profile like this: 'spring.profiles.active=test'
 * If you want to run local profile, please set up a profile like this: 'spring.profiles.active=local'
 * If you want to run prod profile, please set up a profile like this: 'spring.profiles.active=prod'
 * Use shortcut to start a program, mac: control + R or win: Alt + Shift + F10
 
+
+## Testing api:
+
 To import Postman collection, please open Postman app
 * Next go to your Workspace, click "Import" button, click "Upload Files"
-* Next find directory from step above and there choose "ProjectManagementApp2.postman_collection2.json"
+* Next find directory with project and there choose "ProjectManagementApp2.postman_collection2.json"
 * Next click "Open" button
 
 With the running application, you can test the api using the Postman collection.
