@@ -37,7 +37,7 @@ class TaskServiceImplTest {
     Long id = 1L;
 
     @Test
-    void createTask_WhenProjectIsDone_ShouldThrowIllegalActionException() {
+    void createTask_WhenProjectIsDone_ShouldThrowIllegalModificationException() {
         // given
         Project project = Project.ProjectBuilder.aProject()
                 .withDone(true)
@@ -231,7 +231,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void updateTaskById_WhenProjectIsDone_ShouldThrowIllegalActionException() {
+    void updateTaskById_WhenProjectIsDone_ShouldThrowIllegalModificationException() {
         // given
         var project = Project.ProjectBuilder.aProject()
                 .withDone(true)
@@ -472,7 +472,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void deleteTaskById_WhenProjectIsDone_ShouldThrowIllegalActionException() {
+    void deleteTaskById_WhenProjectIsDone_ShouldThrowIllegalModificationException() {
         // given
         var project = Project.ProjectBuilder.aProject()
                 .withDone(true)
@@ -534,7 +534,7 @@ class TaskServiceImplTest {
     }
 
     @Test
-    void toggleTask_WhenProjectIsDone_ShouldThrowIllegalActionException() {
+    void toggleTask_WhenProjectIsDone_ShouldThrowIllegalModificationException() {
         // given
         var project = Project.ProjectBuilder.aProject()
                 .withDone(true)

@@ -1,6 +1,5 @@
 package com.lukaszplawiak.projectapp.service.impl;
 
-import com.lukaszplawiak.projectapp.dto.UserRequestDto;
 import com.lukaszplawiak.projectapp.exception.IllegalInputException;
 import com.lukaszplawiak.projectapp.model.Role;
 import com.lukaszplawiak.projectapp.model.User;
@@ -13,23 +12,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class UserServiceImplTest {
-
-    @Test
-    void saveUser_WhenUserIsProperFormatted_ShouldCreateUser() {
-        // given
-        UserRequestDto user = UserRequestDto.UserRequestDtoBuilder.anUserRequestDto()
-                .withFirstName("FirstName")
-                .withLastName("LastName")
-                .withEmail("email@mail.com")
-                .withPassword("1233")
-                .build();
-        var userServiceImpl = new UserServiceImpl(null, null, null);
-
-        // when
-        // then
-        assertThatThrownBy(() -> userServiceImpl.saveUser(user))
-                .isNotInstanceOf(IllegalInputException.class);
-    }
 
     @Test
     void saveRole_WhenRoleIsLessThanOneCharacter_ShouldThrowIllegalInputException() {
@@ -46,9 +28,9 @@ class UserServiceImplTest {
     }
 
     @Test
-    void saveRole_WhenRoleIsMoreThanOneCharacter_ShouldSaveRole() {
+    void saveRole_WhenRoleIsOneCharacter_ShouldSaveRole() {
         // given
-        Role role = new Role(null, "ROLE");
+        Role role = new Role(null, "R");
 
         var userServiceImpl = new UserServiceImpl(null, null, null);
 

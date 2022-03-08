@@ -68,11 +68,7 @@ class ProjectServiceImplTest {
         assertThat(project.getDescription()).contains("Description");
         assertThat(project.getDeadline()).isEqualTo(LocalDate.now(fixedClockPlusDay));
         assertThat(projectServiceImpl.createProject(projectRequestDto, null))
-                .isNotInstanceOfAny(
-                        IllegalAccessException.class,
-                        IllegalModificationException.class,
-                        IllegalInputException.class
-                );
+                .isNotInstanceOf(IllegalInputException.class);
     }
 
     @Test
@@ -105,7 +101,7 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void updateProject_WhenProjectIsDone_ShouldThrowIllegalActionException() {
+    void updateProject_WhenProjectIsDone_ShouldThrowIllegalModificationException() {
         // given
         var user = User.UserBuilder.anUser()
                 .withId(1L)
@@ -132,7 +128,7 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void updateProject_WhenProjectsDeadlineIsBeforeNow_ShouldThrowIllegalActionException() {
+    void updateProject_WhenProjectsDeadlineIsBeforeNow_ShouldThrowIllegalInputException() {
         // given
         var user = User.UserBuilder.anUser()
                 .withId(11L)

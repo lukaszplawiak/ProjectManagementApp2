@@ -48,8 +48,6 @@ public class TaskServiceImpl implements TaskService {
     public TaskResponseDto createTask(Long projectId, TaskRequestDto taskRequestDto, User user) {
         Project project = projectRepository.getById(projectId);
         projectIsDoneCheck(projectId, project);
-        taskNameValidation(taskRequestDto);
-        taskCommentValidation(taskRequestDto);
         taskDeadlineValidation(taskRequestDto);
         Task task = mapToTaskEntity(taskRequestDto);
         task.setProject(project);
@@ -99,8 +97,6 @@ public class TaskServiceImpl implements TaskService {
         Task task = taskRepository.getById(taskId);
         userAccessCheck(user, task);
         projectIsDoneCheck(projectId, project);
-        taskNameValidation(taskRequestDto);
-        taskCommentValidation(taskRequestDto);
         taskDeadlineValidation(taskRequestDto);
         task.setId(taskId);
         task.setName(taskRequestDto.getName());
@@ -142,20 +138,6 @@ public class TaskServiceImpl implements TaskService {
         if (!(Objects.equals(task.getUser().getId(), user.getId()))) {
             logger.trace("Access denied");
             throw new IllegalAccessException();
-        }
-    }
-
-    private void taskNameValidation(TaskRequestDto taskRequestDto) {
-        if (taskRequestDto.getName() == null || taskRequestDto.getName().isBlank()) {
-            logger.trace("Task's name must not be blank");
-            throw new IllegalInputException();
-        }
-    }
-
-    private void taskCommentValidation(TaskRequestDto taskRequestDto) {
-        if (taskRequestDto.getComment() == null) {
-            logger.trace("Task's comment must not be null");
-            throw new IllegalInputException();
         }
     }
 
